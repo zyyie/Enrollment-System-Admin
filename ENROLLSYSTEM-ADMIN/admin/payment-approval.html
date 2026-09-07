@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Approval - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .payment-filter-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; align-items:flex-end; }
+    .payment-card {
+      border:1px solid #e2e8f0; border-radius:10px; padding:16px; background:#fff;
+      display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center;
+      margin-bottom:12px;
+    }
+    .payment-card.approved { border-color:#86efac; background:#fafffe; }
+    .payment-card.unpaid { border-color:#fecaca; }
+    .payment-card.pending { border-color:#fde68a; }
+    .payment-card h4 { margin:0 0 4px; font-size:15px; color:#0f172a; }
+    .payment-card p { margin:0; font-size:13px; color:#64748b; }
+    .payment-amounts { display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
+    .payment-amounts strong { color:#1a3a6b; }
+    .approve-form { display:grid; gap:8px; min-width:220px; }
+    .status-tag {
+      display:inline-block; padding:3px 8px; border-radius:999px; font-size:11px; font-weight:700; text-transform:uppercase;
+    }
+    .status-tag.approved { background:#dcfce7; color:#166534; }
+    .status-tag.unpaid { background:#fee2e2; color:#991b1b; }
+    .status-tag.pending { background:#fef3c7; color:#92400e; }
+    .regform-tag { display:inline-block; margin-top:6px; font-size:12px; font-weight:600; }
+    .regform-tag.sent { color:#166534; }
+    .regform-tag.failed { color:#b91c1c; }
+    .regform-tag.pending { color:#64748b; }
+    .term-tag { display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; background:#fef3c7; color:#92400e; }
+    .term-tag.current { background:#dbeafe; color:#1d4ed8; }
+  </style>
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head"><i class="fas fa-money-check-dollar"></i> Payment Approval</div>
+        <div class="admin-card-body padded">
+          <p style="font-size:13px;color:#64748b;margin:0 0 16px;">
+            Approve tuition payments for enrolled students. Registration form is emailed after approval.
+            Previous-term payments that block next enrollment appear here automatically.
+          </p>
+          <div class="payment-filter-row">
+            <div class="admin-form-group">
+              <label>Filter</label>
+              <select id="statusFilter" class="admin-input">
+                <option value="needs_action" selected>Needs approval (all terms)</option>
+                <option value="current">All enrolled (current term)</option>
+                <option value="unpaid">Unpaid (current term)</option>
+                <option value="pending">Pending (current term)</option>
+                <option value="approved">Approved (current term)</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label>&nbsp;</label>
+              <button type="button" class="admin-btn primary" id="loadBtn">Load</button>
+            </div>
+          </div>
+          <div id="paymentsList"><div class="admin-empty">Loading payments...</div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    function peso(n) {
+      return '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    async function approvePayment(enrollmentId, cardEl) {
+      const orNumber = cardEl.querySelector('.or-input')?.value?.trim() || '';
+      const notes = cardEl.querySelector('.notes-input')?.value?.trim() || '';
+      const user = AdminApp.getUser();
+      const approveBtn = cardEl.querySelector('.approve-btn');
+
+      const ok = await AdminApp.confirmDialog({
+        title: 'Approve Payment',
+        message: 'Mark this student as fully paid and email the Registration Form?',
+        confirmText: 'Approve',
+      });
+      if (!ok) return;
+
+      if (approveBtn) {
+        approveBtn.disabled = true;
+        approveBtn.textContent = 'Approving...';
+      }
+
+      try {
+        const json = await AdminApp.postJson('/api/payments/approve', {
+          enrollmentId,
+          facultyId: user?.id,
+          orNumber,
+          notes,
+          paymentMode: 'cashier',
+        }, 90000);
+        if (!json.success) throw new Error(json.error || 'Approval failed');
+
+        let message = json.message || 'Student payment has been approved successfully.';
+        if (json.registrationFormEmailSent === false && json.emailError) {
+          message += ' Registration form email failed — you may retry approval or resend later.';
+        }
+
+        await AdminApp.showReviewMessage({
+          type: json.registrationFormEmailSent === false && json.emailError ? 'warn' : 'success',
+          title: json.registrationFormEmailSent === false && json.emailError ? 'Payment Approved (Email Failed)' : 'Payment Approved',
+          message,
+        });
+        loadPayments();
+      } catch (err) {
+        if (approveBtn) {
+          approveBtn.disabled = false;
+          approveBtn.textContent = 'Approve Payment';
+        }
+        await AdminApp.alertDialog({ type: 'error', title: 'Failed', message: err.message });
+      }
+    }
+
+    function registrationFormStatus(row) {
+      if (row.status !== 'approved') {
+        return '<span class="regform-tag pending">Registration Form: NOT SENT</span>';
+      }
+      if (row.registrationFormEmailSent) {
+        return '<span class="regform-tag sent"><i class="fas fa-envelope-circle-check"></i> Registration Form: SENT</span>';
+      }
+      if (row.registrationFormEmailError) {
+        return `<span class="regform-tag failed"><i class="fas fa-envelope-open-text"></i> Registration Form: EMAIL FAILED</span>`;
+      }
+      return '<span class="regform-tag pending">Registration Form: NOT SENT</span>';
+    }
+
+    async function loadPayments() {
+      const container = document.getElementById('paymentsList');
+      const filter = document.getElementById('statusFilter').value;
+      let scope = 'needs_action';
+      let status = '';
+      if (filter === 'current') {
+        scope = 'current_term';
+      } else if (['unpaid', 'pending', 'approved'].includes(filter)) {
+        scope = 'current_term';
+        status = filter;
+      } else {
+        scope = 'needs_action';
+      }
+      container.innerHTML = '<div class="admin-empty">Loading...</div>';
+
+      try {
+        const q = `?scope=${encodeURIComponent(scope)}${status ? '&status=' + encodeURIComponent(status) : ''}`;
+        const res = await AdminApp.fetchJson('/api/payments/enrollment' + q, 15000);
+        const rows = res.data || [];
+
+        if (!rows.length) {
+          container.innerHTML = `
+            <div class="admin-empty">
+              No payment records for this filter.<br><br>
+              <span style="font-size:12px;color:#64748b;">
+                If a student cannot enroll for the next term, check <strong>Needs approval (all terms)</strong> for unpaid previous-semester payments.
+              </span>
+            </div>`;
+          return;
+        }
+
+        container.innerHTML = rows.map(row => `
+          <div class="payment-card ${row.status || 'unpaid'}" data-enrollment="${row.enrollmentId}">
+            <div>
+              <h4>${AdminApp.escHtml(row.student)}</h4>
+              <p>${AdminApp.escHtml(row.studentId)} · ${AdminApp.escHtml(row.gradeLevel || '—')} · ${AdminApp.escHtml(row.strand || '—')}</p>
+              <p>${AdminApp.escHtml(row.schoolYear || '')} ${AdminApp.escHtml(row.semester || '')}
+                <span class="term-tag ${row.isCurrentTerm ? 'current' : ''}">${row.isCurrentTerm ? 'Current term' : 'Previous term — approve first'}</span>
+              </p>
+              <div class="payment-amounts">
+                <span>Mode: <strong>${(row.paymentMode || 'cashier').toUpperCase()}</strong></span>
+                <span>Assessment: <strong>${peso(row.assessmentAmount)}</strong></span>
+                <span>Paid: <strong>${peso(row.amountPaid)}</strong></span>
+                <span>Balance: <strong>${peso(row.balance)}</strong></span>
+                <span class="status-tag ${row.status}">${row.status}</span>
+              </div>
+              ${(row.paymentMode || '').toLowerCase() === 'gcash' ? `
+                <p style="margin:8px 0 0;font-size:13px;color:#475569;">
+                  Ref: <strong>${AdminApp.escHtml(row.gcashReference || '—')}</strong>
+                  · Sender: <strong>${AdminApp.escHtml(row.gcashSenderName || '—')}</strong>
+                  ${row.gcashProofPath ? ` · <a href="/api/admission/file?path=${encodeURIComponent(row.gcashProofPath)}" target="_blank" rel="noopener">View receipt</a>` : ''}
+                </p>
+              ` : ''}
+              ${row.notes ? `<p style="margin:4px 0 0;font-size:12px;color:#64748b;">${AdminApp.escHtml(row.notes)}</p>` : ''}
+              ${registrationFormStatus(row)}
+            </div>
+            <div class="approve-form">
+              ${row.status === 'approved' ? `
+                <p style="margin:0;font-size:13px;color:#166534;"><i class="fas fa-check-circle"></i> Approved</p>
+                <p style="margin:0;font-size:12px;color:#64748b;">O.R.: ${AdminApp.escHtml(row.orNumber || '—')}</p>
+                ${!row.registrationFormEmailSent ? `
+                  <button type="button" class="admin-btn secondary retry-email-btn">Retry Registration Form Email</button>
+                ` : ''}
+              ` : `
+                <input type="text" class="admin-input or-input" placeholder="O.R. Number (optional)">
+                <input type="text" class="admin-input notes-input" placeholder="Notes (optional)">
+                <button type="button" class="admin-btn success approve-btn">Approve Payment</button>
+              `}
+            </div>
+          </div>
+        `).join('');
+
+        container.querySelectorAll('.approve-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const card = btn.closest('.payment-card');
+            approvePayment(card.dataset.enrollment, card);
+          });
+        });
+
+        container.querySelectorAll('.retry-email-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const card = btn.closest('.payment-card');
+            approvePayment(card.dataset.enrollment, card);
+          });
+        });
+      } catch (err) {
+        container.innerHTML = `<div class="admin-empty">${AdminApp.escHtml(err.message)}</div>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!AdminApp.requireAuth()) return;
+      AdminApp.initLayout('payment-approval', 'Payment Approval');
+      document.getElementById('loadBtn').addEventListener('click', loadPayments);
+      document.getElementById('statusFilter').addEventListener('change', loadPayments);
+      loadPayments();
+    });
+  </script>
+</body>
+</html>

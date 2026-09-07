@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Section Quota - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          Section Quota Management
+          <button type="button" class="admin-btn secondary" id="refreshSectionQuotas" style="float:right;font-size:13px;">Refresh</button>
+        </div>
+        <div class="admin-card-body padded">
+          <p style="margin:0 0 16px;color:#64748b;font-size:14px;">
+            Each section has a maximum student capacity (default <strong>40</strong>).
+            When scheduled students reach the quota, enrollment for that section closes automatically.
+          </p>
+        </div>
+        <div class="admin-card-body" id="sectionQuotaTable">
+          <div class="admin-empty">Loading section quotas...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/section-quota.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => SectionQuotaApp.mount());
+  </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strands - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">Senior High School Strands</div>
+        <div class="admin-card-body" id="strandsTable">
+          <div class="admin-empty">Loading strands from database...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!AdminApp.requireAuth()) return;
+      await AdminApp.refreshLayout('strands', 'Strands');
+      try {
+        const res = await AdminApp.fetchJson('/api/strands');
+        const strands = res.data || [];
+        if (!strands.length) {
+          document.getElementById('strandsTable').innerHTML =
+            '<div class="admin-empty">No strands found. Run supabase/faculty-strands-rooms.sql in Supabase.</div>';
+          return;
+        }
+        document.getElementById('strandsTable').innerHTML = `
+          ${res.warning ? `<div class="admin-page-msg error">${AdminApp.escHtml(res.warning)}</div>` : ''}
+          <table class="admin-table">
+            <thead>
+              <tr><th>Code</th><th>Strand Name</th><th>Track</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              ${strands.map(s => `
+                <tr>
+                  <td><strong>${AdminApp.escHtml(s.code)}</strong></td>
+                  <td>${AdminApp.escHtml(s.name)}</td>
+                  <td>${AdminApp.escHtml(s.track || '—')}</td>
+                  <td>${AdminApp.statusBadge(s.is_active !== false ? 'Active' : 'Inactive')}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <p class="admin-table-foot">${strands.length} strand(s)</p>`;
+      } catch (e) {
+        document.getElementById('strandsTable').innerHTML =
+          `<div class="admin-empty">${AdminApp.escHtml(e.message)}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

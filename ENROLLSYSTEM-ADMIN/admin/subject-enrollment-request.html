@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject Enrollment Review - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head"><i class="fas fa-user-check"></i> Pending Subject Enrollments</div>
+        <div class="admin-card-body" id="enrollmentsTable">
+          <div class="admin-empty">Loading...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/supabase-service.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    async function loadPending() {
+      if (!AdminApp.requireAuth()) return;
+      AdminApp.initLayout('subject-enrollment', 'Subject Enrollment Review');
+
+      let list = [];
+      let loadError = '';
+
+      if (typeof SupabaseService !== 'undefined' && SupabaseService.isEnabled()) {
+        try {
+          list = await SupabaseService.getPendingEnrollments() || [];
+        } catch (err) {
+          loadError = err.message || 'Could not load from Supabase';
+        }
+      }
+
+      if (!list.length) {
+        try {
+          const res = await AdminApp.fetchJson('/api/subject-enrollment/pending');
+          list = res.data || [];
+        } catch (err) {
+          if (!loadError) loadError = err.message || 'Could not load pending enrollments';
+        }
+      }
+
+      if (!list.length) {
+        document.getElementById('enrollmentsTable').innerHTML = loadError
+          ? `<div class="admin-empty"><i class="fas fa-triangle-exclamation"></i><br>${AdminApp.escHtml(loadError)}<br><small>Run <strong>enrollment-payment-submit.sql</strong> and <strong>enrollment-workflow.sql</strong> in Supabase, then refresh.</small></div>`
+          : '<div class="admin-empty"><i class="fas fa-inbox"></i><br>No pending subject enrollments.</div>';
+        return;
+      }
+
+      function paymentSummary(row) {
+        const mode = (row.paymentMode || 'cashier').toLowerCase();
+        if (mode === 'gcash') {
+          const ref = row.gcashReference || '—';
+          const status = row.paymentStatus || 'pending';
+          return `<span class="status-tag ${status}">${status}</span> GCash · Ref: ${AdminApp.escHtml(ref)}`;
+        }
+        return `<span class="status-tag unpaid">cashier</span> Pay at Cashier`;
+      }
+
+      document.getElementById('enrollmentsTable').innerHTML = `
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Student ID</th>
+              <th>Strand</th>
+              <th>Grade</th>
+              <th>Units</th>
+              <th>Payment</th>
+              <th>Submitted</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(e => `
+              <tr>
+                <td>${AdminApp.escHtml(e.student)}</td>
+                <td>${AdminApp.escHtml(e.studentId || '—')}</td>
+                <td>${AdminApp.escHtml(e.strand || '—')}</td>
+                <td>${AdminApp.escHtml(e.grade || '—')}</td>
+                <td>${e.totalUnits ?? '—'}</td>
+                <td>${paymentSummary(e)}</td>
+                <td>${AdminApp.escHtml(e.date || '—')}</td>
+                <td>
+                  <a href="subject-enrollment-review.html?id=${encodeURIComponent(e.id)}" class="admin-btn primary" style="text-decoration:none;display:inline-block;">
+                    <i class="fas fa-eye"></i> Review
+                  </a>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPending);
+  </script>
+</body>
+</html>

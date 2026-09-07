@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subjects - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          Curriculum Subjects
+          <button type="button" class="admin-btn primary" id="openSubjectForm" style="float:right;font-size:13px;">+ Add Subject</button>
+        </div>
+        <div class="admin-card-body padded" id="subjectFormWrap" hidden>
+          <form id="subjectForm" class="admin-form">
+            <input type="hidden" id="subjectDbId">
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="subjectCode">Subject Code</label>
+                <input type="text" id="subjectCode" class="admin-input" placeholder="e.g. STEM-G12" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="subjectName">Subject Name</label>
+                <input type="text" id="subjectName" class="admin-input" placeholder="e.g. Pre-Calculus" required>
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="subjectStrand">Strand</label>
+                <select id="subjectStrand" class="admin-input">
+                  <option value="">All Strands (Core)</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="subjectGrade">Grade Level</label>
+                <select id="subjectGrade" class="admin-input" required>
+                  <option value="Grade 11">Grade 11</option>
+                  <option value="Grade 12" selected>Grade 12</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="subjectSemester">Semester</label>
+                <select id="subjectSemester" class="admin-input" required>
+                  <option value="1st">1st Semester</option>
+                  <option value="2nd">2nd Semester</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="subjectUnits">Units</label>
+                <input type="number" id="subjectUnits" class="admin-input" value="3" min="1" max="10">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="subjectLec">Lecture Hours</label>
+                <input type="number" id="subjectLec" class="admin-input" value="3" min="0" max="10">
+              </div>
+              <div class="admin-form-group">
+                <label for="subjectLab">Lab Hours</label>
+                <input type="number" id="subjectLab" class="admin-input" value="0" min="0" max="10">
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-btn success">Save to Database</button>
+              <button type="button" class="admin-btn secondary" id="cancelSubjectForm">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div class="admin-card-body" id="subjectsTable">
+          <div class="admin-empty">Loading subjects...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/subjects-manage.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => SubjectsManageApp.mount());
+  </script>
+</body>
+</html>

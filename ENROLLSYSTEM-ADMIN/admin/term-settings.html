@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrollment Period - Geranova Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="term-period-page" id="termPanel">
+        <div class="admin-empty">Loading enrollment period...</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/supabase-service.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    let period = {};
+
+    function semesterList(data) {
+      if (Array.isArray(data?.semesters) && data.semesters.length) return data.semesters;
+      return [
+        {
+          code: data?.semesterCode || '1st',
+          name: data?.semester || 'First Semester',
+          enrollmentOpen: !!data?.enrollmentOpen,
+          targetGradeLevel: data?.targetGradeLevel || null,
+          startDate: data?.startDate || null,
+          endDate: data?.endDate || null,
+          isCurrent: true,
+        },
+        {
+          code: data?.semesterCode === '2nd' ? '1st' : '2nd',
+          name: data?.semesterCode === '2nd' ? 'First Semester' : 'Second Semester',
+          enrollmentOpen: false,
+          targetGradeLevel: null,
+          startDate: null,
+          endDate: null,
+          isCurrent: false,
+        },
+      ];
+    }
+
+    function activeSemester(data) {
+      const list = semesterList(data);
+      return list.find((item) => item.isCurrent) || list.find((item) => item.code === data?.semesterCode) || list[0];
+    }
+
+    function formatDate(value) {
+      if (!value) return '—';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return String(value);
+      return date.toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    async function fetchEnrollmentPeriod() {
+      const res = await AdminApp.fetchJson('/api/term/enrollment-period');
+      return res.data || {};
+    }
+
+    function normalizePeriod(data) {
+      if (!data || typeof data !== 'object') return {};
+      if (data.period && typeof data.period === 'object') return data.period;
+      return data;
+    }
+
+    async function saveEnrollmentPeriod({ enrollmentOpen, targetGradeLevel, semesterCode } = {}) {
+      const json = await AdminApp.postJson('/api/term/enrollment-period', {
+        enrollmentOpen: !!enrollmentOpen,
+        targetGradeLevel: targetGradeLevel ?? null,
+        semesterCode: semesterCode ?? null,
+      });
+      if (!json.success) throw new Error(json.error || 'Update failed');
+      return json.data;
+    }
+
+    async function switchEnrollmentSemester(semesterCode) {
+      try {
+        const json = await AdminApp.postJson('/api/term/switch-semester', { semesterCode });
+        if (!json.success) throw new Error(json.error || 'Switch failed');
+        return json.data || {};
+      } catch (err) {
+        const json = await AdminApp.postJson('/api/term/enrollment-period', {
+          semesterCode,
+          switchOnly: true,
+        });
+        if (!json.success) throw new Error(json.error || err.message || 'Switch failed');
+        return json.data || {};
+      }
+    }
+
+    function renderPeriodPanel() {
+      const active = activeSemester(period);
+      const semesters = semesterList(period);
+      const isOpen = !!active?.enrollmentOpen;
+      const target = active?.targetGradeLevel || period.targetGradeLevel || '';
+
+      document.getElementById('termPanel').innerHTML = `
+        <section class="term-period-hero">
+          <div class="term-period-hero-copy">
+            <h2>Enrollment Period Control</h2>
+            <p>Choose the semester, set who may enroll, then open or close the enrollment window for students.</p>
+          </div>
+          <div class="term-period-hero-meta">
+            <span class="term-period-meta-item">
+              <small>School Year</small>
+              <strong>${AdminApp.escHtml(period.schoolYear || '—')}</strong>
+            </span>
+            <span class="term-period-meta-item">
+              <small>Active Semester</small>
+              <strong>${AdminApp.escHtml(active?.name || period.semester || '—')}</strong>
+            </span>
+            <span class="term-period-meta-item">
+              <small>Status</small>
+              <strong class="term-period-status ${isOpen ? 'is-open' : 'is-closed'}">${isOpen ? 'OPEN' : 'CLOSED'}</strong>
+            </span>
+          </div>
+        </section>
+
+        <section class="term-period-grid">
+          <div class="admin-card term-period-card">
+            <div class="admin-card-head"><i class="fas fa-calendar-check"></i> Select Semester</div>
+            <div class="admin-card-body padded">
+              <div class="term-semester-tabs" id="semesterTabs">
+                ${semesters.map((sem) => {
+                  const selected = sem.code === active?.code;
+                  const open = !!sem.enrollmentOpen;
+                  return `
+                    <button type="button"
+                      class="term-semester-tab ${selected ? 'is-active' : ''}"
+                      data-semester-code="${AdminApp.escHtml(sem.code)}">
+                      <span class="term-semester-tab-label">${AdminApp.escHtml(sem.name)}</span>
+                      <span class="term-semester-tab-dates">${formatDate(sem.startDate)} – ${formatDate(sem.endDate)}</span>
+                      <span class="term-semester-tab-badge ${open ? 'is-open' : 'is-closed'}">${open ? 'Open' : 'Closed'}</span>
+                    </button>`;
+                }).join('')}
+              </div>
+              <p class="term-period-hint">Switch between 1st and 2nd semester before opening enrollment. Each semester keeps its own open/closed status.</p>
+            </div>
+          </div>
+
+          <div class="admin-card term-period-card">
+            <div class="admin-card-head"><i class="fas fa-sliders"></i> Enrollment Settings</div>
+            <div class="admin-card-body padded">
+              <div class="admin-form-group">
+                <label for="targetGrade">Target Grade Level</label>
+                <select id="targetGrade" class="admin-input">
+                  <option value="" ${!target ? 'selected' : ''}>All eligible students</option>
+                  <option value="Grade 11" ${target === 'Grade 11' ? 'selected' : ''}>Grade 11 only</option>
+                  <option value="Grade 12" ${target === 'Grade 12' ? 'selected' : ''}>Grade 12 only</option>
+                </select>
+                <small class="term-period-field-note">Use Grade 12 when opening enrollment for continuing students who passed Grade 11.</small>
+              </div>
+
+              <div class="term-period-actions">
+                <button type="button" class="admin-btn success term-period-btn" id="openBtn" ${isOpen ? 'disabled' : ''}>
+                  <i class="fas fa-door-open"></i> Open Enrollment
+                </button>
+                <button type="button" class="admin-btn danger term-period-btn" id="closeBtn" ${!isOpen ? 'disabled' : ''}>
+                  <i class="fas fa-door-closed"></i> Close Enrollment
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-card term-period-notes">
+          <div class="admin-card-body padded">
+            <h3><i class="fas fa-circle-info"></i> Important Notes</h3>
+            <ul>
+              <li>Closing enrollment also blocks <strong>Semester Enrollment</strong> on the student portal for this term.</li>
+              <li>Pending subject enrollments are auto-rejected when the period is closed.</li>
+              <li>Students who did not enroll may have their accounts frozen automatically.</li>
+            </ul>
+          </div>
+        </section>`;
+
+      document.getElementById('semesterTabs').addEventListener('click', (event) => {
+        const button = event.target.closest('[data-semester-code]');
+        if (!button || button.classList.contains('is-active')) return;
+        switchSemester(button.dataset.semesterCode);
+      });
+      document.getElementById('openBtn').addEventListener('click', () => setPeriod(true));
+      document.getElementById('closeBtn').addEventListener('click', () => setPeriod(false));
+    }
+
+    async function switchSemester(code) {
+      if (!code || code === activeSemester(period)?.code) return;
+      try {
+        period = await switchEnrollmentSemester(code);
+        period = normalizePeriod(period);
+        renderPeriodPanel();
+      } catch (err) {
+        let message = err.message || 'Switch failed';
+        if (message.includes('fetch') || message.includes('Failed to fetch') || message.includes('Server API')) {
+          message = 'Admin server is not running. Open a terminal in ENROLLSYSTEM-ADMIN and run: python server.py';
+        }
+        await AdminApp.alertDialog({ type: 'error', title: 'Switch Failed', message });
+      }
+    }
+
+    async function setPeriod(open) {
+      const active = activeSemester(period);
+      const target = document.getElementById('targetGrade').value || null;
+      const confirmed = await AdminApp.confirmDialog({
+        title: open ? 'Open Enrollment?' : 'Close Enrollment?',
+        detail: active?.name || period.semester || '',
+        message: open
+          ? 'Students will be able to submit Semester Enrollment for this term.'
+          : 'Semester Enrollment will close, pending requests will be rejected, and inactive students may be frozen.',
+        confirmLabel: open ? 'Open' : 'Close',
+        variant: open ? 'approve' : 'reject',
+      });
+      if (!confirmed) return;
+
+      try {
+        const result = await saveEnrollmentPeriod({
+          enrollmentOpen: open,
+          targetGradeLevel: target,
+          semesterCode: active?.code || period.semesterCode,
+        });
+        period = normalizePeriod(result);
+        let closeNote = '';
+        if (!open && result?.closeSummary) {
+          const rejected = Number(result.closeSummary.rejectedPending || 0);
+          const frozen = Number(result.closeSummary.frozenStudents || 0);
+          if (rejected > 0 || frozen > 0) {
+            closeNote = ` Rejected ${rejected} pending enrollment(s) and froze ${frozen} inactive account(s).`;
+          }
+        }
+        await AdminApp.showReviewMessage({
+          type: 'success',
+          title: open ? 'Enrollment Opened' : 'Enrollment Closed',
+          message: open
+            ? `${active?.name || 'Semester'} is now open for Semester Enrollment.`
+            : `${active?.name || 'Semester'} enrollment is closed.${closeNote}`,
+        });
+        renderPeriodPanel();
+      } catch (err) {
+        let message = err.message || 'Update failed';
+        if (message.includes('fetch') || message.includes('Failed to fetch') || message.includes('Server API')) {
+          message = 'Admin server is not running. Open a terminal in ENROLLSYSTEM-ADMIN and run: python server.py';
+        }
+        await AdminApp.alertDialog({ type: 'error', title: 'Failed', message });
+      }
+    }
+
+    async function loadPeriod() {
+      if (!AdminApp.requireAuth()) return;
+      AdminApp.initLayout('term-settings', 'Enrollment Period');
+
+      try {
+        period = await fetchEnrollmentPeriod();
+        period = normalizePeriod(period);
+      } catch (err) {
+        period = {};
+        document.getElementById('termPanel').innerHTML = `
+          <div class="admin-card">
+            <div class="admin-card-body padded">
+              <div class="admin-empty" style="color:#b91c1c;">
+                Failed to load enrollment period: ${AdminApp.escHtml(err.message)}
+              </div>
+              <p class="term-period-hint" style="margin-top:12px;">
+                Run <code>python server.py</code> for the admin portal, then run
+                <code>fix-enrollment-period-semesters.sql</code> in Supabase if semesters are missing.
+              </p>
+            </div>
+          </div>`;
+        return;
+      }
+
+      renderPeriodPanel();
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPeriod);
+  </script>
+</body>
+</html>

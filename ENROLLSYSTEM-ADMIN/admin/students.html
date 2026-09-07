@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student List - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">Enrolled Students</div>
+        <div class="admin-card-body" id="studentsTable">
+          <div class="admin-empty">Loading students from database...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!AdminApp.requireAuth()) return;
+      await AdminApp.refreshLayout('students', 'Student List');
+
+      try {
+        const result = await AdminApp.fetchJson('/api/students');
+        const students = result.data || [];
+
+        if (!students.length) {
+          document.getElementById('studentsTable').innerHTML =
+            '<div class="admin-empty">No enrolled students yet. Students appear here after you <a href="enrollment-request.html">approve admissions</a>.</div>';
+          return;
+        }
+
+        document.getElementById('studentsTable').innerHTML = `
+          <table class="admin-table">
+            <thead>
+              <tr><th>Student ID</th><th>Name</th><th>Strand</th><th>Grade</th><th>Section</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              ${students.map(s => `
+                <tr>
+                  <td><strong>${AdminApp.escHtml(s.studentId)}</strong></td>
+                  <td><div class="student-name">${AdminApp.escHtml(s.name)}</div></td>
+                  <td>${AdminApp.escHtml(s.strand)}</td>
+                  <td>${AdminApp.escHtml(s.gradeLevel)}</td>
+                  <td>${AdminApp.escHtml(s.section)}</td>
+                  <td>${AdminApp.statusBadge(s.status)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <p class="admin-table-foot">${students.length} student(s) enrolled</p>`;
+      } catch (e) {
+        document.getElementById('studentsTable').innerHTML =
+          `<div class="admin-empty">${AdminApp.escHtml(e.message)}<br><small>Check SUPABASE_URL and SUPABASE_SECRET_KEY in .env, then restart the server.</small></div>`;
+      }
+    });
+  </script>
+</body>
+</html>

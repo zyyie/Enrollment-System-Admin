@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Student - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">Register New Student</div>
+        <div class="admin-card-body padded">
+          <form id="addStudentForm" class="admin-form">
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" class="admin-input" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" class="admin-input" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="middleName">Middle Name</label>
+                <input type="text" id="middleName" class="admin-input">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="studentId">Student ID</label>
+                <input type="text" id="studentId" class="admin-input" placeholder="Auto-generated if blank">
+              </div>
+              <div class="admin-form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate" class="admin-input" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="password">Password (login)</label>
+                <input type="text" id="password" class="admin-input" value="student123">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="strand">Strand</label>
+                <select id="strand" class="admin-input" required>
+                  <option value="">Loading strands...</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="grade">Grade Level</label>
+                <select id="grade" class="admin-input" required>
+                  <option value="">Select Grade</option>
+                  <option>Grade 11</option>
+                  <option>Grade 12</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" class="admin-input">
+                  <option value="">—</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="contactNumber">Contact Number</label>
+                <input type="text" id="contactNumber" class="admin-input" placeholder="09XXXXXXXXX">
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-btn primary" id="saveStudentBtn">Save to Database</button>
+              <a href="students.html" class="admin-btn secondary" style="text-decoration:none;display:inline-flex;align-items:center;">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await AdminApp.refreshLayout('add-student', 'Add Student');
+
+      try {
+        const res = await AdminApp.fetchJson('/api/strands');
+        const select = document.getElementById('strand');
+        select.innerHTML = '<option value="">Select Strand</option>' +
+          (res.data || []).map(s => `<option value="${s.code}">${s.code} — ${s.name}</option>`).join('');
+      } catch (e) {
+        document.getElementById('strand').innerHTML = '<option value="">Could not load strands</option>';
+      }
+
+      document.getElementById('addStudentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('saveStudentBtn');
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        try {
+          const result = await AdminApp.postJson('/api/students', {
+            lastName: document.getElementById('lastName').value.trim(),
+            firstName: document.getElementById('firstName').value.trim(),
+            middleName: document.getElementById('middleName').value.trim(),
+            studentId: document.getElementById('studentId').value.trim(),
+            birthdate: document.getElementById('birthdate').value,
+            password: document.getElementById('password').value.trim(),
+            strand: document.getElementById('strand').value,
+            gradeLevel: document.getElementById('grade').value,
+            gender: document.getElementById('gender').value,
+            contactNumber: document.getElementById('contactNumber').value.trim(),
+            admissionType: 'continuing',
+          });
+          alert(`Student registered successfully!\n\nID: ${result.studentId}`);
+          window.location.href = 'students.html';
+        } catch (err) {
+          alert(err.message || 'Could not save student.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Save to Database';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

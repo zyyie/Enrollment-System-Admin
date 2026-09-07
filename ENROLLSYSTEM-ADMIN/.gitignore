@@ -1,0 +1,8 @@
+.env
+js/config.js
+__pycache__/
+*.pyc
+.DS_Store
+uploads/
+data/admissions.json
+data/payment_sessions.json

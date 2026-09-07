@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrollment History - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">Processed Admission Applications</div>
+        <div class="admin-card-body" id="historyTable">
+          <div class="admin-empty">Loading...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const history = await AdminApp.loadAdmissionHistory();
+      await AdminApp.refreshLayout('enrollment-history', 'Enrollment History');
+
+      if (!history.length) {
+        document.getElementById('historyTable').innerHTML = '<div class="admin-empty">No processed applications yet.</div>';
+        return;
+      }
+
+      document.getElementById('historyTable').innerHTML = `
+        <table class="admin-table">
+          <thead>
+            <tr><th>Applicant</th><th>Student ID</th><th>Strand</th><th>Grade</th><th>Status</th><th>Date</th><th>Email</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            ${history.map(h => `
+              <tr data-app-id="${AdminApp.escHtml(h.id || h.applicationNumber || '')}">
+                <td><div class="student-name">${h.student}</div></td>
+                <td>${h.studentId || '—'}</td>
+                <td>${h.strand || '—'}</td>
+                <td>${h.grade || '—'}</td>
+                <td>${AdminApp.statusBadge(h.status)}</td>
+                <td>${h.date || '—'}</td>
+                <td>${h.email || '—'}</td>
+                <td>
+                  ${String(h.status || '').toLowerCase() === 'approved'
+                    ? `<button type="button" class="admin-btn secondary btn-resend-credentials" style="padding:6px 10px;font-size:12px;">Resend approval email</button>`
+                    : '—'}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+
+      document.querySelectorAll('.btn-resend-credentials').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const row = btn.closest('tr');
+          const applicationId = row?.dataset.appId;
+          const email = row?.querySelector('td:nth-child(7)')?.textContent?.trim();
+          if (!applicationId) return;
+
+          btn.disabled = true;
+          btn.textContent = 'Sending...';
+          try {
+            const json = await AdminApp.postJson('/api/admission/resend-credentials', { applicationId });
+            await AdminApp.showReviewMessage({
+              type: json.success ? 'success' : 'error',
+              title: json.success ? 'Email Sent' : 'Send Failed',
+              message: json.message || json.error || `Check inbox/spam for ${AdminApp.escHtml(email || 'student email')}.`,
+            });
+          } catch (err) {
+            await AdminApp.showReviewMessage({
+              type: 'error',
+              title: 'Send Failed',
+              message: err.message || 'Could not resend approval email.',
+            });
+          } finally {
+            btn.disabled = false;
+            btn.textContent = 'Resend approval email';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

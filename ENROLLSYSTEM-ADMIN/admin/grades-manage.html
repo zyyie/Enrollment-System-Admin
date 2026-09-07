@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grades Management - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .grades-strand-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .grades-strand-tab {
+      border:1px solid #cbd5e1; background:#fff; color:#334155; border-radius:999px;
+      padding:8px 14px; font-size:13px; cursor:pointer; font-family:inherit;
+    }
+    .grades-strand-tab.active { background:#1a3a6b; color:#fff; border-color:#1a3a6b; }
+    .grades-strand-section { margin-bottom:24px; }
+    .grades-strand-title {
+      font-size:14px; font-weight:700; color:#1a3a6b; margin:0 0 10px;
+      padding-bottom:8px; border-bottom:2px solid #e2e8f0;
+    }
+    .grades-student-grid {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;
+    }
+    .grades-student-card {
+      border:1px solid #e2e8f0; border-radius:10px; padding:14px; background:#fff;
+      cursor:pointer; text-align:left; font-family:inherit; transition:border-color .15s, box-shadow .15s;
+    }
+    .grades-student-card:hover, .grades-student-card.selected {
+      border-color:#1a3a6b; box-shadow:0 4px 14px rgba(26,58,107,.1);
+    }
+    .grades-student-card.selected { background:#f8fbff; }
+    .grades-student-card strong { display:block; font-size:14px; color:#0f172a; margin-bottom:4px; }
+    .grades-student-card span { font-size:12px; color:#64748b; }
+    .grades-view-note {
+      font-size:13px; color:#64748b; margin:0 0 14px;
+      padding:10px 12px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;
+    }
+    .grade-readonly { font-weight:700; color:#1a3a6b; }
+    .grade-readonly.fail { color:#dc2626; }
+    .grade-readonly.pass { color:#16a34a; }
+    .faculty-grades-scale {
+      border:1px solid #dbeafe; border-radius:10px; overflow:hidden; background:#f8fbff;
+    }
+    .faculty-grades-scale table { width:100%; border-collapse:collapse; font-size:13px; }
+    .faculty-grades-scale th, .faculty-grades-scale td {
+      padding:10px 14px; border-bottom:1px solid #e2e8f0; text-align:left;
+    }
+    .faculty-grades-scale th { background:#eef6ff; color:#1a3a6b; font-weight:700; }
+    .faculty-grades-scale tr:last-child td { border-bottom:none; }
+    .faculty-grades-scale td:last-child { font-weight:600; }
+  </style>
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head"><i class="fas fa-graduation-cap"></i> Grades Management</div>
+        <div class="admin-card-body padded">
+          <p class="grades-view-note"><i class="fas fa-eye"></i> View only — grades are encoded by faculty. Passing grade: 75 (percentage scale).</p>
+          <div class="faculty-grades-scale" style="margin-bottom:16px;">
+            <table>
+              <thead><tr><th>Grade</th><th>Descriptor</th></tr></thead>
+              <tbody>
+                <tr><td>90 – 100</td><td>Outstanding</td></tr>
+                <tr><td>85 – 89</td><td>Very Satisfactory</td></tr>
+                <tr><td>80 – 84</td><td>Satisfactory</td></tr>
+                <tr><td>75 – 79</td><td>Fairly Satisfactory</td></tr>
+                <tr><td>Below 75</td><td>Did Not Meet Expectations (Failed)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="admin-form-row" style="margin-bottom:12px;">
+            <div class="admin-form-group">
+              <label>Grade Level</label>
+              <select id="gradeFilter" class="admin-input">
+                <option value="">All</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label>&nbsp;</label>
+              <button type="button" class="admin-btn primary" id="loadBtn">Refresh</button>
+            </div>
+          </div>
+          <div id="strandTabs" class="grades-strand-tabs"></div>
+          <div id="studentsList"><div class="admin-empty">Loading students...</div></div>
+        </div>
+      </div>
+
+      <div class="admin-card" id="gradesCard" style="display:none;margin-top:20px;">
+        <div class="admin-card-head" id="gradesCardTitle">Student Grades</div>
+        <div class="admin-card-body padded" id="gradesForm"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/supabase-service.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    let allStudents = [];
+    let activeStrand = 'ALL';
+
+    function groupByStrand(list) {
+      const groups = {};
+      list.forEach(s => {
+        const key = (s.strand || 'Unassigned').toUpperCase();
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(s);
+      });
+      return groups;
+    }
+
+    function renderStrandTabs(groups) {
+      const tabs = document.getElementById('strandTabs');
+      const strands = ['ALL', ...Object.keys(groups).sort()];
+      tabs.innerHTML = strands.map(strand => `
+        <button type="button" class="grades-strand-tab ${strand === activeStrand ? 'active' : ''}" data-strand="${AdminApp.escHtml(strand)}">
+          ${AdminApp.escHtml(strand)} ${strand !== 'ALL' ? `(${groups[strand]?.length || 0})` : `(${allStudents.length})`}
+        </button>
+      `).join('');
+
+      tabs.querySelectorAll('.grades-strand-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeStrand = btn.dataset.strand;
+          renderStrandTabs(groups);
+          renderStudentGroups(groups);
+        });
+      });
+    }
+
+    function renderStudentGroups(groups) {
+      const container = document.getElementById('studentsList');
+      if (!allStudents.length) {
+        container.innerHTML = '<div class="admin-empty">No enrolled students found for current term.</div>';
+        return;
+      }
+
+      const sections = activeStrand === 'ALL'
+        ? Object.keys(groups).sort().map(strand => ({ strand, students: groups[strand] }))
+        : [{ strand: activeStrand, students: groups[activeStrand] || [] }];
+
+      container.innerHTML = sections.map(sec => `
+        <div class="grades-strand-section">
+          <h3 class="grades-strand-title">${AdminApp.escHtml(sec.strand)} Strand · ${sec.students.length} student(s)</h3>
+          <div class="grades-student-grid">
+            ${sec.students.map(s => `
+              <button type="button" class="grades-student-card" data-id="${AdminApp.escHtml(s.enrollmentId)}" data-name="${AdminApp.escHtml(s.student)}">
+                <strong>${AdminApp.escHtml(s.student)}</strong>
+                <span>${AdminApp.escHtml(s.studentId)}</span><br>
+                <span>${AdminApp.escHtml(s.gradeLevel || '—')}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.grades-student-card').forEach(card => {
+        card.addEventListener('click', () => {
+          container.querySelectorAll('.grades-student-card.selected').forEach(el => el.classList.remove('selected'));
+          card.classList.add('selected');
+          openGradesView(card.dataset.id, card.dataset.name);
+        });
+      });
+    }
+
+    function formatGradeCell(row) {
+      if (row.finalGrade == null || row.finalGrade === '') {
+        return '<span class="grade-readonly">—</span>';
+      }
+      const g = Number(row.finalGrade);
+      const cls = g >= 75 ? 'pass' : 'fail';
+      return `<span class="grade-readonly ${cls}">${Math.round(g)}</span>`;
+    }
+
+    function formatDescriptor(row) {
+      if (row.gradeDescriptor) return row.gradeDescriptor;
+      if (row.finalGrade == null || row.finalGrade === '') return '—';
+      const g = Number(row.finalGrade);
+      if (g >= 90) return 'Outstanding';
+      if (g >= 85) return 'Very Satisfactory';
+      if (g >= 80) return 'Satisfactory';
+      if (g >= 75) return 'Fairly Satisfactory';
+      return 'Did Not Meet Expectations (Failed)';
+    }
+
+    async function openGradesView(enrollmentId, studentName) {
+      let sheet = [];
+      try {
+        const res = await AdminApp.fetchJson('/api/grades/sheet?enrollmentId=' + encodeURIComponent(enrollmentId));
+        sheet = res.data || [];
+      } catch (err) {
+        if (SupabaseService.isEnabled()) {
+          sheet = await SupabaseService.getGradesSheet(enrollmentId);
+        } else {
+          await AdminApp.alertDialog({ type: 'error', title: 'Load Failed', message: err.message });
+          return;
+        }
+      }
+
+      document.getElementById('gradesCard').style.display = 'block';
+      document.getElementById('gradesCardTitle').textContent = 'Grades — ' + studentName;
+      document.getElementById('gradesForm').innerHTML = sheet.length ? `
+        <table class="admin-table">
+          <thead><tr><th>Code</th><th>Subject</th><th>Units</th><th>Final Grade</th><th>Descriptor</th><th>Status</th></tr></thead>
+          <tbody>
+            ${sheet.map(row => `
+              <tr>
+                <td>${AdminApp.escHtml(row.code)}</td>
+                <td>${AdminApp.escHtml(row.description)}</td>
+                <td>${AdminApp.escHtml(String(row.units ?? '—'))}</td>
+                <td>${formatGradeCell(row)}</td>
+                <td>${AdminApp.escHtml(formatDescriptor(row))}</td>
+                <td>${AdminApp.escHtml(row.gradeLabel || row.gradeStatus || 'INC')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>` : '<div class="admin-empty">No subjects on record for this student.</div>';
+
+      document.getElementById('gradesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function loadStudents() {
+      const grade = document.getElementById('gradeFilter').value || null;
+      const container = document.getElementById('studentsList');
+      container.innerHTML = '<div class="admin-empty">Loading...</div>';
+
+      try {
+        const q = grade ? '?gradeLevel=' + encodeURIComponent(grade) : '';
+        const res = await AdminApp.fetchJson('/api/grades/students' + q);
+        allStudents = res.data || [];
+      } catch (err) {
+        if (SupabaseService.isEnabled()) {
+          allStudents = await SupabaseService.getStudentsForGrading(grade);
+        } else {
+          container.innerHTML = `<div class="admin-empty">${AdminApp.escHtml(err.message)}</div>`;
+          return;
+        }
+      }
+
+      const groups = groupByStrand(allStudents);
+      renderStrandTabs(groups);
+      renderStudentGroups(groups);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!AdminApp.requireAuth()) return;
+      AdminApp.initLayout('grades-manage', 'Grades Management');
+      document.getElementById('loadBtn').addEventListener('click', loadStudents);
+      document.getElementById('gradeFilter').addEventListener('change', loadStudents);
+      loadStudents();
+    });
+  </script>
+</body>
+</html>

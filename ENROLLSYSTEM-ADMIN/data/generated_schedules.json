@@ -1,0 +1,5288 @@
+{
+  "appliedAt": "2026-09-07T23:59:02.418773",
+  "gradeLevel": "Grade 12",
+  "semesterCode": "1st",
+  "schedules": [
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-ABM-08",
+      "faculty_name": "MONICA REYES",
+      "schedule_label": "Th 12:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-ABM-10",
+      "faculty_name": "BEA NAVARRO",
+      "schedule_label": "W 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-ABM-01",
+      "subject_name": "Organization and Management",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB103"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-ABM-02",
+      "faculty_name": "MIGUEL SY",
+      "schedule_label": "Th 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-ABM-02",
+      "subject_name": "Applied Economics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB123"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-ABM-04",
+      "faculty_name": "RAMON FLORES",
+      "schedule_label": "M 8:00am-9:30am, T 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-ABM-04",
+      "subject_name": "Fundamentals of Accountancy, Business and Management 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB101"
+        },
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-ABM-06",
+      "faculty_name": "PAOLO MERCADO",
+      "schedule_label": "M 9:30am-11:00am, W 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB101"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-ABM-13",
+      "faculty_name": "FELIX GARCIA",
+      "schedule_label": "T 10:30am-12:00pm, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB112"
+        },
+        {
+          "day": "Friday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-ABM-15",
+      "faculty_name": "IVAN BAUTISTA",
+      "schedule_label": "Th 9:30am-11:00am, F 12:30pm-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB106"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-ABM-17",
+      "faculty_name": "MARCO ONG",
+      "schedule_label": "M 11:30am-1:00pm, T 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB112"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-ABM-19",
+      "faculty_name": "RYAN MERCADO",
+      "schedule_label": "M 1:00pm-2:30pm, W 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB123"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-ABM-03",
+      "faculty_name": "CARLA ONG",
+      "schedule_label": "T 12:00pm-1:30pm, Th 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "4:00pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-ABM-11",
+      "faculty_name": "CARLOS LIM",
+      "schedule_label": "W 2:00pm-4:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-ABM-07",
+      "faculty_name": "LIZA CHUA",
+      "schedule_label": "F 2:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-ABM-09",
+      "faculty_name": "JEROME SANTOS",
+      "schedule_label": "Th 2:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-ABM-01",
+      "subject_name": "Organization and Management",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB120"
+        },
+        {
+          "day": "Friday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-ABM-01",
+      "faculty_name": "ANDREA VILLANUEVA",
+      "schedule_label": "T 11:00am-12:30pm, F 12:00pm-1:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-ABM-02",
+      "subject_name": "Applied Economics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB108"
+        },
+        {
+          "day": "Wednesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-ABM-03",
+      "faculty_name": "CARLA ONG",
+      "schedule_label": "M 11:30am-1:00pm, W 10:30am-12:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-ABM-04",
+      "subject_name": "Fundamentals of Accountancy, Business and Management 1",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB122"
+        },
+        {
+          "day": "Friday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-ABM-05",
+      "faculty_name": "GRACE TAN",
+      "schedule_label": "Th 12:00pm-1:30pm, F 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:30pm",
+          "end": "3:00pm",
+          "room": "NB119"
+        },
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-ABM-14",
+      "faculty_name": "NORA RAMOS",
+      "schedule_label": "T 1:30pm-3:00pm, W 1:00pm-2:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:30pm",
+          "end": "4:00pm",
+          "room": "NB108"
+        },
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-ABM-16",
+      "faculty_name": "CHLOE SY",
+      "schedule_label": "W 2:30pm-4:00pm, Th 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB108"
+        },
+        {
+          "day": "Tuesday",
+          "start": "9:00am",
+          "end": "10:30am",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-ABM-18",
+      "faculty_name": "LEAH FLORES",
+      "schedule_label": "M 8:00am-9:30am, T 9:00am-10:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB123"
+        },
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-ABM-20",
+      "faculty_name": "ELLA CHUA",
+      "schedule_label": "Th 9:30am-11:00am, F 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB108"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-ABM-01",
+      "faculty_name": "ANDREA VILLANUEVA",
+      "schedule_label": "M 9:30am-11:00am, T 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-ABM-12",
+      "faculty_name": "DIANA CRUZ",
+      "schedule_label": "M 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-07",
+      "faculty_name": "GRACE DELA CRUZ",
+      "schedule_label": "Th 12:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-09",
+      "faculty_name": "IRENE SANTOS",
+      "schedule_label": "W 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB124"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-13",
+      "faculty_name": "PAULA GARCIA",
+      "schedule_label": "T 10:30am-12:00pm, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB109"
+        },
+        {
+          "day": "Friday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-15",
+      "faculty_name": "MIA RAMOS",
+      "schedule_label": "Th 10:00am-11:30am, F 12:30pm-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB122"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-01",
+      "faculty_name": "ANA REYES",
+      "schedule_label": "M 11:30am-1:00pm, T 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB106"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-03",
+      "faculty_name": "CLARA SANTOS",
+      "schedule_label": "M 1:00pm-2:30pm, W 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB119"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-05",
+      "faculty_name": "ELLA GARCIA",
+      "schedule_label": "T 12:00pm-1:30pm, Th 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-CK-01",
+      "subject_name": "Front Office Services",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "COOKERY-LAB1"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "COOKERY-LAB1"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-01",
+      "faculty_name": "ANA REYES",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-CK-ES",
+      "subject_name": "Earth Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB114"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-03",
+      "faculty_name": "CLARA SANTOS",
+      "schedule_label": "M 8:00am-9:30am, T 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-CK-LIT",
+      "subject_name": "21st Century Literature from the Philippines and the World",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB203"
+        },
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-05",
+      "faculty_name": "ELLA GARCIA",
+      "schedule_label": "M 9:30am-11:00am, W 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "4:00pm",
+          "room": "NB110"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-11",
+      "faculty_name": "NINA CRUZ",
+      "schedule_label": "W 2:00pm-4:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-08",
+      "faculty_name": "HANNAH LIM",
+      "schedule_label": "T 12:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB113"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-10",
+      "faculty_name": "MARCO REYES",
+      "schedule_label": "F 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB111"
+        },
+        {
+          "day": "Thursday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-14",
+      "faculty_name": "RICO FLORES",
+      "schedule_label": "W 8:00am-9:30am, Th 8:30am-10:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB201"
+        },
+        {
+          "day": "Friday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-16",
+      "faculty_name": "LEO SANTOS",
+      "schedule_label": "T 8:00am-9:30am, F 2:00pm-3:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB111"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-02",
+      "faculty_name": "BEN CRUZ",
+      "schedule_label": "M 8:00am-9:30am, W 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB122"
+        },
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-04",
+      "faculty_name": "DIEGO RAMOS",
+      "schedule_label": "Th 10:00am-11:30am, F 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB107"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-06",
+      "faculty_name": "FELIX NAVARRO",
+      "schedule_label": "M 9:30am-11:00am, T 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-CK-01",
+      "subject_name": "Front Office Services",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB203"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-02",
+      "faculty_name": "BEN CRUZ",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-CK-ES",
+      "subject_name": "Earth Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB102"
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-04",
+      "faculty_name": "DIEGO RAMOS",
+      "schedule_label": "M 11:30am-1:00pm, T 10:30am-12:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-CK-LIT",
+      "subject_name": "21st Century Literature from the Philippines and the World",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB115"
+        },
+        {
+          "day": "Friday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-06",
+      "faculty_name": "FELIX NAVARRO",
+      "schedule_label": "Th 12:00pm-1:30pm, F 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-12",
+      "faculty_name": "OSCAR TAN",
+      "schedule_label": "M 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-EIM-02",
+      "faculty_name": "LEO SANTOS",
+      "schedule_label": "T 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-EIM-03",
+      "faculty_name": "MAY REYES",
+      "schedule_label": "W 8:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB101"
+        },
+        {
+          "day": "Friday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-EIM-01",
+      "faculty_name": "RAMON GARCIA",
+      "schedule_label": "Th 3:30pm-5:00pm, F 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB116"
+        },
+        {
+          "day": "Wednesday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-EIM-07",
+      "faculty_name": "PAOLO CRUZ",
+      "schedule_label": "T 2:00pm-3:30pm, W 3:30pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB104"
+        },
+        {
+          "day": "Friday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-EIM-09",
+      "faculty_name": "VICTOR LIM",
+      "schedule_label": "M 2:00pm-3:30pm, F 11:30am-1:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB104"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-EIM-09",
+      "faculty_name": "VICTOR LIM",
+      "schedule_label": "MT 3:30pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB123"
+        },
+        {
+          "day": "Friday",
+          "start": "1:30pm",
+          "end": "3:00pm",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-EIM-13",
+      "faculty_name": "NOEL RAMOS",
+      "schedule_label": "Th 1:00pm-2:30pm, F 1:30pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-EIM-01",
+      "subject_name": "Prepare Electrical Materials and Tools",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "NB105"
+        },
+        {
+          "day": "Thursday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB105"
+        }
+      ],
+      "faculty_id": "FAC-EIM-05",
+      "faculty_name": "NINA BAUTISTA",
+      "schedule_label": "M 8:00am-10:00am, Th 9:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-EIM-02",
+      "subject_name": "Interpret Technical Drawings and Plans",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB118"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-EIM-06",
+      "faculty_name": "OMAR FLORES",
+      "schedule_label": "W 11:00am-1:00pm, F 9:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-EIM-03",
+      "subject_name": "Perform Mensuration and Calculation",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "12:00pm",
+          "end": "2:00pm",
+          "room": "COOKERY-LAB1"
+        },
+        {
+          "day": "Tuesday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "COOKERY-LAB1"
+        }
+      ],
+      "faculty_id": "FAC-EIM-05",
+      "faculty_name": "NINA BAUTISTA",
+      "schedule_label": "M 12:00pm-2:00pm, T 9:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-EIM-04",
+      "subject_name": "Practice Occupational Safety and Health Procedures",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "10:00am",
+          "end": "12:00pm",
+          "room": "NB116"
+        },
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-EIM-15",
+      "faculty_name": "MIKA CRUZ",
+      "schedule_label": "M 10:00am-12:00pm, Th 11:00am-1:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-EIM-11",
+      "faculty_name": "MARCO DIZON",
+      "schedule_label": "W 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-EIM-03",
+      "faculty_name": "MAY REYES",
+      "schedule_label": "F 8:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "12:00pm",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-EIM-04",
+      "faculty_name": "CARLO TORRES",
+      "schedule_label": "M 9:00am-12:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB117"
+        },
+        {
+          "day": "Thursday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-EIM-02",
+      "faculty_name": "LEO SANTOS",
+      "schedule_label": "W 12:30pm-2:00pm, Th 11:30am-1:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB204"
+        },
+        {
+          "day": "Friday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-EIM-08",
+      "faculty_name": "RHEA SANTOS",
+      "schedule_label": "T 3:30pm-5:00pm, F 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB117"
+        },
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-EIM-10",
+      "faculty_name": "DAISY REYES",
+      "schedule_label": "W 11:00am-12:30pm, Th 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB120"
+        },
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-EIM-08",
+      "faculty_name": "RHEA SANTOS",
+      "schedule_label": "T 12:30pm-2:00pm, Th 10:00am-11:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB117"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-EIM-14",
+      "faculty_name": "AIDEN SANTOS",
+      "schedule_label": "T 2:00pm-3:30pm, Th 3:30pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-EIM-01",
+      "subject_name": "Prepare Electrical Materials and Tools",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "12:00pm",
+          "end": "2:00pm",
+          "room": "LAB1"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "LAB1"
+        }
+      ],
+      "faculty_id": "FAC-EIM-04",
+      "faculty_name": "CARLO TORRES",
+      "schedule_label": "M 12:00pm-2:00pm, T 8:00am-10:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-EIM-02",
+      "subject_name": "Interpret Technical Drawings and Plans",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB113"
+        },
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB113"
+        }
+      ],
+      "faculty_id": "FAC-EIM-07",
+      "faculty_name": "PAOLO CRUZ",
+      "schedule_label": "W 9:00am-11:00am, Th 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-EIM-03",
+      "subject_name": "Perform Mensuration and Calculation",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "2:00pm",
+          "end": "4:00pm",
+          "room": "NB115"
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:00am",
+          "end": "12:00pm",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-EIM-06",
+      "faculty_name": "OMAR FLORES",
+      "schedule_label": "M 2:00pm-4:00pm, T 10:00am-12:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-EIM-04",
+      "subject_name": "Practice Occupational Safety and Health Procedures",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB105"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB105"
+        }
+      ],
+      "faculty_id": "FAC-EIM-01",
+      "faculty_name": "RAMON GARCIA",
+      "schedule_label": "W 3:00pm-5:00pm, F 11:00am-1:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-EIM-12",
+      "faculty_name": "LARA GARCIA",
+      "schedule_label": "F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-07",
+      "faculty_name": "LAURA REYES",
+      "schedule_label": "Th 12:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-09",
+      "faculty_name": "ANNA CRUZ",
+      "schedule_label": "W 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB119"
+        },
+        {
+          "day": "Friday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-13",
+      "faculty_name": "PAOLO SY",
+      "schedule_label": "T 10:30am-12:00pm, F 11:30am-1:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB204"
+        },
+        {
+          "day": "Friday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-15",
+      "faculty_name": "MARA FERNANDEZ",
+      "schedule_label": "Th 9:30am-11:00am, F 10:00am-11:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB107"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-17",
+      "faculty_name": "LEAH SANTOS",
+      "schedule_label": "M 11:30am-1:00pm, T 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB117"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-01",
+      "faculty_name": "JESSA FERNANDEZ",
+      "schedule_label": "M 1:00pm-2:30pm, W 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB105"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB105"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-03",
+      "faculty_name": "KAREN BAUTISTA",
+      "schedule_label": "T 12:00pm-1:30pm, Th 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-HUM-01",
+      "subject_name": "Disciplines and Ideas in the Social Sciences",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB104"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-01",
+      "faculty_name": "JESSA FERNANDEZ",
+      "schedule_label": "Th 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-HUM-02",
+      "subject_name": "Creative Writing",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB124"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-03",
+      "faculty_name": "KAREN BAUTISTA",
+      "schedule_label": "M 8:00am-9:30am, T 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-HUM-03",
+      "subject_name": "Philippine Politics and Governance",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB102"
+        },
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-05",
+      "faculty_name": "NICOLE RAMOS",
+      "schedule_label": "M 9:30am-11:00am, W 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "4:00pm",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-11",
+      "faculty_name": "SOFIA MERCADO",
+      "schedule_label": "W 2:00pm-4:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-08",
+      "faculty_name": "MIGUEL FLORES",
+      "schedule_label": "F 2:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-10",
+      "faculty_name": "GABRIEL TAN",
+      "schedule_label": "Th 2:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:30pm",
+          "end": "3:00pm",
+          "room": "NB123"
+        },
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-14",
+      "faculty_name": "CLARA DIZON",
+      "schedule_label": "T 1:30pm-3:00pm, W 1:00pm-2:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:30pm",
+          "end": "4:00pm",
+          "room": "NB109"
+        },
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-16",
+      "faculty_name": "JONAS CRUZ",
+      "schedule_label": "W 2:30pm-4:00pm, Th 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB203"
+        },
+        {
+          "day": "Tuesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-18",
+      "faculty_name": "NICO BAUTISTA",
+      "schedule_label": "M 8:00am-9:30am, T 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB108"
+        },
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-02",
+      "faculty_name": "LUIS DELA CRUZ",
+      "schedule_label": "Th 9:30am-11:00am, F 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB109"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-04",
+      "faculty_name": "ETHAN VILLANUEVA",
+      "schedule_label": "M 9:30am-11:00am, T 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-HUM-01",
+      "subject_name": "Disciplines and Ideas in the Social Sciences",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB116"
+        },
+        {
+          "day": "Friday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-02",
+      "faculty_name": "LUIS DELA CRUZ",
+      "schedule_label": "T 11:00am-12:30pm, F 12:00pm-1:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-HUM-02",
+      "subject_name": "Creative Writing",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB109"
+        },
+        {
+          "day": "Wednesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-04",
+      "faculty_name": "ETHAN VILLANUEVA",
+      "schedule_label": "M 11:30am-1:00pm, W 10:30am-12:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-HUM-03",
+      "subject_name": "Philippine Politics and Governance",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB105"
+        },
+        {
+          "day": "Friday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB105"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-06",
+      "faculty_name": "ERIC SANTOS",
+      "schedule_label": "Th 12:00pm-1:30pm, F 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-12",
+      "faculty_name": "RINA GARCIA",
+      "schedule_label": "M 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-ICT-15",
+      "faculty_name": "LEO DIZON",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-ICT-10",
+      "faculty_name": "NINA FLORES",
+      "schedule_label": "W 12:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB110"
+        },
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB110"
+        }
+      ],
+      "faculty_id": "FAC-ICT-01",
+      "faculty_name": "ADRIAN LOPEZ",
+      "schedule_label": "W 10:00am-11:30am, Th 11:00am-12:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB123"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-ICT-07",
+      "faculty_name": "CARLO SANTOS",
+      "schedule_label": "W 8:00am-9:30am, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB108"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-ICT-05",
+      "faculty_name": "PAOLO REYES",
+      "schedule_label": "Th 12:30pm-2:00pm, F 1:00pm-2:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB121"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-ICT-03",
+      "faculty_name": "VINCE TAN",
+      "schedule_label": "M 11:30am-1:00pm, T 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB106"
+        },
+        {
+          "day": "Wednesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-ICT-11",
+      "faculty_name": "RYAN CRUZ",
+      "schedule_label": "T 9:30am-11:00am, W 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-ICT-01",
+      "subject_name": "Install and Configure Computer Systems",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "LAB1"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "LAB1"
+        }
+      ],
+      "faculty_id": "FAC-ICT-03",
+      "faculty_name": "VINCE TAN",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-ICT-02",
+      "subject_name": "Set Up Computer Networks",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB112"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-ICT-11",
+      "faculty_name": "RYAN CRUZ",
+      "schedule_label": "M 9:00am-11:00am, T 3:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:00pm",
+          "end": "2:00pm",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-ICT-06",
+      "faculty_name": "GRACE LIM",
+      "schedule_label": "T 12:00pm-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-ICT-02",
+      "faculty_name": "BRIAN DIZON",
+      "schedule_label": "Th 8:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-ICT-09",
+      "faculty_name": "JASON GARCIA",
+      "schedule_label": "Th 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB202"
+        },
+        {
+          "day": "Wednesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-ICT-08",
+      "faculty_name": "MIA NAVARRO",
+      "schedule_label": "T 1:00pm-2:30pm, W 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "2:30pm",
+          "end": "4:00pm",
+          "room": "NB111"
+        },
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-ICT-14",
+      "faculty_name": "AVA RAMOS",
+      "schedule_label": "T 2:30pm-4:00pm, F 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB124"
+        },
+        {
+          "day": "Friday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-ICT-12",
+      "faculty_name": "TRISHA SANTOS",
+      "schedule_label": "T 8:00am-9:30am, F 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB109"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:00am",
+          "end": "10:30am",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-ICT-04",
+      "faculty_name": "ELLA CRUZ",
+      "schedule_label": "M 8:00am-9:30am, W 9:00am-10:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB122"
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-ICT-13",
+      "faculty_name": "KEVIN DELA CRUZ",
+      "schedule_label": "M 9:30am-11:00am, T 10:00am-11:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-ICT-01",
+      "subject_name": "Install and Configure Computer Systems",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB201"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-ICT-04",
+      "faculty_name": "ELLA CRUZ",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-ICT-02",
+      "subject_name": "Set Up Computer Networks",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB101"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-ICT-13",
+      "faculty_name": "KEVIN DELA CRUZ",
+      "schedule_label": "M 3:00pm-5:00pm, F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB113"
+        }
+      ],
+      "faculty_id": "FAC-ICT-16",
+      "faculty_name": "MARA LOPEZ",
+      "schedule_label": "M 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-STEM-06",
+      "faculty_name": "KEVIN BAUTISTA",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-STEM-08",
+      "faculty_name": "MARK VILLANUEVA",
+      "schedule_label": "W 12:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB119"
+        },
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-STEM-12",
+      "faculty_name": "HENRY FLORES",
+      "schedule_label": "W 10:00am-11:30am, Th 11:00am-12:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB202"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-STEM-04",
+      "faculty_name": "DANIEL AQUINO",
+      "schedule_label": "W 8:00am-9:30am, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB119"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-STEM-15",
+      "faculty_name": "CLARA REYES",
+      "schedule_label": "Th 12:30pm-2:00pm, F 1:00pm-2:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB101"
+        },
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-STEM-17",
+      "faculty_name": "ERIC VILLANUEVA",
+      "schedule_label": "M 11:30am-1:00pm, T 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB107"
+        },
+        {
+          "day": "Wednesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-STEM-19",
+      "faculty_name": "ADRIAN FLORES",
+      "schedule_label": "T 9:30am-11:00am, W 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:00pm",
+          "end": "2:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-STEM-10",
+      "faculty_name": "VICTOR RAMOS",
+      "schedule_label": "T 12:00pm-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-STEM-01",
+      "subject_name": "Pre-Calculus",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "NB101"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-STEM-01",
+      "faculty_name": "MARIA SANTOS",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G11-STEM-02",
+      "subject_name": "General Biology 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB119"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-STEM-03",
+      "faculty_name": "ANGELA CRUZ",
+      "schedule_label": "M 9:00am-11:00am, T 3:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-A01",
+      "subject_name": "Empowerment Technologies",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-STEM-07",
+      "faculty_name": "SOFIA LIM",
+      "schedule_label": "Th 8:00am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-A02",
+      "subject_name": "Practical Research 1",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-STEM-09",
+      "faculty_name": "RACHEL NAVARRO",
+      "schedule_label": "Th 11:00am-2:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-C01",
+      "subject_name": "Oral Communication in Context",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB104"
+        },
+        {
+          "day": "Wednesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-STEM-13",
+      "faculty_name": "NINA CASTILLO",
+      "schedule_label": "T 1:00pm-2:30pm, W 3:00pm-4:30pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-C02",
+      "subject_name": "Komunikasyon at Pananaliksik sa Wika at Kulturang Pilipino",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "2:30pm",
+          "end": "4:00pm",
+          "room": "NB120"
+        },
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-STEM-14",
+      "faculty_name": "OWEN REYES",
+      "schedule_label": "T 2:30pm-4:00pm, F 8:00am-9:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-C03",
+      "subject_name": "General Mathematics",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB203"
+        },
+        {
+          "day": "Friday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-STEM-16",
+      "faculty_name": "PAULA MENDOZA",
+      "schedule_label": "T 8:00am-9:30am, F 9:30am-11:00am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-C04",
+      "subject_name": "Earth and Life Science",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB116"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:00am",
+          "end": "10:30am",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-STEM-18",
+      "faculty_name": "GRACE RAMOS",
+      "schedule_label": "M 8:00am-9:30am, W 9:00am-10:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-C05",
+      "subject_name": "Personal Development",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB201"
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-STEM-20",
+      "faculty_name": "LARA BAUTISTA",
+      "schedule_label": "M 9:30am-11:00am, T 10:00am-11:30am",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-PE1",
+      "subject_name": "Physical Education and Health 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-STEM-11",
+      "faculty_name": "LAURA MENDOZA",
+      "schedule_label": "M 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-STEM-01",
+      "subject_name": "Pre-Calculus",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB118"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-STEM-02",
+      "faculty_name": "JOSHUA REYES",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G11-STEM-02",
+      "subject_name": "General Biology 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "LAB5"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "LAB5"
+        }
+      ],
+      "faculty_id": "FAC-STEM-05",
+      "faculty_name": "PATRICIA GARCIA",
+      "schedule_label": "M 3:00pm-5:00pm, F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 11"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-ABM-07",
+      "faculty_name": "LIZA CHUA",
+      "schedule_label": "Th 12:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-ABM-09",
+      "faculty_name": "JEROME SANTOS",
+      "schedule_label": "W 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-ABM-11",
+      "faculty_name": "CARLOS LIM",
+      "schedule_label": "T 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-ABM-13",
+      "faculty_name": "FELIX GARCIA",
+      "schedule_label": "M 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-ABM-01",
+      "subject_name": "Fundamentals of Accountancy, Business and Management 2",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB102"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-ABM-01",
+      "faculty_name": "ANDREA VILLANUEVA",
+      "schedule_label": "Th 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-ABM-02",
+      "subject_name": "Business Ethics and Social Responsibility",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB122"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "4:30pm",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-ABM-03",
+      "faculty_name": "CARLA ONG",
+      "schedule_label": "M 8:00am-9:30am, T 3:00pm-4:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-ABM-03",
+      "subject_name": "Principles of Marketing",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB204"
+        },
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-ABM-05",
+      "faculty_name": "GRACE TAN",
+      "schedule_label": "M 9:30am-11:00am, W 8:00am-9:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB121"
+        },
+        {
+          "day": "Friday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-ABM-17",
+      "faculty_name": "MARCO ONG",
+      "schedule_label": "W 2:00pm-3:30pm, F 10:00am-11:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB107"
+        },
+        {
+          "day": "Friday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-ABM-19",
+      "faculty_name": "RYAN MERCADO",
+      "schedule_label": "Th 9:30am-11:00am, F 11:30am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "A",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-ABM-15",
+      "faculty_name": "IVAN BAUTISTA",
+      "schedule_label": "T 11:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-ABM-08",
+      "faculty_name": "MONICA REYES",
+      "schedule_label": "F 2:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-ABM-10",
+      "faculty_name": "BEA NAVARRO",
+      "schedule_label": "Th 2:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "9:00am",
+          "end": "12:00pm",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-ABM-12",
+      "faculty_name": "DIANA CRUZ",
+      "schedule_label": "Th 9:00am-12:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-ABM-14",
+      "faculty_name": "NORA RAMOS",
+      "schedule_label": "M 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-ABM-01",
+      "subject_name": "Fundamentals of Accountancy, Business and Management 2",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB118"
+        },
+        {
+          "day": "Friday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-ABM-02",
+      "faculty_name": "MIGUEL SY",
+      "schedule_label": "T 11:00am-12:30pm, F 12:00pm-1:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-ABM-02",
+      "subject_name": "Business Ethics and Social Responsibility",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB105"
+        },
+        {
+          "day": "Wednesday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB105"
+        }
+      ],
+      "faculty_id": "FAC-ABM-04",
+      "faculty_name": "RAMON FLORES",
+      "schedule_label": "M 11:30am-1:00pm, W 10:30am-12:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-ABM-03",
+      "subject_name": "Principles of Marketing",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB120"
+        },
+        {
+          "day": "Friday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-ABM-06",
+      "faculty_name": "PAOLO MERCADO",
+      "schedule_label": "Th 12:00pm-1:30pm, F 9:30am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB118"
+        },
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-ABM-18",
+      "faculty_name": "LEAH FLORES",
+      "schedule_label": "M 1:00pm-2:30pm, W 8:00am-9:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB122"
+        },
+        {
+          "day": "Wednesday",
+          "start": "12:00pm",
+          "end": "1:30pm",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-ABM-20",
+      "faculty_name": "ELLA CHUA",
+      "schedule_label": "T 12:30pm-2:00pm, W 12:00pm-1:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ABM",
+      "section": "B",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-ABM-16",
+      "faculty_name": "CHLOE SY",
+      "schedule_label": "T 8:00am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-15",
+      "faculty_name": "MIA RAMOS",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-01",
+      "faculty_name": "ANA REYES",
+      "schedule_label": "Th 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "9:00am",
+          "end": "12:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-03",
+      "faculty_name": "CLARA SANTOS",
+      "schedule_label": "T 9:00am-12:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-04",
+      "faculty_name": "DIEGO RAMOS",
+      "schedule_label": "F 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "2:30pm",
+          "room": "NB106"
+        },
+        {
+          "day": "Friday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-09",
+      "faculty_name": "IRENE SANTOS",
+      "schedule_label": "Th 1:00pm-2:30pm, F 2:00pm-3:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB120"
+        },
+        {
+          "day": "Thursday",
+          "start": "2:30pm",
+          "end": "4:00pm",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-11",
+      "faculty_name": "NINA CRUZ",
+      "schedule_label": "W 10:00am-11:30am, Th 2:30pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-CK-01",
+      "subject_name": "Prepare Stocks, Sauces and Soups",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "COOKERY-LAB2"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "COOKERY-LAB2"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-07",
+      "faculty_name": "GRACE DELA CRUZ",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-CK-02",
+      "subject_name": "Prepare Poultry and Game Dishes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB115"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB115"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-09",
+      "faculty_name": "IRENE SANTOS",
+      "schedule_label": "M 9:00am-11:00am, T 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-CK-03",
+      "subject_name": "Prepare Meat Dishes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB204"
+        },
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "4:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-10",
+      "faculty_name": "MARCO REYES",
+      "schedule_label": "M 11:00am-1:00pm, W 2:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-CK-04",
+      "subject_name": "Prepare Desserts",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB101"
+        },
+        {
+          "day": "Wednesday",
+          "start": "12:00pm",
+          "end": "2:00pm",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-13",
+      "faculty_name": "PAULA GARCIA",
+      "schedule_label": "T 1:00pm-3:00pm, W 12:00pm-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "A",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-07",
+      "faculty_name": "GRACE DELA CRUZ",
+      "schedule_label": "W 8:00am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-16",
+      "faculty_name": "LEO SANTOS",
+      "schedule_label": "M 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-02",
+      "faculty_name": "BEN CRUZ",
+      "schedule_label": "T 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-05",
+      "faculty_name": "ELLA GARCIA",
+      "schedule_label": "F 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-06",
+      "faculty_name": "FELIX NAVARRO",
+      "schedule_label": "Th 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB122"
+        },
+        {
+          "day": "Friday",
+          "start": "3:30pm",
+          "end": "5:00pm",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-10",
+      "faculty_name": "MARCO REYES",
+      "schedule_label": "W 8:00am-9:30am, F 3:30pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB107"
+        },
+        {
+          "day": "Wednesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB107"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-12",
+      "faculty_name": "OSCAR TAN",
+      "schedule_label": "M 8:00am-9:30am, W 9:30am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-CK-01",
+      "subject_name": "Prepare Stocks, Sauces and Soups",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "EIM-LAB1"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "EIM-LAB1"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-08",
+      "faculty_name": "HANNAH LIM",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-CK-02",
+      "subject_name": "Prepare Poultry and Game Dishes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB103"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-11",
+      "faculty_name": "NINA CRUZ",
+      "schedule_label": "M 3:00pm-5:00pm, F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-CK-03",
+      "subject_name": "Prepare Meat Dishes",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB114"
+        },
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-12",
+      "faculty_name": "OSCAR TAN",
+      "schedule_label": "T 9:00am-11:00am, Th 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-CK-04",
+      "subject_name": "Prepare Desserts",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB203"
+        },
+        {
+          "day": "Wednesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB203"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-14",
+      "faculty_name": "RICO FLORES",
+      "schedule_label": "T 11:00am-1:00pm, W 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "COOKERY",
+      "section": "B",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB109"
+        }
+      ],
+      "faculty_id": "FAC-COOKERY-08",
+      "faculty_name": "HANNAH LIM",
+      "schedule_label": "M 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-EIM-01",
+      "faculty_name": "RAMON GARCIA",
+      "schedule_label": "Th 12:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-EIM-04",
+      "faculty_name": "CARLO TORRES",
+      "schedule_label": "W 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB110"
+        }
+      ],
+      "faculty_id": "FAC-EIM-07",
+      "faculty_name": "PAOLO CRUZ",
+      "schedule_label": "T 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-EIM-08",
+      "faculty_name": "RHEA SANTOS",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB201"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-EIM-11",
+      "faculty_name": "MARCO DIZON",
+      "schedule_label": "W 8:00am-9:30am, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB106"
+        },
+        {
+          "day": "Friday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-EIM-03",
+      "faculty_name": "MAY REYES",
+      "schedule_label": "Th 10:00am-11:30am, F 12:30pm-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-EIM-01",
+      "subject_name": "Install Electrical Protection System",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "EIM-LAB1"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "EIM-LAB1"
+        }
+      ],
+      "faculty_id": "FAC-EIM-11",
+      "faculty_name": "MARCO DIZON",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-EIM-02",
+      "subject_name": "Install Electrical Control System",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB118"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB118"
+        }
+      ],
+      "faculty_id": "FAC-EIM-12",
+      "faculty_name": "LARA GARCIA",
+      "schedule_label": "M 9:00am-11:00am, T 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-EIM-03",
+      "subject_name": "Maintain and Repair Electrical Systems",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "COOKERY-LAB2"
+        },
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "4:00pm",
+          "room": "COOKERY-LAB2"
+        }
+      ],
+      "faculty_id": "FAC-EIM-13",
+      "faculty_name": "NOEL RAMOS",
+      "schedule_label": "M 11:00am-1:00pm, W 2:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "A",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-EIM-09",
+      "faculty_name": "VICTOR LIM",
+      "schedule_label": "T 11:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-EIM-03",
+      "faculty_name": "MAY REYES",
+      "schedule_label": "T 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-EIM-02",
+      "faculty_name": "LEO SANTOS",
+      "schedule_label": "F 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-EIM-05",
+      "faculty_name": "NINA BAUTISTA",
+      "schedule_label": "T 2:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-EIM-06",
+      "faculty_name": "OMAR FLORES",
+      "schedule_label": "M 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB112"
+        },
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-EIM-12",
+      "faculty_name": "LARA GARCIA",
+      "schedule_label": "M 11:00am-12:30pm, W 8:00am-9:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "9:30am",
+          "end": "11:00am",
+          "room": "NB122"
+        },
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB122"
+        }
+      ],
+      "faculty_id": "FAC-EIM-13",
+      "faculty_name": "NOEL RAMOS",
+      "schedule_label": "W 9:30am-11:00am, Th 8:00am-9:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-EIM-01",
+      "subject_name": "Install Electrical Protection System",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "COOKERY-LAB1"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "COOKERY-LAB1"
+        }
+      ],
+      "faculty_id": "FAC-EIM-10",
+      "faculty_name": "DAISY REYES",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-EIM-02",
+      "subject_name": "Install Electrical Control System",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB105"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB105"
+        }
+      ],
+      "faculty_id": "FAC-EIM-14",
+      "faculty_name": "AIDEN SANTOS",
+      "schedule_label": "M 3:00pm-5:00pm, F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-EIM-03",
+      "subject_name": "Maintain and Repair Electrical Systems",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB116"
+        },
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-EIM-15",
+      "faculty_name": "MIKA CRUZ",
+      "schedule_label": "T 9:00am-11:00am, Th 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "EIM",
+      "section": "B",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Friday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-EIM-10",
+      "faculty_name": "DAISY REYES",
+      "schedule_label": "F 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-ICT-06",
+      "faculty_name": "GRACE LIM",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB113"
+        }
+      ],
+      "faculty_id": "FAC-ICT-01",
+      "faculty_name": "ADRIAN LOPEZ",
+      "schedule_label": "W 12:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-ICT-07",
+      "faculty_name": "CARLO SANTOS",
+      "schedule_label": "Th 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB110"
+        }
+      ],
+      "faculty_id": "FAC-ICT-12",
+      "faculty_name": "TRISHA SANTOS",
+      "schedule_label": "Th 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB108"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-ICT-11",
+      "faculty_name": "RYAN CRUZ",
+      "schedule_label": "W 8:00am-9:30am, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB123"
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-ICT-15",
+      "faculty_name": "LEO DIZON",
+      "schedule_label": "M 11:30am-1:00pm, T 10:00am-11:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-ICT-01",
+      "subject_name": "Diagnose and Troubleshoot Computer Systems",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "LAB2"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "LAB2"
+        }
+      ],
+      "faculty_id": "FAC-ICT-15",
+      "faculty_name": "LEO DIZON",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-ICT-02",
+      "subject_name": "Configure Network Services",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB113"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB113"
+        }
+      ],
+      "faculty_id": "FAC-ICT-10",
+      "faculty_name": "NINA FLORES",
+      "schedule_label": "M 9:00am-11:00am, T 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "A",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "NB123"
+        }
+      ],
+      "faculty_id": "FAC-ICT-04",
+      "faculty_name": "ELLA CRUZ",
+      "schedule_label": "T 8:00am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-ICT-16",
+      "faculty_name": "MARA LOPEZ",
+      "schedule_label": "Th 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB101"
+        }
+      ],
+      "faculty_id": "FAC-ICT-08",
+      "faculty_name": "MIA NAVARRO",
+      "schedule_label": "Th 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB114"
+        }
+      ],
+      "faculty_id": "FAC-ICT-14",
+      "faculty_name": "AVA RAMOS",
+      "schedule_label": "W 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-ICT-05",
+      "faculty_name": "PAOLO REYES",
+      "schedule_label": "T 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB201"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB201"
+        }
+      ],
+      "faculty_id": "FAC-ICT-13",
+      "faculty_name": "KEVIN DELA CRUZ",
+      "schedule_label": "M 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB110"
+        },
+        {
+          "day": "Friday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB110"
+        }
+      ],
+      "faculty_id": "FAC-ICT-02",
+      "faculty_name": "BRIAN DIZON",
+      "schedule_label": "W 8:00am-9:30am, F 10:00am-11:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-ICT-01",
+      "subject_name": "Diagnose and Troubleshoot Computer Systems",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB202"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-ICT-02",
+      "faculty_name": "BRIAN DIZON",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-ICT-02",
+      "subject_name": "Configure Network Services",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB102"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-ICT-09",
+      "faculty_name": "JASON GARCIA",
+      "schedule_label": "M 3:00pm-5:00pm, F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "ICT",
+      "section": "B",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-ICT-03",
+      "faculty_name": "VINCE TAN",
+      "schedule_label": "T 11:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB108"
+        }
+      ],
+      "faculty_id": "FAC-STEM-03",
+      "faculty_name": "ANGELA CRUZ",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-STEM-06",
+      "faculty_name": "KEVIN BAUTISTA",
+      "schedule_label": "W 12:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-STEM-08",
+      "faculty_name": "MARK VILLANUEVA",
+      "schedule_label": "Th 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-STEM-10",
+      "faculty_name": "VICTOR RAMOS",
+      "schedule_label": "Th 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB117"
+        },
+        {
+          "day": "Friday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-STEM-14",
+      "faculty_name": "OWEN REYES",
+      "schedule_label": "W 8:00am-9:30am, F 11:00am-12:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "11:30am",
+          "end": "1:00pm",
+          "room": "NB104"
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-STEM-15",
+      "faculty_name": "CLARA REYES",
+      "schedule_label": "M 11:30am-1:00pm, T 10:00am-11:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-STEM-12",
+      "faculty_name": "HENRY FLORES",
+      "schedule_label": "T 8:00am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-STEM-01",
+      "subject_name": "General Chemistry 1",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "10:00am",
+          "room": "LAB3"
+        },
+        {
+          "day": "Friday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "LAB3"
+        }
+      ],
+      "faculty_id": "FAC-STEM-21",
+      "faculty_name": "NOAH SANTOS",
+      "schedule_label": "Th 8:00am-10:00am, F 9:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "A",
+      "subject_code": "G12-STEM-02",
+      "subject_name": "General Physics 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "9:00am",
+          "end": "11:00am",
+          "room": "NB121"
+        },
+        {
+          "day": "Tuesday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-STEM-01",
+      "faculty_name": "MARIA SANTOS",
+      "schedule_label": "M 9:00am-11:00am, T 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-STEM-05",
+      "faculty_name": "PATRICIA GARCIA",
+      "schedule_label": "Th 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "11:00am",
+          "end": "2:00pm",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-STEM-07",
+      "faculty_name": "SOFIA LIM",
+      "schedule_label": "Th 11:00am-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB121"
+        }
+      ],
+      "faculty_id": "FAC-STEM-09",
+      "faculty_name": "RACHEL NAVARRO",
+      "schedule_label": "W 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-STEM-11",
+      "faculty_name": "LAURA MENDOZA",
+      "schedule_label": "T 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB202"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-STEM-04",
+      "faculty_name": "DANIEL AQUINO",
+      "schedule_label": "M 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB119"
+        },
+        {
+          "day": "Friday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB119"
+        }
+      ],
+      "faculty_id": "FAC-STEM-17",
+      "faculty_name": "ERIC VILLANUEVA",
+      "schedule_label": "W 8:00am-9:30am, F 10:00am-11:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB112"
+        }
+      ],
+      "faculty_id": "FAC-STEM-13",
+      "faculty_name": "NINA CASTILLO",
+      "schedule_label": "T 11:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-STEM-01",
+      "subject_name": "General Chemistry 1",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB124"
+        },
+        {
+          "day": "Thursday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB124"
+        }
+      ],
+      "faculty_id": "FAC-STEM-22",
+      "faculty_name": "MIA REYES",
+      "schedule_label": "W 1:00pm-3:00pm, Th 3:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "STEM",
+      "section": "B",
+      "subject_code": "G12-STEM-02",
+      "subject_name": "General Physics 1",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "3:00pm",
+          "end": "5:00pm",
+          "room": "NB110"
+        },
+        {
+          "day": "Friday",
+          "start": "1:00pm",
+          "end": "3:00pm",
+          "room": "NB110"
+        }
+      ],
+      "faculty_id": "FAC-STEM-02",
+      "faculty_name": "JOSHUA REYES",
+      "schedule_label": "M 3:00pm-5:00pm, F 1:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-HUM-02",
+      "subject_name": "Introduction to World Religions and Belief Systems",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB106"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-05",
+      "faculty_name": "NICOLE RAMOS",
+      "schedule_label": "Th 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-HUM-02",
+      "subject_name": "Introduction to World Religions and Belief Systems",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB117"
+        },
+        {
+          "day": "Friday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-06",
+      "faculty_name": "ERIC SANTOS",
+      "schedule_label": "T 11:00am-12:30pm, F 12:30pm-2:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "5:00pm",
+          "room": "NB120"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-07",
+      "faculty_name": "LAURA REYES",
+      "schedule_label": "W 2:00pm-5:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-A01",
+      "subject_name": "English for Academic and Professional Purposes",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-08",
+      "faculty_name": "MIGUEL FLORES",
+      "schedule_label": "M 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB104"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-09",
+      "faculty_name": "ANNA CRUZ",
+      "schedule_label": "Th 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-A02",
+      "subject_name": "Entrepreneurship",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB117"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-10",
+      "faculty_name": "GABRIEL TAN",
+      "schedule_label": "T 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "12:00pm",
+          "end": "3:00pm",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-11",
+      "faculty_name": "SOFIA MERCADO",
+      "schedule_label": "M 12:00pm-3:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-A03",
+      "subject_name": "Filipino sa Piling Larang",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "1:00pm",
+          "end": "4:00pm",
+          "room": "NB106"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-12",
+      "faculty_name": "RINA GARCIA",
+      "schedule_label": "T 1:00pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "8:00am",
+          "end": "11:00am",
+          "room": "NB103"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-13",
+      "faculty_name": "PAOLO SY",
+      "schedule_label": "W 8:00am-11:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-A05",
+      "subject_name": "Practical Research 2",
+      "sessions": [
+        {
+          "day": "Thursday",
+          "start": "10:00am",
+          "end": "1:00pm",
+          "room": "NB113"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-14",
+      "faculty_name": "CLARA DIZON",
+      "schedule_label": "Th 10:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "11:00am",
+          "end": "1:00pm",
+          "room": "NB111"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-15",
+      "faculty_name": "MARA FERNANDEZ",
+      "schedule_label": "W 11:00am-1:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-PE3",
+      "subject_name": "Physical Education and Health 3",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "10:00am",
+          "end": "12:00pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-16",
+      "faculty_name": "JONAS CRUZ",
+      "schedule_label": "W 10:00am-12:00pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "10:30am",
+          "end": "12:00pm",
+          "room": "NB202"
+        },
+        {
+          "day": "Tuesday",
+          "start": "11:00am",
+          "end": "12:30pm",
+          "room": "NB202"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-18",
+      "faculty_name": "NICO BAUTISTA",
+      "schedule_label": "M 10:30am-12:00pm, T 11:00am-12:30pm",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-C01",
+      "subject_name": "Introduction to the Philosophy of the Human Person",
+      "sessions": [
+        {
+          "day": "Monday",
+          "start": "8:00am",
+          "end": "9:30am",
+          "room": "NB204"
+        },
+        {
+          "day": "Friday",
+          "start": "8:30am",
+          "end": "10:00am",
+          "room": "NB204"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-17",
+      "faculty_name": "LEAH SANTOS",
+      "schedule_label": "M 8:00am-9:30am, F 8:30am-10:00am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "A",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Tuesday",
+          "start": "12:30pm",
+          "end": "2:00pm",
+          "room": "NB116"
+        },
+        {
+          "day": "Friday",
+          "start": "10:00am",
+          "end": "11:30am",
+          "room": "NB116"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-01",
+      "faculty_name": "JESSA FERNANDEZ",
+      "schedule_label": "T 12:30pm-2:00pm, F 10:00am-11:30am",
+      "gradeLevel": "Grade 12"
+    },
+    {
+      "strand": "HUMSS",
+      "section": "B",
+      "subject_code": "G12-C02",
+      "subject_name": "Disaster Readiness and Risk Reduction",
+      "sessions": [
+        {
+          "day": "Wednesday",
+          "start": "2:00pm",
+          "end": "3:30pm",
+          "room": "NB102"
+        },
+        {
+          "day": "Thursday",
+          "start": "2:30pm",
+          "end": "4:00pm",
+          "room": "NB102"
+        }
+      ],
+      "faculty_id": "FAC-HUMSS-02",
+      "faculty_name": "LUIS DELA CRUZ",
+      "schedule_label": "W 2:00pm-3:30pm, Th 2:30pm-4:00pm",
+      "gradeLevel": "Grade 12"
+    }
+  ],
+  "source": "ortools"
+}

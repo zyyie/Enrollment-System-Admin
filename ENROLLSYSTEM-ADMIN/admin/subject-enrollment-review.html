@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Subject Enrollment - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content" id="pageContent">
+      <a href="subject-enrollment-request.html" class="admin-review-back"><i class="fas fa-arrow-left"></i> Back to Pending Enrollments</a>
+      <div class="admin-empty">Loading...</div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/supabase-service.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const enrollmentId = params.get('id');
+
+    async function loadDetail() {
+      if (!AdminApp.requireAuth()) return;
+      AdminApp.initLayout('subject-enrollment', 'Review Enrollment');
+
+      if (!enrollmentId) {
+        document.getElementById('pageContent').innerHTML = '<div class="admin-empty">Missing enrollment id.</div>';
+        return;
+      }
+
+      let detail = null;
+      try {
+        const res = await AdminApp.fetchJson('/api/subject-enrollment/detail?id=' + encodeURIComponent(enrollmentId));
+        detail = res.data;
+      } catch (err) {
+        if (SupabaseService.isEnabled()) {
+          detail = await SupabaseService.getEnrollmentDetail(enrollmentId);
+        }
+      }
+
+      if (!detail) {
+        document.getElementById('pageContent').innerHTML = '<div class="admin-empty">Enrollment not found.</div>';
+        return;
+      }
+
+      if (detail.payment?.gcashProofPath && !detail.payment.gcashProofUrl) {
+        detail.payment.gcashProofUrl = '/api/admission/file?path=' + encodeURIComponent(detail.payment.gcashProofPath);
+      }
+
+      const st = detail.student || {};
+      const term = detail.term || {};
+      const subjects = detail.subjects || [];
+      const payment = detail.payment || {};
+
+      function peso(amount) {
+        return '₱' + Number(amount || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function paymentSection(p) {
+        const mode = (p.paymentMode || 'cashier').toLowerCase();
+        const status = p.status || 'unpaid';
+        let rows = `
+          <div><strong>Mode:</strong> ${mode === 'gcash' ? 'GCash' : 'Pay at Cashier'}</div>
+          <div><strong>Payment Status:</strong> ${AdminApp.statusBadge(status)}</div>
+          <div><strong>Assessment:</strong> ${peso(p.assessmentAmount)}</div>
+          <div><strong>Amount Paid:</strong> ${peso(p.amountPaid)}</div>
+          <div><strong>Balance:</strong> ${peso(p.balance)}</div>
+        `;
+        if (mode === 'gcash') {
+          rows += `
+            <div><strong>GCash Reference:</strong> ${AdminApp.escHtml(p.gcashReference || '—')}</div>
+            <div><strong>GCash Sender:</strong> ${AdminApp.escHtml(p.gcashSenderName || '—')}</div>
+            <div><strong>Receipt:</strong> ${
+              p.gcashProofUrl
+                ? `<a href="${AdminApp.escHtml(p.gcashProofUrl)}" target="_blank" rel="noopener">View payment receipt</a>`
+                : (p.gcashProofPath ? AdminApp.escHtml(p.gcashProofPath) : '—')
+            }</div>
+          `;
+        }
+        if (p.notes) {
+          rows += `<div><strong>Notes:</strong> ${AdminApp.escHtml(p.notes)}</div>`;
+        }
+        return rows;
+      }
+
+      document.getElementById('pageContent').innerHTML = `
+        <a href="subject-enrollment-request.html" class="admin-review-back"><i class="fas fa-arrow-left"></i> Back to Pending Enrollments</a>
+        <div class="admin-card">
+          <div class="admin-card-head">Enrollment Review — ${AdminApp.escHtml(st.name || '')}</div>
+          <div class="admin-card-body padded">
+            <div class="admin-review-grid">
+              <div><strong>Student ID:</strong> ${AdminApp.escHtml(st.id || '')}</div>
+              <div><strong>Strand:</strong> ${AdminApp.escHtml(st.strandFull || st.strand || '')}</div>
+              <div><strong>Grade:</strong> ${AdminApp.escHtml(st.gradeLevel || '')}</div>
+              <div><strong>Term:</strong> ${AdminApp.escHtml(term.schoolYear || '')} · ${AdminApp.escHtml(term.semester || '')}</div>
+              <div><strong>Status:</strong> ${AdminApp.statusBadge(detail.status)}</div>
+              <div><strong>Total Units:</strong> ${detail.totalUnits ?? '—'}</div>
+            </div>
+            <h4 style="margin:20px 0 10px;">Mode of Payment</h4>
+            <div class="admin-review-grid" style="margin-bottom:8px;">
+              ${paymentSection(payment)}
+            </div>
+            <h4 style="margin:20px 0 10px;">Enrolled Subjects</h4>
+            <table class="admin-table">
+              <thead><tr><th>Code</th><th>Description</th><th>Units</th><th>Schedule</th></tr></thead>
+              <tbody>
+                ${subjects.map(s => `
+                  <tr>
+                    <td>${AdminApp.escHtml(s.code)}</td>
+                    <td>${AdminApp.escHtml(s.description)}</td>
+                    <td>${s.units}</td>
+                    <td>${AdminApp.escHtml(s.schedule || '—')}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+            ${detail.status === 'pending' ? `
+              <div class="admin-modal-actions" style="margin-top:24px;justify-content:flex-start;">
+                <button type="button" class="admin-modal-btn-approve" id="approveBtn"><i class="fas fa-check"></i> Approve</button>
+                <button type="button" class="admin-modal-btn-reject" id="rejectBtn"><i class="fas fa-times"></i> Reject</button>
+              </div>
+            ` : '<p style="margin-top:16px;color:#64748b;">This enrollment has already been processed.</p>'}
+          </div>
+        </div>`;
+
+      document.getElementById('approveBtn')?.addEventListener('click', () => review('approve'));
+      document.getElementById('rejectBtn')?.addEventListener('click', () => review('reject'));
+    }
+
+    async function review(action) {
+      const user = AdminApp.getUser();
+      if (action === 'reject') {
+        const result = await AdminApp.confirmDialog({
+          title: 'Reject Enrollment?',
+          message: 'The student will be notified that their enrollment was rejected.',
+          confirmLabel: 'Reject',
+          variant: 'reject'
+        });
+        if (!result) return;
+      } else {
+        const ok = await AdminApp.confirmDialog({
+          title: 'Approve Enrollment?',
+          message: 'The student will be marked as officially enrolled for this term.',
+          confirmLabel: 'Approve',
+          variant: 'approve'
+        });
+        if (!ok) return;
+      }
+
+      let reason = null;
+      if (action === 'reject') {
+        reason = prompt('Reason for rejection (optional):') || null;
+      }
+
+      try {
+        const res = await fetch('/api/subject-enrollment/review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            enrollmentId,
+            action,
+            facultyId: user?.id,
+            reason
+          })
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error || 'Review failed');
+        await AdminApp.showReviewMessage({
+          type: 'success',
+          title: action === 'approve' ? 'Enrollment Approved' : 'Enrollment Rejected',
+          message: action === 'approve'
+            ? 'The student is now officially enrolled.'
+            : 'The student has been notified of the rejection.'
+        });
+        window.location.href = 'subject-enrollment-request.html';
+      } catch (err) {
+        await AdminApp.alertDialog({ type: 'error', title: 'Failed', message: err.message });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDetail);
+  </script>
+</body>
+</html>

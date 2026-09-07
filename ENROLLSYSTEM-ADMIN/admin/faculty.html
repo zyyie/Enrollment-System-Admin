@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          Professors / Teachers
+          <button type="button" class="admin-btn primary" id="openTeacherForm" style="float:right;font-size:13px;">+ Add Professor</button>
+        </div>
+        <div class="admin-card-body padded" style="padding-bottom:0;">
+          <p style="margin:0 0 12px;font-size:13px;color:#64748b;">
+            Click <strong>View</strong> on a professor to see their Faculty ID, password, and strand assignments.
+          </p>
+        </div>
+        <div class="admin-card-body padded" id="teacherFormWrap" hidden>
+          <form id="teacherForm" class="admin-form">
+            <input type="hidden" id="teacherDbId">
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="teacherLastName">Last Name</label>
+                <input type="text" id="teacherLastName" class="admin-input" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="teacherFirstName">First Name</label>
+                <input type="text" id="teacherFirstName" class="admin-input" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="teacherMiddleName">Middle Name</label>
+                <input type="text" id="teacherMiddleName" class="admin-input">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="teacherEmail">Email</label>
+                <input type="email" id="teacherEmail" class="admin-input" placeholder="teacher@school.edu">
+              </div>
+              <div class="admin-form-group">
+                <label for="teacherDepartment">Department</label>
+                <input type="text" id="teacherDepartment" class="admin-input" placeholder="e.g. Science">
+              </div>
+              <div class="admin-form-group">
+                <label for="teacherMaxLoad">Max Load (units)</label>
+                <input type="number" id="teacherMaxLoad" class="admin-input" value="3" min="1" max="6">
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label>Strands this professor teaches</label>
+              <div id="teacherStrandChips" class="auto-sched-strands"></div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="teacherPassword">Password (login)</label>
+                <input type="text" id="teacherPassword" class="admin-input" placeholder="Default: teacher123">
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-btn success" id="saveTeacherBtn">Save to Database</button>
+              <button type="button" class="admin-btn secondary" id="cancelTeacherForm">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div class="admin-card-body" id="teachersTable">
+          <div class="admin-empty">Loading teachers...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="admin-modal-overlay" id="teacherViewOverlay" aria-hidden="true">
+    <div class="admin-modal faculty-professor-modal" role="dialog" aria-modal="true" aria-labelledby="teacherViewTitle">
+      <div id="teacherViewContent"></div>
+      <div class="faculty-modal-actions" id="teacherViewActions"></div>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/faculty-manage.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => FacultyManageApp.mount());
+  </script>
+</body>
+</html>

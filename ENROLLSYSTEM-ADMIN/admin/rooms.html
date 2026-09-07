@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classrooms - Geranova Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-layout">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div id="adminHeader"></div>
+    <main class="admin-content">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          Classrooms &amp; Laboratories
+          <button type="button" class="admin-btn primary" id="openRoomForm" style="float:right;font-size:13px;">+ Add Room</button>
+        </div>
+        <div class="admin-card-body padded" id="roomFormWrap" hidden>
+          <form id="roomForm" class="admin-form">
+            <input type="hidden" id="roomDbId">
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="roomName">Room Name / Code</label>
+                <input type="text" id="roomName" class="admin-input" placeholder="NB101 or LAB1" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="roomType">Type</label>
+                <select id="roomType" class="admin-input">
+                  <option value="classroom">Classroom</option>
+                  <option value="laboratory">Laboratory</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="roomCapacity">Capacity</label>
+                <input type="number" id="roomCapacity" class="admin-input" value="40" min="1" max="100">
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-btn success">Save to Database</button>
+              <button type="button" class="admin-btn secondary" id="cancelRoomForm">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div class="admin-card-body" id="roomsTable">
+          <div class="admin-empty">Loading rooms...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/rooms-manage.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => RoomsManageApp.mount());
+  </script>
+</body>
+</html>
