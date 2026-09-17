@@ -653,8 +653,7 @@ const AdminApp = (() => {
     return `
       <aside class="admin-sidebar" id="adminSidebar">
         <div class="admin-brand">
-          <img src="../assets/geranova-logo.png" alt="Logo">
-          <span>Geranova Senior High School</span>
+          <span>Senior High School</span>
         </div>
         <nav class="admin-nav">
           ${navHtml}

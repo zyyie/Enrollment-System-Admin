@@ -12,11 +12,45 @@ body {
   height: 100vh;
   height: 100dvh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+  align-items: stretch;
+  justify-content: flex-end;
+  padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  background: linear-gradient(160deg, #1a3a6b 0%, #0f2447 55%, #162d52 100%);
+}
+
+.login-page .admin-login-card,
+.login-page .faculty-login-card {
+  flex-shrink: 0;
+  width: min(440px, 100%);
+  max-width: 440px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 0 0 auto;
+  border-radius: 0;
+  box-shadow: -4px 0 32px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .login-page {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .login-page .admin-login-card,
+  .login-page .faculty-login-card {
+    width: 100%;
+    max-width: none;
+    min-height: auto;
+    box-shadow: none;
+  }
 }
 
 .login-bg {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - Geranova EMS</title>
+  <title>Admin Login - Enrollment System</title>
   <link rel="stylesheet" href="admin/css/login.css">
   <style>
     html, body { height: 100%; margin: 0; overflow: hidden; }
@@ -15,11 +15,12 @@
       height: 100vh;
       height: 100dvh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      align-items: stretch;
+      justify-content: flex-end;
+      padding: 0;
       box-sizing: border-box;
       overflow: hidden;
+      background: linear-gradient(160deg, #1a3a6b 0%, #0f2447 55%, #162d52 100%);
     }
     .login-bg {
       position: fixed;
@@ -42,11 +43,20 @@
     .admin-login-card {
       position: relative;
       z-index: 2;
-      width: min(420px, 92vw);
+      flex-shrink: 0;
+      width: min(440px, 100%);
+      max-width: 440px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 0 0 auto;
       background: #fff;
-      border-radius: 12px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+      border-radius: 0;
+      padding: 48px 40px;
+      box-shadow: -4px 0 32px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-sizing: border-box;
     }
     .admin-login-card img { width: 72px; display: block; margin: 0 auto 16px; }
     .admin-login-card h1 { text-align: center; font-size: 22px; margin: 0 0 8px; }
@@ -82,10 +92,7 @@
 </head>
 <body>
   <div class="login-page">
-    <img src="images/hero-bg.jpg" alt="" class="login-bg">
-    <div class="login-bg-overlay" aria-hidden="true"></div>
     <div class="admin-login-card">
-      <img src="assets/geranova-logo.png" alt="Geranova Logo">
       <h1>Admin Portal</h1>
       <p>Registrar sign in only</p>
       <div class="error" id="loginError"></div>

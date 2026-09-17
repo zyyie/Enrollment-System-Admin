@@ -565,9 +565,10 @@ def format_student_full_name_plain(data: dict) -> str:
 def _resolve_school_logo_path() -> Path | None:
     here = Path(__file__).resolve()
     for ancestor in here.parents:
-        candidate = ancestor / "assets" / "geranova-logo.png"
-        if candidate.is_file():
-            return candidate
+        for name in ("school-logo.png", "geranova-logo.png"):
+            candidate = ancestor / "assets" / name
+            if candidate.is_file():
+                return candidate
     return None
 
 
@@ -913,7 +914,6 @@ def build_registration_certificate_pdf(data: dict, school_name: str) -> bytes:
 
     ctx = _form_context(data, school_name)
     full_name = _pdf_text(format_student_full_name_plain(data))
-    school_name = _pdf_text(school_name)
     schedules = data.get("subjectScheduleDetails") or []
     if not isinstance(schedules, list):
         schedules = []
@@ -970,31 +970,11 @@ def build_registration_certificate_pdf(data: dict, school_name: str) -> bytes:
         pdf.set_line_width(0.2)
         pdf.rect(x, y, w, h)
 
-    # Header
+    # Header (COR PDF — no logo, no SCHOOL_NAME / Geranova line)
     hy = 10.0
-    logo_size = 22.0
-    logo_drawn = 0.0
-    logo_bytes = _logo_bytes_for_pdf()
-    if logo_bytes:
-        try:
-            pdf.image(BytesIO(logo_bytes), x=mx, y=hy, w=logo_size, h=logo_size)
-            logo_drawn = logo_size
-        except Exception:
-            logo_path = _resolve_school_logo_path()
-            if logo_path:
-                try:
-                    pdf.image(str(logo_path), x=mx, y=hy, w=logo_size, h=logo_size)
-                    logo_drawn = logo_size
-                except Exception:
-                    logo_drawn = 0.0
-
-    text_x = mx + logo_drawn + (6 if logo_drawn else 0)
-    text_w = content_w * 0.42
-    write(text_x, hy + 5, "Republic of the Philippines", size=7.5, max_w=text_w)
-    write(text_x, hy + 11, school_name.upper(), size=11, bold=True, max_w=text_w)
-    write(text_x, hy + 17, "Senior High School", size=7.5, color=muted, max_w=text_w)
-
-    title_y = hy + max(logo_drawn, 20) + 5
+    write_center(mx, hy + 8, content_w, "Republic of the Philippines", size=7.5)
+    write_center(mx, hy + 14, content_w, "Senior High School", size=11, bold=True)
+    title_y = hy + 22
     write_center(mx, title_y, content_w, "CERTIFICATE OF REGISTRATION", size=13, bold=True)
 
     header_bottom = title_y + 7
@@ -1227,7 +1207,6 @@ def build_registration_certificate_pdf(data: dict, school_name: str) -> bytes:
     sig_line_y = y + 3.8
     hline(mx, sig_line_y, mx + 46, sig_line_y)
     write(mx, sig_line_y + 3.0, "REGISTRAR", size=6.5, bold=True)
-    write(mx, sig_line_y + 6.2, school_name, size=6, color=muted, max_w=58)
 
     write_center(
         mx, sig_line_y + 1.2, content_w,
