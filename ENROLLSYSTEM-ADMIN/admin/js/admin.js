@@ -1,4 +1,4 @@
-// Geranova Admin Portal
+// Enrollment Management System — Admin Portal
 const AdminApp = (() => {
   const SESSION_KEY = 'shsFaculty';
 
@@ -39,7 +39,7 @@ const AdminApp = (() => {
 
   function formatName(user) {
     if (!user) return 'Admin';
-    return `${user.lastName}, ${user.firstName} ${user.middleName || ''}`.trim();
+    return 'Admin';
   }
 
   function statusBadge(status) {
@@ -653,7 +653,7 @@ const AdminApp = (() => {
     return `
       <aside class="admin-sidebar" id="adminSidebar">
         <div class="admin-brand">
-          <span>Senior High School</span>
+          <span>Enrollment Management System</span>
         </div>
         <nav class="admin-nav">
           ${navHtml}
@@ -1003,7 +1003,7 @@ const AdminApp = (() => {
           <a href="enrollment-request.html" class="admin-qa-btn purple"><i class="fas fa-clipboard-check"></i> Review Applications</a>
         </div>
         <div class="admin-quick-card">
-          <p>Create and manage all strands offered in Senior High School.</p>
+          <p>Create and manage all strands offered in the Enrollment Management System.</p>
           <a href="strands.html" class="admin-qa-btn blue">Go to Strands</a>
         </div>
         <div class="admin-quick-card">

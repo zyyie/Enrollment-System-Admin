@@ -63,7 +63,7 @@ def validate_birthdate_age(value: str, *, min_age: int = MIN_SHS_AGE, max_age: i
 
     age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
     if age < min_age:
-        return f"You must be at least {min_age} years old to enroll in Senior High School."
+        return f"You must be at least {min_age} years old to enroll in Enrollment Management System."
     if age > max_age:
         return (
             f"Birthdate indicates age over {max_age}. "

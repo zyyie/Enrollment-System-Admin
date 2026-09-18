@@ -20,6 +20,7 @@ from email.mime.image import MIMEImage
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.utils import formataddr
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qs, quote, unquote, urlparse
@@ -39,6 +40,12 @@ from shared.services.storage import (
     upload_admission_files_to_supabase,
 )
 from shared.validation.admission import validate_admission_fields, validate_admission_files
+from shared.services.brand import (
+    DEFAULT_SCHOOL_NAME,
+    display_school_name,
+    email_brand_name,
+    scrub_legacy_brand_text,
+)
 
 PORT = 8001
 ROOT = Path(__file__).parent
@@ -76,14 +83,14 @@ SUPABASE_SECRET_KEY = ENV.get("SUPABASE_SECRET_KEY", "")
 GMAIL_USER = ENV.get("GMAIL_USER", "").strip().lower()
 GMAIL_APP_PASSWORD = normalize_gmail_password(ENV.get("GMAIL_APP_PASSWORD", ""))
 ADMIN_EMAIL = (ENV.get("ADMIN_EMAIL") or GMAIL_USER).strip().lower()
-SCHOOL_NAME = ENV.get("SCHOOL_NAME", "Geranova Senior High School")
+SCHOOL_NAME = display_school_name(ENV.get("SCHOOL_NAME", "Enrollment Management System"))
 REMOVED_STRAND_CODES = {"GAS", "CSS", "HE", "INDARTS", "OTHER"}
 LEGACY_FACULTY_IDS = {
     "FAC-CK-01", "FAC-CSS-01", "FAC-GAS-01", "FAC-HE-01", "FAC-HUM-01", "FAC-IA-01",
 }
 PAYMONGO_SECRET_KEY = ENV.get("PAYMONGO_SECRET_KEY", "")
 ENROLLMENT_FEE = float(ENV.get("ENROLLMENT_FEE", "2500"))
-GCASH_MERCHANT_NAME = ENV.get("GCASH_MERCHANT_NAME", SCHOOL_NAME)
+GCASH_MERCHANT_NAME = display_school_name(ENV.get("GCASH_MERCHANT_NAME", SCHOOL_NAME))
 GCASH_MERCHANT_NUMBER = ENV.get("GCASH_MERCHANT_NUMBER", "0945 661 0582")
 GCASH_QR_IMAGE = ENV.get("GCASH_QR_IMAGE", "assets/gcash-qr.png")
 GROQ_API_KEY = ENV.get("GROQ_API_KEY", "").strip()
@@ -105,6 +112,7 @@ def reload_runtime_env(force: bool = False) -> bool:
     """Reload .env when the file changes so AI keys apply without a full restart."""
     global ENV, GROQ_API_KEY, GROQ_MODEL, OPENROUTER_API_KEY, OPENROUTER_MODEL
     global GEMINI_API_KEY, GEMINI_MODEL, AI_ENABLE_OPENROUTER, _env_mtime, _scheduler_service
+    global SCHOOL_NAME, GCASH_MERCHANT_NAME, GMAIL_USER, GMAIL_APP_PASSWORD, ADMIN_EMAIL
 
     env_path = ROOT / ".env"
     try:
@@ -123,6 +131,11 @@ def reload_runtime_env(force: bool = False) -> bool:
     GEMINI_API_KEY = ENV.get("GEMINI_API_KEY", "").strip()
     GEMINI_MODEL = ENV.get("GEMINI_MODEL", "gemini-2.0-flash").strip()
     AI_ENABLE_OPENROUTER = ENV.get("AI_ENABLE_OPENROUTER", "").strip().lower() in ("1", "true", "yes")
+    GMAIL_USER = ENV.get("GMAIL_USER", GMAIL_USER).strip().lower()
+    GMAIL_APP_PASSWORD = normalize_gmail_password(ENV.get("GMAIL_APP_PASSWORD", GMAIL_APP_PASSWORD))
+    ADMIN_EMAIL = (ENV.get("ADMIN_EMAIL") or GMAIL_USER).strip().lower()
+    SCHOOL_NAME = display_school_name(ENV.get("SCHOOL_NAME", SCHOOL_NAME))
+    GCASH_MERCHANT_NAME = display_school_name(ENV.get("GCASH_MERCHANT_NAME", SCHOOL_NAME))
     _env_mtime = mtime
     _scheduler_service = None
     return True
@@ -1080,8 +1093,8 @@ def _validate_local_python_modules():
             raise SystemExit(
                 f"\n{path.name} has invalid Python syntax and the admin server cannot start.\n"
                 f"{exc}\n"
-                f"Fix the indentation/syntax in that file, or copy "
-                f"ENROLLSYSTEM/enrollment_curriculum.py to ENROLLSYSTEM-ADMIN/.\n"
+                f"Fix the indentation/syntax in that file, or run "
+                f"python scripts/sync_enrollment_curriculum.py in the full repo.\n"
             ) from exc
 
 
@@ -1685,6 +1698,61 @@ def handle_faculty_login(handler):
         return
 
     json_response(handler, 401, {"success": False, "error": "Invalid Faculty ID or password."})
+
+
+def local_admin_login(admin_id, password):
+    """Offline fallback when Supabase admins table / RPC is unavailable."""
+    faculty = local_faculty_login(admin_id, password)
+    if not faculty:
+        return None
+    role = (faculty.get("role") or "").strip().lower()
+    if role == "teacher":
+        return None
+    return faculty
+
+
+def handle_admin_login(handler):
+    try:
+        body = read_json_body(handler)
+    except json.JSONDecodeError:
+        json_response(handler, 400, {"success": False, "error": "Invalid request body."})
+        return
+
+    admin_id = (body.get("adminId") or body.get("facultyId") or "").strip().upper()
+    password = body.get("password") or ""
+
+    if not admin_id or not password:
+        json_response(handler, 400, {"success": False, "error": "Registrar ID and password are required."})
+        return
+
+    admin = None
+
+    if SUPABASE_URL and (SUPABASE_SECRET_KEY or SUPABASE_PUBLISHABLE_KEY):
+        result, error = supabase_rpc("authenticate_admin", {
+            "p_admin_id": admin_id,
+            "p_password": password,
+        }, timeout=10)
+        if not error and isinstance(result, dict) and result.get("id"):
+            admin = result
+
+    if not admin and SUPABASE_URL and (SUPABASE_SECRET_KEY or SUPABASE_PUBLISHABLE_KEY):
+        result, error = supabase_rpc("authenticate_faculty", {
+            "p_faculty_id": admin_id,
+            "p_password": password,
+        }, timeout=10)
+        if not error and isinstance(result, dict) and result.get("id"):
+            role = (result.get("role") or "").strip().lower()
+            if role != "teacher":
+                admin = result
+
+    if not admin:
+        admin = local_admin_login(admin_id, password)
+
+    if admin:
+        json_response(handler, 200, {"success": True, "admin": admin, "faculty": admin})
+        return
+
+    json_response(handler, 401, {"success": False, "error": "Invalid Registrar ID or password."})
 
 
 def build_student_session_from_admission(app):
@@ -2885,11 +2953,7 @@ def run_admission_post_submit(application_id, files, local_doc_paths, app_data, 
 
 
 def admission_file_roots():
-    roots = [ROOT]
-    sibling = ROOT.parent / ("ENROLLSYSTEM" if ROOT.name == "ENROLLSYSTEM-ADMIN" else "ENROLLSYSTEM-ADMIN")
-    if sibling.is_dir():
-        roots.append(sibling)
-    return roots
+    return [ROOT]
 
 
 def document_view_url(path):
@@ -2935,6 +2999,12 @@ def handle_admission_file(handler):
     handler.wfile.write(content)
 
 
+def _email_school_name():
+    reload_runtime_env()
+    fresh = ENV.get("SCHOOL_NAME")
+    return email_brand_name(fresh or SCHOOL_NAME)
+
+
 def send_email(to_addr, subject, html_body, attachments=None):
     to_addr = (to_addr or "").strip()
     if not to_addr:
@@ -2978,9 +3048,10 @@ def send_email(to_addr, subject, html_body, attachments=None):
         msg = MIMEMultipart()
         msg.attach(MIMEText(html_body, "html"))
 
-    msg["From"] = f"{SCHOOL_NAME} <{GMAIL_USER}>"
+    msg["From"] = formataddr((DEFAULT_SCHOOL_NAME, GMAIL_USER))
     msg["To"] = to_addr
-    msg["Subject"] = subject
+    msg["Subject"] = scrub_legacy_brand_text(subject)
+    print(f"[Email] From display name: {DEFAULT_SCHOOL_NAME!r} | To: {to_addr} | {msg['Subject'][:80]}")
     domain = GMAIL_USER.split("@", 1)[-1] if "@" in GMAIL_USER else "localhost"
     message_id = f"{uuid.uuid4().hex}@{domain}"
     msg["Message-ID"] = f"<{message_id}>"
@@ -3210,7 +3281,7 @@ def build_admin_submission_email(app_data, doc_paths):
 
     return f"""
     <div style="font-family:Arial,sans-serif;max-width:640px;">
-      <h2 style="color:#1a3a6b;">New Admission Application — {SCHOOL_NAME}</h2>
+      <h2 style="color:#1a3a6b;">New Admission Application — {_email_school_name()}</h2>
       <p><strong>Application No:</strong> {app_data.get('applicationNumber')}</p>
       <p><strong>Name:</strong> {app_data.get('lastName')}, {app_data.get('firstName')} {app_data.get('middleName', '')}</p>
       <p><strong>Email:</strong> {app_data.get('email')}</p>
@@ -3252,9 +3323,10 @@ def send_admission_credentials_email(result, app_detail=None):
         "applicationNumber": merged.get("applicationNumber") or merged.get("application_number"),
     }
     app_number = form_data.get("applicationNumber") or "Application"
-    subject = f"Enrollment Approved — {app_number} — {SCHOOL_NAME}"
+    brand = _email_school_name()
+    subject = f"Enrollment Approved — {app_number} — {brand}"
     try:
-        html_body = build_admission_approval_email(result, form_data, SCHOOL_NAME)
+        html_body = build_admission_approval_email(result, form_data, brand)
     except Exception as err:
         print(f"[Email approval] Template error: {err}")
         return False, f"Could not build approval email: {err}"
@@ -3341,21 +3413,24 @@ def send_registration_form_email(enrollment_id: str, payment_result: dict, *, fo
             schedule_source,
             rest_get_fn=supabase_rest_get if supabase_configured() else None,
         )
-        sibling = ROOT.parent / ("ENROLLSYSTEM" if ROOT.name == "ENROLLSYSTEM-ADMIN" else "ENROLLSYSTEM-ADMIN")
         attachments = [
             build_registration_certificate_email_attachment(
                 result,
                 form_data,
-                SCHOOL_NAME,
+                _email_school_name(),
                 ROOT,
-                sibling_roots=[sibling],
             ),
         ]
         subject_ref = result.get("applicationNumber") or student_id
+        brand = _email_school_name()
+        import importlib
+        from shared.services import email_templates as email_mod
+
+        importlib.reload(email_mod)
         return send_email(
             email,
-            f"Registration Certificate — {subject_ref} — {SCHOOL_NAME}",
-            build_registration_form_delivery_email(result, form_data, SCHOOL_NAME),
+            f"Registration Certificate — {subject_ref} — {brand}",
+            email_mod.build_registration_form_delivery_email(result, form_data, brand),
             attachments,
         )
     finally:
@@ -4939,6 +5014,17 @@ def _prepare_schedules_for_save(
     return cleaned, meta, None
 
 
+def _subject_semester_matches(subject_semester_code, term_code: str) -> bool:
+    """Match Supabase get_scheduler_existing_schedules / delete_scheduler_schedules."""
+    term = (term_code or "1st").strip().lower()
+    if subject_semester_code is None:
+        return term == "1st"
+    text = str(subject_semester_code).strip().lower()
+    if not text:
+        return term == "1st"
+    return text == term
+
+
 def _deactivate_invalid_section_schedules(
     grade_level: str,
     semester_code: str,
@@ -4969,7 +5055,7 @@ def _deactivate_invalid_section_schedules(
         grade = section.get("grade_level") or ""
         if grade != grade_level:
             continue
-        if (subject.get("semester_code") or "1st") != semester_code:
+        if not _subject_semester_matches(subject.get("semester_code"), semester_code):
             continue
         if targets and str(strand).upper() not in targets:
             continue
@@ -5006,6 +5092,7 @@ def _load_draft_schedules_from_rest(
         "faculty(faculty_id,first_name,last_name),"
         "subjects(code,name,semester_code),"
         "sections(name,grade_level,strands(code)),"
+        "semesters(is_current),"
         "rooms(name)"
         "&is_active=eq.true",
         use_secret=True,
@@ -5024,8 +5111,10 @@ def _load_draft_schedules_from_rest(
         faculty = row.get("faculty") or {}
         strand_code = str(strand.get("code") or "").upper()
         grade = section.get("grade_level") or ""
-        sem = subject.get("semester_code") or "1st"
-        if sem not in (None, semester_code):
+        semester_row = row.get("semesters") or {}
+        if semester_row.get("is_current") is False:
+            continue
+        if not _subject_semester_matches(subject.get("semester_code"), semester_code):
             continue
         if exclude and strand_code == exclude and (not exclude_grade or grade == exclude_grade):
             continue
@@ -5271,24 +5360,30 @@ def _apply_schedules_via_rest(record: dict) -> tuple[dict | None, str | None]:
     return {"success": True, "applied": applied, "count": applied}, None
 
 
-def _delete_schedules_via_rest(
+def _strand_schedule_ids_for_term(
     grade_level: str,
     semester_code: str,
     strand_code: str,
-) -> tuple[dict | None, str | None]:
-    """Delete class_schedules when delete_scheduler_schedules RPC is not deployed."""
-    rows, error = supabase_rest_get(
-        "class_schedules",
-        "select=id,"
+    *,
+    active_only: bool = False,
+) -> tuple[list[str], str | None]:
+    """IDs of class_schedules for strand+grade+term (matches scheduler draft/delete RPC)."""
+    query = (
+        "select=id,is_active,"
         "subjects(semester_code),"
         "sections(grade_level,strands(code)),"
         "semesters(is_current)"
-        "&is_active=eq.true",
+    )
+    if active_only:
+        query += "&is_active=eq.true"
+    rows, error = supabase_rest_get(
+        "class_schedules",
+        query,
         use_secret=True,
         timeout=25,
     )
     if error:
-        return None, error
+        return [], error
 
     strand_upper = str(strand_code or "").upper()
     target_ids: list[str] = []
@@ -5298,23 +5393,26 @@ def _delete_schedules_via_rest(
         subject = row.get("subjects") or {}
         semester = row.get("semesters") or {}
         grade = section.get("grade_level") or ""
-        sub_sem = subject.get("semester_code") or "1st"
         if grade != grade_level:
             continue
         if str(strand).upper() != strand_upper:
             continue
-        if sub_sem != semester_code:
+        if not _subject_semester_matches(subject.get("semester_code"), semester_code):
             continue
         if semester and semester.get("is_current") is False:
+            continue
+        if active_only and not row.get("is_active", True):
             continue
         schedule_id = row.get("id")
         if schedule_id:
             target_ids.append(str(schedule_id))
+    return target_ids, None
 
-    if not target_ids:
-        return {"success": True, "deleted": 0}, None
 
-    ids_filter = ",".join(target_ids)
+def _enrollment_links_for_schedules(schedule_ids: list[str]) -> tuple[int, str | None]:
+    if not schedule_ids:
+        return 0, None
+    ids_filter = ",".join(schedule_ids)
     enrolled, enroll_err = supabase_rest_get(
         "enrollment_subjects",
         f"select=id&class_schedule_id=in.({ids_filter})",
@@ -5322,12 +5420,35 @@ def _delete_schedules_via_rest(
         timeout=15,
     )
     if enroll_err:
+        return 0, enroll_err
+    return len(enrolled or []), None
+
+
+def _delete_schedules_via_rest(
+    grade_level: str,
+    semester_code: str,
+    strand_code: str,
+) -> tuple[dict | None, str | None]:
+    """Delete class_schedules when delete_scheduler_schedules RPC is not deployed."""
+    target_ids, error = _strand_schedule_ids_for_term(
+        grade_level, semester_code, strand_code, active_only=False,
+    )
+    if error:
+        return None, error
+    if not target_ids:
+        return {"success": True, "deleted": 0}, None
+
+    enrolled_count, enroll_err = _enrollment_links_for_schedules(target_ids)
+    if enroll_err:
         return None, enroll_err
-    if enrolled:
+    if enrolled_count:
         return {
             "success": False,
-            "error": f"{len(enrolled)} enrollment link(s) exist — cannot delete.",
-            "enrolled_links": len(enrolled),
+            "error": (
+                f"{enrolled_count} student enrollment link(s) use this schedule — "
+                "cannot replace until those enrollments are cleared."
+            ),
+            "enrolled_links": enrolled_count,
         }, None
 
     deleted = 0
@@ -5338,6 +5459,47 @@ def _delete_schedules_via_rest(
         deleted += 1
 
     return {"success": True, "deleted": deleted}, None
+
+
+def _deactivate_schedules_via_rest(
+    grade_level: str,
+    semester_code: str,
+    strand_code: str,
+) -> tuple[dict | None, str | None]:
+    """Soft-remove strand schedules from draft/conflict checks (is_active=false)."""
+    target_ids, error = _strand_schedule_ids_for_term(
+        grade_level, semester_code, strand_code, active_only=True,
+    )
+    if error:
+        return None, error
+    if not target_ids:
+        return {"success": True, "deactivated": 0}, None
+
+    enrolled_count, enroll_err = _enrollment_links_for_schedules(target_ids)
+    if enroll_err:
+        return None, enroll_err
+    if enrolled_count:
+        return {
+            "success": False,
+            "error": (
+                f"{enrolled_count} student enrollment link(s) use this schedule — "
+                "cannot replace until those enrollments are cleared."
+            ),
+            "enrolled_links": enrolled_count,
+        }, None
+
+    deactivated = 0
+    for schedule_id in target_ids:
+        _, patch_err = supabase_rest_patch(
+            "class_schedules",
+            f"id=eq.{schedule_id}",
+            {"is_active": False},
+        )
+        if patch_err:
+            return None, patch_err
+        deactivated += 1
+
+    return {"success": True, "deactivated": deactivated}, None
 
 
 def _section_letter_from_name(section_name: str, strand: str, grade_level: str) -> str:
@@ -5807,22 +5969,75 @@ def handle_scheduling_delete(handler):
         "p_semester_code": semester_code,
         "p_strand_code": str(strand_code).upper(),
     }
-    result, error = _delete_schedules_via_rest(
-        grade_level,
-        semester_code,
-        str(strand_code),
-    )
-    delete_source = "rest"
-    if error:
-        rpc_result, rpc_error = supabase_rpc("delete_scheduler_schedules", rpc_args, timeout=20)
-        if not rpc_error:
-            result, error = rpc_result, None
-            delete_source = "rpc"
-        elif _is_rpc_missing_error(rpc_error):
-            pass  # keep REST error
+    delete_source = "rpc"
+    result, error = None, None
+    rpc_result, rpc_error = supabase_rpc("delete_scheduler_schedules", rpc_args, timeout=20)
+    if not rpc_error:
+        if isinstance(rpc_result, str):
+            try:
+                rpc_result = json.loads(rpc_result)
+            except json.JSONDecodeError:
+                rpc_result = {"success": True, "deleted": 0}
+        if isinstance(rpc_result, dict):
+            result = rpc_result
         else:
-            result, error = rpc_result, rpc_error
+            result = {"success": True, "deleted": 0}
+    elif _is_rpc_missing_error(rpc_error):
+        result, error = _delete_schedules_via_rest(
+            grade_level,
+            semester_code,
+            str(strand_code),
+        )
+        delete_source = "rest"
+    else:
+        result, error = _delete_schedules_via_rest(
+            grade_level,
+            semester_code,
+            str(strand_code),
+        )
+        delete_source = "rest" if not error else "rpc"
+        if error and not _is_rpc_missing_error(rpc_error):
+            error = rpc_error or error
             delete_source = "rpc"
+    if isinstance(result, dict) and not result.get("success", True):
+        json_response(handler, 422, result)
+        return
+
+    deleted = int((result or {}).get("deleted") or 0) if isinstance(result, dict) else 0
+    if not error and isinstance(result, dict) and deleted == 0:
+        rest_result, rest_error = _delete_schedules_via_rest(
+            grade_level,
+            semester_code,
+            str(strand_code),
+        )
+        if rest_error:
+            error = rest_error
+        elif isinstance(rest_result, dict):
+            if not rest_result.get("success", True):
+                json_response(handler, 422, rest_result)
+                return
+            deleted = int(rest_result.get("deleted") or 0)
+            if deleted > 0:
+                result = rest_result
+                delete_source = "rest"
+
+    deactivated = 0
+    if not error and deleted == 0:
+        deact_result, deact_error = _deactivate_schedules_via_rest(
+            grade_level,
+            semester_code,
+            str(strand_code),
+        )
+        if deact_error:
+            error = deact_error
+        elif isinstance(deact_result, dict):
+            if not deact_result.get("success", True):
+                json_response(handler, 422, deact_result)
+                return
+            deactivated = int(deact_result.get("deactivated") or 0)
+            if deactivated > 0:
+                delete_source = "deactivate"
+
     if error:
         json_response(handler, 500, {
             "success": False,
@@ -5831,22 +6046,41 @@ def handle_scheduling_delete(handler):
         })
         return
 
-    if isinstance(result, dict) and not result.get("success", True):
-        json_response(handler, 422, result)
+    _remove_from_local_schedule_cache(grade_level, semester_code, str(strand_code))
+
+    remaining, remain_err = _strand_schedule_ids_for_term(
+        grade_level,
+        semester_code,
+        str(strand_code),
+        active_only=True,
+    )
+    if remain_err:
+        remaining = []
+
+    if deleted == 0 and deactivated == 0 and remaining:
+        json_response(handler, 422, {
+            "success": False,
+            "error": (
+                f"{len(remaining)} active schedule row(s) still saved for this strand. "
+                "Try Delete in the sidebar, or run schedule-sync.sql in Supabase."
+            ),
+            "remaining_active": len(remaining),
+        })
         return
 
-    _remove_from_local_schedule_cache(grade_level, semester_code, str(strand_code))
-    deleted = 0
-    if isinstance(result, dict):
-        deleted = int(result.get("deleted") or 0)
     json_response(handler, 200, {
         "success": True,
         "deleted": deleted,
+        "deactivated": deactivated,
+        "remaining_active": len(remaining),
         "source": delete_source,
         "gradeLevel": grade_level,
         "semesterCode": semester_code,
         "strandCode": str(strand_code).upper(),
-        "message": f"Deleted {deleted} schedule row(s) for {strand_code} · {grade_level} · {semester_code} sem.",
+        "message": (
+            f"Removed {deleted + deactivated} schedule row(s) for {strand_code} · "
+            f"{grade_level} · {semester_code} sem."
+        ),
     })
 
 
@@ -6168,6 +6402,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             handle_approve_enrollment_payment(self)
             return
 
+        if path == "/api/auth/admin":
+            handle_admin_login(self)
+            return
+
         if path == "/api/auth/faculty":
             handle_faculty_login(self)
             return
@@ -6283,7 +6521,7 @@ def port_in_use_error(exc):
 
 def print_admin_banner(url, *, already_running=False, port_note=None):
     print("=" * 50)
-    print("  Geranova EMS — ADMIN PORTAL ONLY")
+    print("  EMS — ADMIN PORTAL ONLY")
     print("=" * 50)
     if port_note:
         print(f"\n  {port_note}")
@@ -6298,6 +6536,7 @@ def print_admin_banner(url, *, already_running=False, port_note=None):
         if gmail_configured():
             print(f"  Gmail sender:      {mask_email(GMAIL_USER)}")
             print(f"  Admin inbox:       {mask_email(ADMIN_EMAIL)}")
+            print(f"  Email sign-off:    {_email_school_name()}")
         print(f"\n  Server running at: {url}")
         print(f"\n  Supabase:          {supabase_status}")
         print(f"  Gmail:             {gmail_status}")

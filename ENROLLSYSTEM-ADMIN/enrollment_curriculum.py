@@ -23,53 +23,34 @@ ENROLLMENT_TRACKS = {
 
 ENROLLMENT_STRANDS = ['STEM', 'ABM', 'HUMSS', 'ICT', 'COOKERY', 'EIM']
 
-ENROLLMENT_SECTION_LETTERS = ['A', 'B']
-
-ENROLLMENT_SECTION_DAY_TIMES = {
-    'A': 'MW 9:00AM-10:30AM',
-    'B': 'TTh 1:00PM-2:30PM',
-}
-
-# Section display names per strand (slot A, slot B) — keep in sync with enrollment-curriculum.js
-ENROLLMENT_SECTION_NAMES_BY_GRADE = {
-    'Grade 12': {
-        'STEM': ('Rizal', 'Bonifacio'),
-        'ABM': ('Aguinaldo', 'Mabini'),
-        'HUMSS': ('Luna', 'Jacinto'),
-        'ICT': ('Zamora', 'Gomez'),
-        'COOKERY': ('Del Pilar', 'Silang'),
-        'EIM': ('Aquino', 'Malvar'),
-    },
-    'Grade 11': {
-        'STEM': ('Hope', 'Fortitude'),
-        'ABM': ('Faith', 'Integrity'),
-        'HUMSS': ('Perseverance', 'Courage'),
-        'ICT': ('Humility', 'Kindness'),
-        'COOKERY': ('Wisdom', 'Compassion'),
-        'EIM': ('Resilience', 'Justice'),
-    },
-}
-
-
-def section_slot_name(strand_code, grade_level, slot_key):
-    strand = (strand_code or 'STEM').upper()
-    slot = (slot_key or 'A').upper()
-    slot_index = 0 if slot == 'A' else 1
-    names = ENROLLMENT_SECTION_NAMES_BY_GRADE.get(grade_level, {}).get(strand)
-    if not names:
-        return slot
-    return names[slot_index]
-
-
-def format_section_name(strand_code, grade_level, slot_key):
-    strand = (strand_code or 'STEM').upper()
-    grade_num = _grade_num(grade_level)
-    return f"{strand} {grade_num}-{section_slot_name(strand, grade_level, slot_key)}"
-
 STRAND_TRACK = {}
 for _track, _info in ENROLLMENT_TRACKS.items():
     for _code in _info["strands"]:
         STRAND_TRACK[_code] = _track
+
+# Virtue / hero section names — keep in sync with supabase/section-names.sql and auto-schedule.js
+ENROLLMENT_SECTION_LETTERS = ("A", "B")
+
+ENROLLMENT_SECTION_NAMES_BY_GRADE = {
+    "Grade 12": {
+        "STEM": ["Rizal", "Bonifacio"],
+        "ABM": ["Aguinaldo", "Mabini"],
+        "HUMSS": ["Luna", "Jacinto"],
+        "GAS": ["A", "B"],
+        "ICT": ["Zamora", "Gomez"],
+        "COOKERY": ["Del Pilar", "Silang"],
+        "EIM": ["Aquino", "Malvar"],
+    },
+    "Grade 11": {
+        "STEM": ["Hope", "Fortitude"],
+        "ABM": ["Faith", "Integrity"],
+        "HUMSS": ["Perseverance", "Courage"],
+        "GAS": ["A", "B"],
+        "ICT": ["Humility", "Kindness"],
+        "COOKERY": ["Wisdom", "Compassion"],
+        "EIM": ["Resilience", "Justice"],
+    },
+}
 
 ENROLLMENT_CURRICULUM = {
     'Grade 11': {
@@ -122,13 +103,6 @@ ENROLLMENT_CURRICULUM = {
                 {
                     'code': 'G11-A01',
                     'description': 'Empowerment Technologies',
-                    'lec': 3,
-                    'lab': 0,
-                    'units': 3,
-                },
-                {
-                    'code': 'G11-A02',
-                    'description': 'Practical Research 1',
                     'lec': 3,
                     'lab': 0,
                     'units': 3,
@@ -323,8 +297,8 @@ ENROLLMENT_CURRICULUM = {
             ],
             'applied': [
                 {
-                    'code': 'G11-A03',
-                    'description': 'Practical Research 2',
+                    'code': 'G11-A02',
+                    'description': 'Practical Research 1',
                     'lec': 3,
                     'lab': 0,
                     'units': 3,
@@ -804,33 +778,37 @@ def _grade_num(grade_level):
     return "11" if "11" in (grade_level or "") else "12"
 
 
+def section_slot_name(strand_code, grade_level, slot_key):
+    """Display name for section slot A/B (matches SQL section_slot_name)."""
+    strand = (strand_code or "STEM").upper()
+    slot = (slot_key or "A").upper()
+    grade = grade_level if grade_level in ENROLLMENT_SECTION_NAMES_BY_GRADE else "Grade 12"
+    names = ENROLLMENT_SECTION_NAMES_BY_GRADE.get(grade, {}).get(strand)
+    if not names:
+        return slot
+    if slot == "A":
+        return names[0]
+    if slot == "B":
+        return names[1] if len(names) > 1 else slot
+    return slot
+
+
+def format_section_name(strand_code, grade_level, slot_key):
+    """Full section label e.g. STEM 12-Rizal."""
+    strand = (strand_code or "STEM").upper()
+    grade_num = _grade_num(grade_level)
+    return f"{strand} {grade_num}-{section_slot_name(strand, grade_level, slot_key)}"
+
+
 def _build_strand_schedules(grade_level, semester, subject_code, day_time, slots=28):
     grade_num = _grade_num(grade_level)
     schedules = []
-    for strand_index, strand in enumerate(ENROLLMENT_STRANDS):
-        for letter_index, letter in enumerate(ENROLLMENT_SECTION_LETTERS):
-            schedules.append({
-                "id": f"{subject_code}-{strand}-{grade_num}-{semester}-{letter}",
-                "slots": slots - strand_index * 2 - letter_index,
-                "section": format_section_name(strand, grade_level, letter),
-                "dayTime": day_time or ENROLLMENT_SECTION_DAY_TIMES["A"]
-                if letter == "A"
-                else ENROLLMENT_SECTION_DAY_TIMES["B"],
-            })
-    return schedules
-
-
-def _build_specialized_schedules(strand, grade_level, semester, subject_code, day_time, slots=25):
-    grade_num = _grade_num(grade_level)
-    schedules = []
-    for index, letter in enumerate(ENROLLMENT_SECTION_LETTERS):
+    for index, strand in enumerate(ENROLLMENT_STRANDS):
         schedules.append({
-            "id": f"{subject_code}-{strand}-{grade_num}-{semester}-{letter}",
-            "slots": slots - index * 3,
-            "section": format_section_name(strand, grade_level, letter),
-            "dayTime": day_time or "TTh 1:00PM-2:30PM"
-            if letter == "A"
-            else ENROLLMENT_SECTION_DAY_TIMES["B"],
+            "id": f"{subject_code}-{strand}-{grade_num}-{semester}-{index + 1}",
+            "slots": slots - index * 2,
+            "section": f"{strand} {grade_num}-A",
+            "dayTime": day_time or "MW 9:00AM-10:30AM",
         })
     return schedules
 
@@ -863,14 +841,12 @@ def build_enrollment_subjects_catalog():
                         "semester": semester,
                         "strand": strand,
                         "type": "specialized",
-                        "schedules": _build_specialized_schedules(
-                            strand,
-                            grade_level,
-                            semester,
-                            spec["code"],
-                            spec.get("dayTime"),
-                            25,
-                        ),
+                        "schedules": [{
+                            "id": f"{spec['code']}-{strand}-{grade_num}-{semester}",
+                            "slots": 25,
+                            "section": f"{strand} {grade_num}-A",
+                            "dayTime": spec.get("dayTime") or "TTh 1:00PM-2:30PM",
+                        }],
                     })
     return catalog
 

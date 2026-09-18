@@ -1,0 +1,2 @@
+-- DEPRECATED: use seed-all-strand-faculty.sql (full 107-teacher roster).
+-- This file kept for reference only; ICT teachers are included in the master seed.

@@ -4,6 +4,16 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+  color: #1a1a2e;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 .login-page {

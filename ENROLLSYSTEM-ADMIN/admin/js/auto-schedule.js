@@ -16,7 +16,7 @@ const AutoScheduleApp = (() => {
   let savedSchedulesLoading = false;
   let savedSchedulesError = '';
   let savedSchedulesSource = '';
-  let savedSchedulesFilter = { gradeLevel: 'Grade 12', semesterCode: '1st' };
+  let savedSchedulesFilter = { gradeLevel: 'all', semesterCode: '1st' };
   let generationState = {
     strands: [],
     currentIndex: 0,
@@ -280,8 +280,12 @@ const AutoScheduleApp = (() => {
       </div>`;
   }
 
+  const REMOVED_STRANDS = new Set(['GAS', 'CSS', 'HE', 'INDARTS', 'OTHER']);
+
   function strandsForTrack(track) {
-    return config?.tracks?.[track]?.strands || [];
+    return (config?.tracks?.[track]?.strands || []).filter(
+      code => !REMOVED_STRANDS.has(String(code || '').toUpperCase()),
+    );
   }
 
   function gradeShortLabel(gradeLevel) {
@@ -300,12 +304,41 @@ const AutoScheduleApp = (() => {
     return Object.values(groups).sort((a, b) => {
       if (a.grade !== b.grade) return a.grade.localeCompare(b.grade);
       return a.strand.localeCompare(b.strand);
+    }).map(group => ({
+      ...group,
+      subjectCount: uniqueSubjectCodes(group.items).size,
+    }));
+  }
+
+  function uniqueSubjectCodes(items) {
+    const codes = new Set();
+    (items || []).forEach(item => {
+      const code = String(item.subject_code || item.subject_name || '').trim().toUpperCase();
+      if (code) codes.add(code);
     });
+    return codes;
+  }
+
+  /** G12 2nd sem is usually 6–9 subjects × sections A+B (12–18 rows). Fewer = incomplete save. */
+  function savedScheduleLooksIncomplete(group, semesterCode) {
+    if (semesterCode !== '2nd' || !String(group.grade || '').includes('12')) return false;
+    const subjects = group.subjectCount ?? uniqueSubjectCodes(group.items).size;
+    const rows = (group.items || []).length;
+    return subjects <= 5 || rows <= 6;
   }
 
   function syncSavedSchedulesFilterFromWizard() {
-    if (wizardFormData.gradeLevel) savedSchedulesFilter.gradeLevel = wizardFormData.gradeLevel;
+    // Semester must match the wizard; grade stays on "all" so G11+G12 saves stay visible for delete.
     if (wizardFormData.semesterCode) savedSchedulesFilter.semesterCode = wizardFormData.semesterCode;
+  }
+
+  function savedScheduleCountsByGrade() {
+    const counts = { 'Grade 11': 0, 'Grade 12': 0 };
+    (savedSchedules || []).forEach(item => {
+      const grade = item.gradeLevel || 'Grade 12';
+      if (counts[grade] != null) counts[grade] += 1;
+    });
+    return counts;
   }
 
   async function refreshSavedSchedules() {
@@ -367,7 +400,14 @@ const AutoScheduleApp = (() => {
 
   function savedSchedulesForSidebar() {
     const { gradeLevel } = savedSchedulesFilter;
+    if (!gradeLevel || gradeLevel === 'all') return savedSchedules || [];
     return (savedSchedules || []).filter(item => (item.gradeLevel || gradeLevel) === gradeLevel);
+  }
+
+  function revealAllSavedSchedulesForConflicts() {
+    savedSchedulesFilter.gradeLevel = 'all';
+    updateSavedSchedulesSidebar();
+    return refreshSavedSchedules();
   }
 
   function renderSavedSchedulesSidebar() {
@@ -377,7 +417,13 @@ const AutoScheduleApp = (() => {
     const visibleSchedules = savedSchedulesForSidebar();
     const groups = groupSavedSchedules(visibleSchedules);
     const total = visibleSchedules.length;
+    const allTotal = (savedSchedules || []).length;
+    const gradeCounts = savedScheduleCountsByGrade();
     const strandCount = groups.length;
+    const incomplete2ndG12 = semesterCode === '2nd'
+      && gradeLevel === 'Grade 12'
+      && groups.length > 0
+      && groups.every(g => savedScheduleLooksIncomplete(g, semesterCode));
 
     let body = '';
     if (savedSchedulesLoading) {
@@ -399,7 +445,7 @@ const AutoScheduleApp = (() => {
       body = `
         <div class="saved-aside-stats">
           <span class="saved-aside-stat"><strong>${total}</strong> slots</span>
-          <span class="saved-aside-stat"><strong>${strandCount}</strong> strand${strandCount === 1 ? '' : 's'}</span>
+          <span class="saved-aside-stat"><strong>${strandCount}</strong> saved</span>
         </div>
         <div class="saved-aside-groups">
           ${groups.map(group => {
@@ -409,7 +455,7 @@ const AutoScheduleApp = (() => {
               <article class="saved-aside-group ${strandClass(group.strand)}">
                 <button type="button" class="saved-aside-group-head" data-sidebar-key="${esc(key)}" title="View schedule">
                   <span class="strand-badge ${strandClass(group.strand)}">${esc(group.strand)}</span>
-                  <span class="saved-aside-group-meta">${esc(gLabel)} · ${group.items.length} slot${group.items.length === 1 ? '' : 's'}</span>
+                  <span class="saved-aside-group-meta">${esc(gLabel)} · ${esc(scheduleEntrySummary(group.items.length, group.subjectCount))}${savedScheduleLooksIncomplete(group, semesterCode) ? ' · incomplete' : ''}</span>
                   <span class="saved-aside-chevron" aria-hidden="true">↗</span>
                 </button>
                 <button type="button" class="saved-aside-delete" data-delete-key="${esc(key)}" title="Delete this schedule">Delete</button>
@@ -418,9 +464,16 @@ const AutoScheduleApp = (() => {
         </div>`;
     }
 
+    const gradeFilter = savedSchedulesFilter.gradeLevel;
+    const subLine = gradeFilter === 'all'
+      ? `${allTotal} entries · G11: ${gradeCounts['Grade 11']} · G12: ${gradeCounts['Grade 12']}`
+      : `${total} ${gShort} entries`;
+
     const sourceNote = savedSchedulesSource === 'local'
       ? 'Showing last saved draft (database sync pending).'
-      : `Showing ${gShort} only · G11 + G12 still checked when generating.`;
+      : incomplete2ndG12
+        ? `${gShort} 2nd sem: counts are saved rows (subject × section). ~4 often means common subjects only — open a strand, then re-generate & save per strand (Virtue A/B).`
+        : '';
 
     return `
       <div class="saved-aside-inner">
@@ -428,7 +481,7 @@ const AutoScheduleApp = (() => {
           <div class="saved-aside-hero-top">
             <div>
               <h3>Saved Schedules</h3>
-              <p class="saved-aside-sub">${total ? `${total} ${gShort} entries` : `${gShort} · ${esc(semLabel)}`}</p>
+              <p class="saved-aside-sub">${total || allTotal ? esc(subLine) : `${gShort} · ${esc(semLabel)}`}</p>
             </div>
             <button type="button" class="saved-aside-refresh" id="savedSchedRefreshBtn" title="Refresh" ${savedSchedulesLoading ? 'disabled' : ''}>
               <span aria-hidden="true">↻</span>
@@ -438,6 +491,7 @@ const AutoScheduleApp = (() => {
             <label>
               <span>Grade</span>
               <select id="savedSchedGrade" class="admin-input">
+                <option value="all" ${gradeLevel === 'all' ? 'selected' : ''}>All</option>
                 <option value="Grade 11" ${gradeLevel === 'Grade 11' ? 'selected' : ''}>G11</option>
                 <option value="Grade 12" ${gradeLevel === 'Grade 12' ? 'selected' : ''}>G12</option>
               </select>
@@ -451,7 +505,7 @@ const AutoScheduleApp = (() => {
             </label>
           </div>
         </header>
-        <p class="saved-aside-note">${sourceNote}</p>
+        ${sourceNote ? `<p class="saved-aside-note">${esc(sourceNote)}</p>` : ''}
         <div class="saved-aside-body">${body}</div>
       </div>`;
   }
@@ -527,10 +581,12 @@ const AutoScheduleApp = (() => {
     const gradeSel = document.getElementById('savedSchedGrade');
     const semSel = document.getElementById('savedSchedSem');
     const onFilterChange = () => {
-      savedSchedulesFilter.gradeLevel = gradeSel?.value || 'Grade 12';
+      savedSchedulesFilter.gradeLevel = gradeSel?.value || 'all';
       savedSchedulesFilter.semesterCode = semSel?.value || '1st';
-      if (wizardStep >= 3) {
+      if (wizardStep >= 3 && savedSchedulesFilter.gradeLevel !== 'all') {
         wizardFormData.gradeLevel = savedSchedulesFilter.gradeLevel;
+      }
+      if (wizardStep >= 3) {
         wizardFormData.semesterCode = savedSchedulesFilter.semesterCode;
       }
       closeSavedScheduleModal();
@@ -632,7 +688,7 @@ const AutoScheduleApp = (() => {
   }
 
   async function deleteSavedScheduleForKey(key, { silent = false, semesterCode = null, button = null } = {}) {
-    if (!key || !key.includes('|')) return false;
+    if (!key || !key.includes('|')) return { ok: false, error: 'Invalid schedule key.' };
     const [gradeLevel, strandCode] = key.split('|');
     const semCode = semesterCode || savedSchedulesFilter.semesterCode || '1st';
     const semLabel = semCode === '2nd' ? '2nd Semester' : '1st Semester';
@@ -646,7 +702,7 @@ const AutoScheduleApp = (() => {
         variant: 'reject',
         icon: 'fa-trash',
       });
-      if (!confirmed) return false;
+      if (!confirmed) return { ok: false, error: 'Cancelled.' };
     }
 
     setDeleteButtonLoading(button, true);
@@ -657,7 +713,7 @@ const AutoScheduleApp = (() => {
         strandCode,
       });
       if (!silent) {
-        showBanner(res.message || 'Schedule deleted.', 'success');
+        showBanner(res.message || 'Schedule deleted successfully.', 'success');
       }
       closeSavedScheduleModal();
       if (lastResult?.schedules?.length) {
@@ -668,10 +724,11 @@ const AutoScheduleApp = (() => {
       }
       removeStrandFromAccumulated(strandCode, gradeLevel);
       await refreshSavedSchedules();
-      return true;
+      return { ok: true, res };
     } catch (err) {
-      if (!silent) showBanner(err.message || 'Could not delete schedule.');
-      return false;
+      const msg = err.message || 'Could not delete schedule.';
+      if (!silent) showBanner(msg);
+      return { ok: false, error: msg };
     } finally {
       if (button?.isConnected) {
         setDeleteButtonLoading(button, false);
@@ -708,15 +765,29 @@ const AutoScheduleApp = (() => {
     });
     if (!confirmed) return false;
 
-    const deleted = await deleteSavedScheduleForKey(`${gradeLevel}|${strandUpper}`, {
+    const outcome = await deleteSavedScheduleForKey(`${gradeLevel}|${strandUpper}`, {
       silent: true,
       semesterCode,
     });
-    if (!deleted) {
-      showBanner('Could not delete the previous schedule.');
+    if (!outcome?.ok) {
+      showBanner(outcome?.error || 'Could not delete the previous schedule.');
       return false;
     }
-    showBanner(`Previous ${strandUpper} schedule deleted.`, 'success');
+
+    const verify = await AdminApp.fetchJson(`/api/scheduling/draft?${params}`);
+    const still = dedupeScheduleEntries(verify.schedules || []).filter(item => (
+      (item.strand || '').toUpperCase() === strandUpper
+      && (item.gradeLevel || gradeLevel) === gradeLevel
+    ));
+    if (still.length) {
+      showBanner(
+        `${still.length} saved row(s) still remain for ${strandUpper}. Use Delete in the sidebar, then try again.`,
+        'warn',
+      );
+      return false;
+    }
+
+    showBanner(outcome.res?.message || `Previous ${strandUpper} schedule cleared.`, 'success');
     return true;
   }
 
@@ -1221,17 +1292,12 @@ const AutoScheduleApp = (() => {
     const activeKey = selection.strand
       ? viewKey(selection.gradeLevel, selection.strand)
       : null;
-    const hasSaved = groups.some(group => isSavedStrandGrade(group.gradeLevel, group.strand));
     const semLabel = (wizardFormData.semesterCode || savedSchedulesFilter.semesterCode || '1st') === '2nd'
       ? '2nd sem'
       : '1st sem';
 
     return `
       <div class="auto-sched-summary auto-sched-summary-split">
-        <p class="auto-sched-summary-hint">
-          Each card is one strand and grade level (${esc(semLabel)}). Counts show schedule slots (subject × section), not unique subject codes.
-          ${hasSaved ? ' <strong>Saved</strong> = already in database (via Save &amp; Publish).' : ''}
-        </p>
         ${groups.map(group => {
           const saved = isSavedStrandGrade(group.gradeLevel, group.strand);
           const isActive = activeKey === group.key;
@@ -1694,7 +1760,6 @@ const AutoScheduleApp = (() => {
     if (wizardStep === 3) {
       form.querySelectorAll('select[name="gradeLevel"], select[name="semesterCode"]').forEach(sel => {
         sel.addEventListener('change', () => {
-          savedSchedulesFilter.gradeLevel = form.querySelector('[name="gradeLevel"]')?.value || 'Grade 12';
           savedSchedulesFilter.semesterCode = form.querySelector('[name="semesterCode"]')?.value || '1st';
           refreshSavedSchedules();
         });
@@ -2162,7 +2227,6 @@ const AutoScheduleApp = (() => {
     }
 
     strandProgress[strand] = { status: 'processing', count: 0 };
-    appendProgress([{ level: 'info', message: `Starting ${strand} schedule...` }]);
     setResultsContent(renderResults(
       {
         success: true,
@@ -2227,7 +2291,16 @@ const AutoScheduleApp = (() => {
             onReadyMessage: `Cloud AI ready — you can retry ${strand} now.`,
           });
         }
-        showBanner(`${strand} failed — fix the issue or press Retry when ready.`);
+        const conflictMsg = String(data.error || '');
+        if (/room\/time conflict/i.test(conflictMsg)) {
+          await revealAllSavedSchedulesForConflicts();
+          showBanner(
+            `${strand} blocked — delete the conflicting saved schedule(s) on the right, then retry.`,
+            'warn',
+          );
+        } else {
+          showBanner(`${strand} failed — fix the issue or press Retry when ready.`);
+        }
       return;
     }
 

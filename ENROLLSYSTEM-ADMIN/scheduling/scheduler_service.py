@@ -18,10 +18,11 @@ from .schedule_coverage import count_by_strand, is_complete
 from .conflict_validator import (
     assignments_from_payload,
     blocking_saved_conflicts,
+    blocking_saved_conflicts_for_strand,
     validate_for_new_strand,
     validate_schedule,
 )
-from .constants import MAX_TEACHER_ASSIGNMENTS_PER_SEMESTER
+from .constants import CONGESTED_EXISTING_THRESHOLD, MAX_TEACHER_ASSIGNMENTS_PER_SEMESTER
 from .faculty_assigner import assign_faculty_to_assignments
 from .models import ScheduleAssignment, SchedulerInput
 from .ortools_scheduler import _faculty_load_counts
@@ -390,29 +391,39 @@ class SchedulerService:
                 class_max_slots=int(scheduling_ctx.get("class_max_slots") or 40),
                 require_faculty=False,
             )
-            blocking = blocking_saved_conflicts(saved_validation)
+            all_blocking = blocking_saved_conflicts(saved_validation)
+            blocking = blocking_saved_conflicts_for_strand(
+                saved_validation,
+                strand_code=strand_code,
+            )
             if blocking:
                 on_progress(
                     "error",
-                    f"Saved schedules have {len(blocking)} room/time conflict(s) — delete old schedules first.",
+                    f"Saved {strand_code} schedules have {len(blocking)} conflict(s) — delete that strand first.",
                 )
                 return {
                     "success": False,
                     "error": (
-                        f"Saved schedules have {len(blocking)} room/time conflict(s). "
-                        f"Delete the old schedule before generating {strand_code}."
+                        f"Saved {strand_code} schedules have {len(blocking)} conflict(s). "
+                        f"Delete {strand_code} in the sidebar, then generate again."
                     ),
-                    "hint": "Confirm delete when prompted, or use Delete in the saved schedules sidebar.",
+                    "hint": "Use Delete & Generate or the sidebar Delete button for this strand only.",
                     "source": "failed",
                     "strand": strand_code,
                     "validation": saved_validation.to_dict(),
                     "progress": progress_log,
                 }
-            internal_issues = len(saved_validation.conflicts) - len(blocking)
+            if all_blocking:
+                on_progress(
+                    "warn",
+                    f"Other saved strands have {len(all_blocking)} room/time overlap(s) "
+                    f"(e.g. ICT) — {strand_code} will still generate; fix other strands when you can.",
+                )
+            internal_issues = len(saved_validation.conflicts) - len(all_blocking)
             if internal_issues > 0:
                 on_progress(
                     "warn",
-                    f"Saved schedules have {internal_issues} internal issue(s) in other strand(s) "
+                    f"Saved schedules have {internal_issues} other issue(s) "
                     f"(e.g. faculty load). {strand_code} generation will still proceed.",
                 )
 
@@ -435,6 +446,26 @@ class SchedulerService:
             f"({sem_label} semester only — not compared with the other semester).",
         )
 
+        saved_same = sum(
+            1
+            for a in existing_assignments
+            if (a.strand or "").upper() == strand_code
+            and (a.grade_level or "") == grade_level
+        )
+        saved_other_grade = sum(
+            1
+            for a in existing_assignments
+            if (a.strand or "").upper() == strand_code
+            and (a.grade_level or "") == other_grade
+        )
+        if saved_other_grade and not saved_same:
+            on_progress(
+                "warn",
+                f"May naka-save na {strand_code} · {other_grade} ({saved_other_grade} slots) pero wala pang "
+                f"{grade_level}. Mas madali kung {grade_level} muna bago {other_grade} — i-delete ang "
+                f"{strand_code} · {other_grade} sa sidebar kung paulit-ulit ang error.",
+            )
+
         on_progress(
             "info",
             f"Scheduling {subject_count} subjects × {scheduler_input.sections_per_strand} sections "
@@ -444,6 +475,10 @@ class SchedulerService:
         assignments = None
         last_gen_error = ""
         max_attempts = 3
+        if len(existing_payload) >= CONGESTED_EXISTING_THRESHOLD:
+            max_attempts = 5
+        elif len(existing_payload) >= 15:
+            max_attempts = 4
         for attempt in range(1, max_attempts + 1):
             try:
                 assignments = self._generate_local(
@@ -511,6 +546,20 @@ class SchedulerService:
                     "Kung paulit-ulit: (1) run schedule-sync.sql sa Supabase, "
                     "(2) restart admin server (python server.py)."
                 )
+                if existing_assignments and "Could not place" in last_gen_error:
+                    others = {
+                        (a.strand or "").upper()
+                        for a in existing_assignments
+                        if (a.strand or "").upper() != strand_code
+                    }
+                    if others:
+                        hint = (
+                            f"May {len(existing_assignments)} naka-save na schedule mula sa ibang strand "
+                            f"({', '.join(sorted(others))}) para sa {sem_label} sem — puno na ang maraming room/time "
+                            f"slot kaya hindi mailagay ang {last_gen_error.split('Could not place ', 1)[-1].split(' for ', 1)[0] if 'Could not place' in last_gen_error else 'subject'}. "
+                            "I-delete muna ang ibang strand sa sidebar (hal. ICT G11 + G12), i-generate at i-save ang "
+                            f"{strand_code}, saka ibalik ang ibang strand. O i-generate lahat nang walang naka-save."
+                        )
                 if stripped_self:
                     hint = (
                         f"Naka-detect ang {stripped_self} lumang {strand_code} row(s) sa database. "
@@ -567,6 +616,9 @@ class SchedulerService:
                 teachers = ctx.get("teacher_availability") or []
         existing = assignments_from_payload(existing_schedules or [])
         self._attach_schedule_labels(existing)
+        if ctx is not None and len(existing) >= CONGESTED_EXISTING_THRESHOLD:
+            ctx = dict(ctx)
+            ctx["scheduling_congested"] = True
         return self.smart.generate(
             scheduler_input,
             existing_assignments=existing,

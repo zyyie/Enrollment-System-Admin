@@ -3,10 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - Enrollment System</title>
+  <title>Admin Login - Enrollment Management System</title>
   <link rel="stylesheet" href="admin/css/login.css">
   <style>
-    html, body { height: 100%; margin: 0; overflow: hidden; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.5;
+      color: #1a1a2e;
+    }
 
     /* Inline fallback — same background as student portal */
     .login-page {
@@ -86,6 +93,14 @@
     .password-toggle:hover,
     .password-toggle:focus-visible { color: #1a3a6b; background: rgba(26, 58, 107, 0.06); outline: none; }
     .password-toggle.is-visible { color: #1a3a6b; }
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
     .admin-login-card button[type="submit"] { width: 100%; padding: 12px; border: 0; border-radius: 8px; background: #1a73e8; color: #fff; font-weight: 600; cursor: pointer; }
     .admin-login-card .error { color: #dc2626; font-size: 13px; min-height: 18px; margin-bottom: 10px; }
   </style>
@@ -93,8 +108,8 @@
 <body>
   <div class="login-page">
     <div class="admin-login-card">
-      <h1>Admin Portal</h1>
-      <p>Registrar sign in only</p>
+      <h1>Enrollment Management System</h1>
+      <p>Admin sign in</p>
       <div class="error" id="loginError"></div>
       <form id="adminLoginForm">
         <label for="facultyId">Registrar ID</label>
@@ -121,17 +136,24 @@
       errorEl.textContent = '';
 
       try {
-        const res = await fetch('/api/auth/faculty', {
+        const res = await fetch('/api/auth/admin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ facultyId, password })
+          body: JSON.stringify({ adminId: facultyId, password })
         });
+        const contentType = (res.headers.get('content-type') || '').toLowerCase();
+        if (!contentType.includes('application/json')) {
+          errorEl.textContent =
+            'Admin API not reachable. Run python server.py in this folder, then open http://localhost:8001/login.html (do not use Live Server or file://).';
+          return;
+        }
         const data = await res.json();
         if (!res.ok || !data.success) {
           errorEl.textContent = data.error || 'Invalid credentials';
           return;
         }
-        sessionStorage.setItem('shsFaculty', JSON.stringify(data.faculty || data.user || data));
+        const user = data.admin || data.faculty || data.user || data;
+        sessionStorage.setItem('shsFaculty', JSON.stringify(user));
         sessionStorage.setItem('loginRole', 'faculty');
         window.location.href = 'admin/dashboard.html';
       } catch (err) {

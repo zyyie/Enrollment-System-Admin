@@ -1,4 +1,4 @@
-# Geranova EMS — Admin Portal
+# EMS — Admin Portal
 
 Standalone **Admin / Faculty** application. No student pages or routes.
 
@@ -11,7 +11,8 @@ python main.py
 
 Open: **http://localhost:8001/login.html**
 
-Default admin: `FAC-2026-0001` / `faculty123`
+Default admin ( **`admins`** table): `FAC-2026-0001` / `admin123` 
+Run `supabase/admin-table.sql` once on existing Supabase projects.
 
 ## Setup
 
@@ -25,15 +26,15 @@ Default admin: `FAC-2026-0001` / `faculty123`
 
 ```
 ENROLLSYSTEM-ADMIN/
-├── main.py                 # Entry point (port 8001)
-├── server.py               # Admin API only
-├── login.html              # Faculty login
-├── index.html              # Redirect → login
-├── admin/                  # Dashboard, review, auto-schedule pages
-├── scheduling/             # AI + conflict-free scheduler
-├── enrollment_curriculum.py
-├── supabase/               # SQL migrations
-├── js/                     # Supabase client, icons
+├── main.py # Entry point (port 8001)
+├── server.py # Admin API only
+├── login.html # Faculty login
+├── index.html # Redirect → login
+├── admin/ # Dashboard, review, auto-schedule pages
+├── scheduling/ # AI + conflict-free scheduler
+├── enrollment_curriculum.py (SHS curriculum — same file as project root after sync)
+├── supabase/ # SQL migrations
+├── js/ # Supabase client, icons
 ├── assets/
 ├── uploads/admissions/
 └── data/
@@ -43,7 +44,7 @@ ENROLLSYSTEM-ADMIN/
 
 | Method | Path |
 |--------|------|
-| POST | `/api/auth/faculty` |
+| POST | `/api/auth/admin` |
 | GET | `/api/admission/pending`, `/history`, `/detail` |
 | POST | `/api/admission/review` |
 | GET | `/api/faculty/dashboard` |
@@ -56,6 +57,6 @@ ENROLLSYSTEM-ADMIN/
 
 Optional: none.
 
-## Student Portal
+## Standalone
 
-Students use the sibling folder: **`../ENROLLSYSTEM`**
+This folder runs alone: `python server.py` → port **8001**. Student portal is a separate folder (`ENROLLSYSTEM`, port **8000**); only Supabase config is shared via `.env`.

@@ -1,10 +1,12 @@
-"""HTML email templates for Geranova EMS — unified student-facing design."""
+"""HTML email templates for EMS — unified student-facing design."""
 
 import html
 import uuid
 from datetime import datetime
 
-APPLICANT_EMAIL_VERSION = "full-summary-v8"
+from shared.services.brand import email_brand_name
+
+APPLICANT_EMAIL_VERSION = "full-summary-v10"
 PROFILE_PHOTO_CID = "geranova_profile_photo"
 
 
@@ -263,18 +265,19 @@ def _section_table(section_title: str, rows: list[tuple[str, str]]) -> str:
 def _email_shell(school_name: str, title: str, body_html: str, *, email_ref: str = "") -> str:
     ref = email_ref or _unique_email_ref("mail")
     ref_text = _esc(ref)
+    brand = email_brand_name(school_name)
     return f"""
     <!-- ems-mail-start:{ref_text} -->
     <div style="font-family:Segoe UI,Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a2e;">
       <div style="background:#1a3a6b;color:#ffffff;padding:20px 24px;border-radius:8px 8px 0 0;">
         <h1 style="margin:0;font-size:20px;font-weight:600;">{title}</h1>
-        <p style="margin:6px 0 0;font-size:13px;opacity:0.9;">{_esc(school_name)}</p>
+        <p style="margin:6px 0 0;font-size:13px;opacity:0.9;">{_esc(brand)}</p>
       </div>
       <div style="background:#ffffff;border:1px solid #dee2e6;border-top:none;padding:24px;border-radius:0 0 8px 8px;line-height:1.65;font-size:15px;">
         {body_html}
         <p style="margin-top:28px;margin-bottom:8px;color:#475569;font-size:14px;">
           Thank you,<br>
-          <strong style="color:#1a3a6b;">{_esc(school_name)}</strong><br>
+          <strong style="color:#1a3a6b;">{_esc(brand)}</strong><br>
           Registrar's Office
         </p>
         <p style="margin:0;color:#64748b;font-size:13px;line-height:1.5;">
@@ -387,6 +390,7 @@ def build_admission_approval_email(
     form_data: dict,
     school_name: str,
 ) -> str:
+    brand = email_brand_name(school_name)
     first_name = _esc(result.get("firstName") or form_data.get("firstName") or "Student")
     student_id = _esc(result.get("studentId") or form_data.get("studentId"))
     temp_password = _esc(result.get("tempPassword") or form_data.get("tempPassword"))
@@ -395,7 +399,7 @@ def build_admission_approval_email(
 
     body = f"""
       <p style="margin-top:0;">Dear <strong>{first_name}</strong>,</p>
-      <p>Congratulations! Application <strong>{app_number}</strong> has been <strong>approved</strong>. You are now officially enrolled at {_esc(school_name)}.</p>
+      <p>Congratulations! Application <strong>{app_number}</strong> has been <strong>approved</strong>. You are now officially enrolled at {_esc(brand)}.</p>
       {_info_table([
           ("Application No.", app_number),
           ("Student ID", f"<strong>{student_id}</strong>"),
@@ -408,7 +412,7 @@ def build_admission_approval_email(
       )}
       <p style="margin:0;">Your official <strong>Registration Certificate (PDF)</strong> will be emailed separately after your tuition payment has been approved by the Registrar.</p>
     """
-    return _email_shell(school_name, "Enrollment Approved", body, email_ref=email_ref)
+    return _email_shell(brand, "Enrollment Approved", body, email_ref=email_ref)
 
 
 def build_registration_form_delivery_email(

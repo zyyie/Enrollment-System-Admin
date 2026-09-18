@@ -1,0 +1,2 @@
+-- DEPRECATED: merged into schedule-sync.sql
+-- Run ENROLLSYSTEM-ADMIN/supabase/schedule-sync.sql instead.

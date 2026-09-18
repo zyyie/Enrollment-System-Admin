@@ -7,7 +7,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-DEFAULT_USER_AGENT = "Geranova-EMS/1.0 (Python; scheduling)"
+DEFAULT_USER_AGENT = "EMS/1.0 (Python; scheduling)"
 
 
 def call_gemini_json(

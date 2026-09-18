@@ -14,7 +14,7 @@ from .gemini_client import call_gemini_json
 from .prompt_builder import SYSTEM_PROMPT, build_user_prompt
 from .rate_limit_queue import RateLimitQueue
 
-DEFAULT_USER_AGENT = "Geranova-EMS/1.0 (Python; scheduling)"
+DEFAULT_USER_AGENT = "EMS/1.0 (Python; scheduling)"
 SECTION_LABELS = ["A", "B"]
 SECTION_CALL_DELAY_SEC = 1.5
 GROQ_SECTION_CALL_DELAY_SEC = 0.35
@@ -543,8 +543,8 @@ class CloudAIClient:
                 timeout=timeout,
                 max_tokens=4096,
                 extra_headers={
-                    "HTTP-Referer": "https://geranova-ems.local",
-                    "X-Title": "Geranova EMS Scheduler",
+                    "HTTP-Referer": "https://ems.local",
+                    "X-Title": "EMS Scheduler",
                 },
             )
             if parsed:

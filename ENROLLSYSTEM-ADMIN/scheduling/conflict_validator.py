@@ -301,6 +301,23 @@ def blocking_saved_conflicts(validation: ValidationResult) -> list[ConflictError
     ]
 
 
+def blocking_saved_conflicts_for_strand(
+    validation: ValidationResult,
+    *,
+    strand_code: str,
+) -> list[ConflictError]:
+    """Block generation only when the same strand's saved rows are invalid.
+
+    Other strands (e.g. ICT) may have overlaps — warn and still allow COOKERY/STEM runs.
+    """
+    target = str(strand_code or "").upper()
+    return [
+        conflict
+        for conflict in blocking_saved_conflicts(validation)
+        if str((conflict.details or {}).get("strand") or "").upper() == target
+    ]
+
+
 def _assignment_loads(assignments: list[ScheduleAssignment]) -> dict[str, int]:
     counts: dict[str, int] = {}
     seen: set[tuple[str, str, str, str, str]] = set()

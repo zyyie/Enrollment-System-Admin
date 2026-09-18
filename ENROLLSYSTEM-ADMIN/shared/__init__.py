@@ -1,1 +1,1 @@
-"""Shared utilities for Geranova EMS."""
+"""Shared utilities for EMS."""

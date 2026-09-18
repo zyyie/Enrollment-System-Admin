@@ -1,3 +1,29 @@
+(function hideNativePasswordRevealForEdge() {
+  const styleId = 'ems-hide-native-password-reveal';
+  if (document.getElementById(styleId)) return;
+  const style = document.createElement('style');
+  style.id = styleId;
+  style.textContent = `
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      max-width: 0 !important;
+      max-height: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    input[type="password"]::-webkit-credentials-auto-fill-button {
+      visibility: hidden !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  `;
+  (document.head || document.documentElement).appendChild(style);
+})();
+
 function passwordEyeShowIcon() {
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -26,6 +52,13 @@ function bindPasswordField(input) {
   if (!input || input.dataset.passwordBound === '1') return;
 
   let wrapper = input.closest('.password-field');
+  if (wrapper) {
+    const extraToggles = wrapper.querySelectorAll('.password-toggle');
+    extraToggles.forEach((btn, index) => {
+      if (index > 0) btn.remove();
+    });
+  }
+
   let toggle = wrapper ? wrapper.querySelector('.password-toggle') : null;
 
   if (!wrapper) {
@@ -33,7 +66,9 @@ function bindPasswordField(input) {
     wrapper.className = 'password-field';
     input.parentNode.insertBefore(wrapper, input);
     wrapper.appendChild(input);
+  }
 
+  if (!toggle) {
     toggle = document.createElement('button');
     toggle.type = 'button';
     toggle.className = 'password-toggle';
@@ -43,9 +78,10 @@ function bindPasswordField(input) {
     wrapper.appendChild(toggle);
   }
 
-  if (!toggle) return;
-
-  toggle.addEventListener('click', () => togglePasswordVisibility(input, toggle));
+  if (toggle.dataset.passwordToggleBound !== '1') {
+    toggle.addEventListener('click', () => togglePasswordVisibility(input, toggle));
+    toggle.dataset.passwordToggleBound = '1';
+  }
   input.dataset.passwordBound = '1';
 }
 
@@ -54,4 +90,12 @@ function bindPasswordFields(root) {
   scope.querySelectorAll('input[type="password"]').forEach(bindPasswordField);
 }
 
-document.addEventListener('DOMContentLoaded', () => bindPasswordFields());
+function initPasswordFields() {
+  bindPasswordFields();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPasswordFields, { once: true });
+} else {
+  initPasswordFields();
+}

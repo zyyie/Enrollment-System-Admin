@@ -10,6 +10,8 @@ from datetime import datetime
 from io import BytesIO
 from pathlib import Path
 
+from shared.services.brand import email_brand_name
+
 try:
     from PIL import Image, ImageDraw, ImageFont
 except ImportError:  # pragma: no cover
@@ -114,6 +116,7 @@ def prepare_form_data(
 
 
 def _form_context(data: dict, school_name: str) -> dict:
+    school_name = email_brand_name(school_name)
     return {
         "school_name": _esc(school_name),
         "full_name": format_student_full_name(data),
@@ -970,7 +973,7 @@ def build_registration_certificate_pdf(data: dict, school_name: str) -> bytes:
         pdf.set_line_width(0.2)
         pdf.rect(x, y, w, h)
 
-    # Header (COR PDF — no logo, no SCHOOL_NAME / Geranova line)
+    # Header (COR PDF — no logo, no SCHOOL_NAME line)
     hy = 10.0
     write_center(mx, hy + 8, content_w, "Republic of the Philippines", size=7.5)
     write_center(mx, hy + 14, content_w, "Senior High School", size=11, bold=True)

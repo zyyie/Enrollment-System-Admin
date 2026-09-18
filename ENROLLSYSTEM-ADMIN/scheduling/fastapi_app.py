@@ -17,7 +17,7 @@ from .scheduler_service import SchedulerService
 
 
 app = FastAPI(
-    title="Geranova EMS Scheduler",
+    title="EMS Scheduler",
     description="Conflict-free class scheduling powered by Google OR-Tools",
     version="1.0.0",
 )

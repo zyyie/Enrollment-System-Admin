@@ -16,6 +16,7 @@ from typing import Any
 from ortools.sat.python import cp_model
 
 from .constants import (
+    CONGESTED_OCCUPIED_KEYS_THRESHOLD,
     DEFAULT_CLASS_MAX_SLOTS,
     MAX_CANDIDATES_COLLECT,
     MAX_CANDIDATES_PER_TASK,
@@ -326,6 +327,11 @@ def build_candidates(
         or DEFAULT_CLASS_MAX_SLOTS
     )
     faculty_loads = dict(existing_faculty_loads or {})
+    congested = len(occupied_keys) >= CONGESTED_OCCUPIED_KEYS_THRESHOLD or bool(
+        (scheduling_context or {}).get("scheduling_congested")
+    )
+    max_collect = 720 if congested else MAX_CANDIDATES_COLLECT
+    max_per_task = 280 if congested else MAX_CANDIDATES_PER_TASK
 
     candidates_by_task: dict[int, list[ScheduleCandidate]] = {}
 
@@ -363,7 +369,10 @@ def build_candidates(
         task_patterns = task_patterns[offset:] + task_patterns[:offset]
         room_offset = task.task_id % max(len(room_pool), 1)
         rotated_rooms = room_pool[room_offset:] + room_pool[:room_offset]
-        rooms_to_try = rotated_rooms[:MAX_ROOMS_PER_PATTERN]
+        max_rooms = (
+            min(len(rotated_rooms), 20) if congested else MAX_ROOMS_PER_PATTERN
+        )
+        rooms_to_try = rotated_rooms[:max_rooms]
 
         task_candidates: list[ScheduleCandidate] = []
         strand_teachers = [
@@ -372,13 +381,13 @@ def build_candidates(
         ]
 
         for pattern in task_patterns:
-            if len(task_candidates) >= MAX_CANDIDATES_COLLECT:
+            if len(task_candidates) >= max_collect:
                 break
             if len({slot.day for slot in pattern}) != len(pattern):
                 continue
 
             for room in rooms_to_try:
-                if len(task_candidates) >= MAX_CANDIDATES_COLLECT:
+                if len(task_candidates) >= max_collect:
                     break
                 teacher_options: list[tuple[str | None, str | None, int]] = []
                 for teacher in strand_teachers:
@@ -402,7 +411,7 @@ def build_candidates(
                     teacher_options.append((None, None))
 
                 for faculty_id, faculty_name in teacher_options:
-                    if len(task_candidates) >= MAX_CANDIDATES_COLLECT:
+                    if len(task_candidates) >= max_collect:
                         break
                     keys: list[str] = []
                     for slot in pattern:
@@ -449,11 +458,11 @@ def build_candidates(
                 candidate.room,
             )
         )
-        if len(task_candidates) > MAX_CANDIDATES_PER_TASK:
+        if len(task_candidates) > max_per_task:
             unassigned = [item for item in task_candidates if not item.faculty_id]
             assigned = [item for item in task_candidates if item.faculty_id]
-            keep_unassigned = unassigned[: max(24, MAX_CANDIDATES_PER_TASK // 4)]
-            remaining = MAX_CANDIDATES_PER_TASK - len(keep_unassigned)
+            keep_unassigned = unassigned[: max(24, max_per_task // 4)]
+            remaining = max_per_task - len(keep_unassigned)
             task_candidates = keep_unassigned + assigned[:remaining]
 
         candidates_by_task[task.task_id] = task_candidates

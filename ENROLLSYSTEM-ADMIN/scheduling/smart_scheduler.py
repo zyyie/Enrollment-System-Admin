@@ -6,6 +6,9 @@ import time
 
 from .conflict_validator import validate_schedule
 from .constants import (
+    CONGESTED_EXISTING_THRESHOLD,
+    ORTOOLS_CONGESTED_RETRY_ATTEMPTS,
+    ORTOOLS_CONGESTED_TIME_LIMIT_SEC,
     ORTOOLS_FAST_RETRY_ATTEMPTS,
     ORTOOLS_FAST_TIME_LIMIT_SEC,
     ORTOOLS_RETRY_ATTEMPTS,
@@ -32,7 +35,8 @@ class SmartScheduler:
         prefer_fast: bool = False,
     ) -> list[ScheduleAssignment]:
         existing = list(existing_assignments or [])
-        fast_mode = prefer_fast or len(existing) <= 120
+        congested = len(existing) >= CONGESTED_EXISTING_THRESHOLD
+        fast_mode = (prefer_fast or len(existing) <= 120) and not congested
 
         greedy_strategies = [
             {},
@@ -94,21 +98,70 @@ class SmartScheduler:
                 raise RuntimeError("OR-Tools schedule had section/time overlaps")
             return assignments
 
+        def _ortools_sweep(
+            *,
+            retries: int,
+            time_limit_sec: float,
+            teacher_pool: list[dict] | None = None,
+        ) -> list[ScheduleAssignment]:
+            base_seed = int(time.time() * 1000) % 1_000_000
+            last_error: RuntimeError | None = None
+            for attempt in range(retries):
+                seed = base_seed + attempt * 7919
+                try:
+                    return _try_ortools(
+                        seed,
+                        time_limit_sec=time_limit_sec,
+                        teacher_pool=teacher_pool,
+                    )
+                except RuntimeError as err:
+                    last_error = err
+            raise RuntimeError(
+                str(last_error) if last_error else "Could not build a conflict-free schedule"
+            ) from last_error
+
         base_seed = int(time.time() * 1000) % 1_000_000
         subject_count = len(scheduler_input.subjects or [])
         heavy_strand = subject_count >= 12
         heavy_greedy_strategies = [
             {"reverse_patterns": True, "shuffle_subjects": True},
             {"shuffle_subjects": True, "shuffle_patterns": True},
+            {"reverse_rooms": True, "shuffle_subjects": True},
             {},
         ]
 
-        if heavy_strand:
+        if heavy_strand or congested:
+            last_error: RuntimeError | None = None
             try:
-                return _try_greedy(heavy_greedy_strategies, placement_teachers=[])
+                return _try_greedy(
+                    heavy_greedy_strategies if heavy_strand else greedy_strategies[:4],
+                    placement_teachers=[] if heavy_strand else None,
+                )
             except RuntimeError as err:
                 last_error = err
-                raise RuntimeError(str(err)) from err
+
+            ortools_retries = (
+                ORTOOLS_CONGESTED_RETRY_ATTEMPTS
+                if congested
+                else ORTOOLS_FAST_RETRY_ATTEMPTS + 1
+            )
+            ortools_limit = (
+                ORTOOLS_CONGESTED_TIME_LIMIT_SEC
+                if congested
+                else ORTOOLS_FAST_TIME_LIMIT_SEC
+            )
+            try:
+                return _ortools_sweep(
+                    retries=ortools_retries,
+                    time_limit_sec=ortools_limit,
+                    teacher_pool=[],
+                )
+            except RuntimeError as err:
+                last_error = err
+
+            raise RuntimeError(
+                str(last_error) if last_error else "Could not build a conflict-free schedule"
+            ) from last_error
 
         if fast_mode:
             last_error: RuntimeError | None = None
