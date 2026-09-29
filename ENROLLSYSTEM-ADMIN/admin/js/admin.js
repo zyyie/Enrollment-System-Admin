@@ -28,13 +28,6 @@ const AdminApp = (() => {
       window.location.href = 'http://localhost:8003/login.html';
       return false;
     }
-    if (user.mustChangePassword) {
-      const page = (window.location.pathname || '').split('/').pop();
-      if (page !== 'account.html') {
-        window.location.href = 'account.html';
-        return false;
-      }
-    }
     return true;
   }
 
@@ -1022,10 +1015,7 @@ const AdminApp = (() => {
       <div class="admin-card">
         <div class="admin-card-head">Change Password</div>
         <div class="admin-card-body padded">
-          <div class="settings-password-banner" id="adminPasswordBanner" ${user.mustChangePassword ? '' : 'hidden'}>
-            Your default password must be changed before you can use the rest of the portal.
-          </div>
-          <p class="settings-help">Use at least 8 characters, with a letter and a number. Do not reuse admin123, faculty123, or teacher123.</p>
+          <p class="settings-help">Change this whenever you are ready. Use at least 8 characters, with a letter and a number. Do not reuse admin123, faculty123, or teacher123.</p>
           <form id="adminChangePasswordForm" class="settings-password-form" autocomplete="off">
             <div class="form-group">
               <label for="currentPassword">Current password</label>
@@ -1040,7 +1030,9 @@ const AdminApp = (() => {
               <input type="password" id="confirmPassword" class="form-control" autocomplete="new-password" minlength="8" required>
             </div>
             <p class="settings-password-msg" id="adminPasswordMsg" role="status"></p>
-            <button type="submit" class="admin-btn primary" id="adminChangePasswordBtn">Change Password</button>
+            <div class="settings-password-actions">
+              <button type="submit" class="admin-btn primary" id="adminChangePasswordBtn">Change Password</button>
+            </div>
           </form>
         </div>
       </div>`;
@@ -1048,7 +1040,6 @@ const AdminApp = (() => {
     const form = document.getElementById('adminChangePasswordForm');
     const msg = document.getElementById('adminPasswordMsg');
     const btn = document.getElementById('adminChangePasswordBtn');
-    const banner = document.getElementById('adminPasswordBanner');
     const showMsg = (text, ok) => {
       if (!msg) return;
       msg.textContent = text;
@@ -1095,8 +1086,7 @@ const AdminApp = (() => {
         user.mustChangePassword = false;
         setUser(user);
         form.reset();
-        if (banner) banner.hidden = true;
-        showMsg('Password updated. You can now use the rest of the portal.', true);
+        showMsg('Password updated.', true);
       } catch (err) {
         showMsg('Could not change password. Please try again.', false);
       } finally {

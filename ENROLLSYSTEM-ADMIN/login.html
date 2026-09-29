@@ -250,9 +250,7 @@
         const user = data.admin || data.faculty || data.user || data;
         sessionStorage.setItem('shsFaculty', JSON.stringify(user));
         sessionStorage.setItem('loginRole', 'faculty');
-        window.location.href = user && user.mustChangePassword
-          ? 'admin/account.html'
-          : 'admin/dashboard.html';
+        window.location.href = 'admin/dashboard.html';
       } catch (err) {
         errorEl.textContent = err.message || 'Login failed';
       }

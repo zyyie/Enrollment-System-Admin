@@ -3581,54 +3581,114 @@ body.admin-modal-open {
   box-shadow: 0 8px 24px rgba(15, 39, 68, 0.28);
 }
 
-.settings-password-banner {
-  margin: 0 0 14px;
-  padding: 12px 14px;
-  border-radius: 8px;
-  background: #fff7ed;
-  border: 1px solid #fdba74;
-  color: #9a3412;
-  font-size: 13px;
-  line-height: 1.5;
+.settings-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 440px;
 }
 
-.settings-password-form {
-  display: grid;
-  gap: 10px;
-  max-width: 420px;
+.settings-password-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
 }
 
 .settings-password-form label {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 6px;
   color: #334155;
 }
 
 .settings-password-form input,
 .settings-password-form .form-control {
   width: 100%;
-  padding: 10px 12px;
+  height: 42px;
+  padding: 10px 44px 10px 12px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
+  background: #fff;
   box-sizing: border-box;
+  font-size: 14px;
+}
+
+.settings-password-form input:focus,
+.settings-password-form .form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.password-field {
+  position: relative;
+  display: block;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.password-toggle svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.password-toggle:hover,
+.password-toggle:focus-visible {
+  color: #1d4ed8;
+  background: #eff6ff;
+  outline: none;
 }
 
 .settings-help {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
+  max-width: 440px;
   color: #64748b;
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .settings-password-msg {
   display: none;
   margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
   font-size: 13px;
   line-height: 1.45;
 }
 
-.settings-password-msg.is-error { display: block; color: #b91c1c; }
-.settings-password-msg.is-ok { display: block; color: #166534; }
+.settings-password-msg.is-error {
+  display: block;
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.settings-password-msg.is-ok {
+  display: block;
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.settings-password-actions .admin-btn {
+  min-width: 168px;
+}
 
