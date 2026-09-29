@@ -122,17 +122,97 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="/js/config.js"></script>
   <script src="/js/password-field.js"></script>
-  <script src="/js/supabase-client.js"></script>
-  <script src="/js/supabase-service.js"></script>
   <script>
+    const LOGIN_LOCK_KEY = 'shsAdminLoginLock';
+    const LOGIN_LOCK_SECONDS = 30;
+    const LOGIN_MAX_FAILS = 3;
+    let _loginLockTimer = null;
+
+    function readLoginLockState() {
+      try {
+        return JSON.parse(localStorage.getItem(LOGIN_LOCK_KEY) || 'null') || { fails: 0, lockUntil: 0 };
+      } catch (err) {
+        return { fails: 0, lockUntil: 0 };
+      }
+    }
+
+    function writeLoginLockState(state) {
+      localStorage.setItem(LOGIN_LOCK_KEY, JSON.stringify(state));
+    }
+
+    function getLoginLockRemainingSec(state) {
+      const until = Number(state && state.lockUntil || 0);
+      if (!until) return 0;
+      return Math.max(0, Math.ceil((until - Date.now()) / 1000));
+    }
+
+    function setLoginFormDisabled(disabled) {
+      document.querySelectorAll('#adminLoginForm input, #adminLoginForm button[type="submit"]').forEach((el) => {
+        el.disabled = !!disabled;
+      });
+    }
+
+    function refreshLoginLockoutUI() {
+      const errorEl = document.getElementById('loginError');
+      const state = readLoginLockState();
+      const remaining = getLoginLockRemainingSec(state);
+      if (remaining <= 0) {
+        if (state.lockUntil) writeLoginLockState({ fails: 0, lockUntil: 0 });
+        setLoginFormDisabled(false);
+        if (_loginLockTimer) {
+          clearInterval(_loginLockTimer);
+          _loginLockTimer = null;
+        }
+        return 0;
+      }
+      setLoginFormDisabled(true);
+      if (errorEl) errorEl.textContent = `Too many failed attempts. Try again in ${remaining}s.`;
+      if (!_loginLockTimer) {
+        _loginLockTimer = setInterval(() => {
+          const left = refreshLoginLockoutUI();
+          if (left <= 0 && errorEl && /Too many failed attempts/.test(errorEl.textContent || '')) {
+            errorEl.textContent = '';
+          }
+        }, 1000);
+      }
+      return remaining;
+    }
+
+    function recordLoginFailure(serverLockUntil) {
+      if (serverLockUntil) {
+        writeLoginLockState({ fails: LOGIN_MAX_FAILS, lockUntil: Number(serverLockUntil) });
+        refreshLoginLockoutUI();
+        return;
+      }
+      const state = readLoginLockState();
+      const fails = Number(state.fails || 0) + 1;
+      if (fails >= LOGIN_MAX_FAILS) {
+        writeLoginLockState({ fails, lockUntil: Date.now() + LOGIN_LOCK_SECONDS * 1000 });
+      } else {
+        writeLoginLockState({ fails, lockUntil: 0 });
+      }
+      refreshLoginLockoutUI();
+    }
+
+    const idleParams = new URLSearchParams(window.location.search);
+    if (idleParams.get('idle') === '1') {
+      const errorEl = document.getElementById('loginError');
+      if (errorEl) errorEl.textContent = 'You were signed out after 15 minutes of inactivity. Please log in again.';
+      window.history.replaceState({}, '', 'login.html');
+    }
+    refreshLoginLockoutUI();
+
     document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
       event.preventDefault();
       const facultyId = document.getElementById('facultyId').value.trim();
       const password = document.getElementById('password').value;
       const errorEl = document.getElementById('loginError');
+      const remaining = refreshLoginLockoutUI();
+      if (remaining > 0) {
+        errorEl.textContent = `Too many failed attempts. Try again in ${remaining}s.`;
+        return;
+      }
       errorEl.textContent = '';
 
       try {
@@ -149,13 +229,30 @@
         }
         const data = await res.json();
         if (!res.ok || !data.success) {
-          errorEl.textContent = data.error || 'Invalid credentials';
+          if (data.code === 'LOGIN_LOCKED' && data.lockUntil) {
+            writeLoginLockState({ fails: LOGIN_MAX_FAILS, lockUntil: Number(data.lockUntil) });
+            refreshLoginLockoutUI();
+          } else if (res.status === 401 || res.status === 429) {
+            recordLoginFailure(data.lockUntil);
+          }
+          const state = readLoginLockState();
+          const left = getLoginLockRemainingSec(state);
+          if (left > 0) {
+            errorEl.textContent = `Too many failed attempts. Try again in ${left}s.`;
+          } else {
+            const fails = Number(state.fails || data.failedAttempts || 0);
+            errorEl.textContent = (data.error || 'Invalid credentials')
+              + (fails > 0 ? ` (${fails}/${LOGIN_MAX_FAILS} failed attempts)` : '');
+          }
           return;
         }
+        localStorage.removeItem(LOGIN_LOCK_KEY);
         const user = data.admin || data.faculty || data.user || data;
         sessionStorage.setItem('shsFaculty', JSON.stringify(user));
         sessionStorage.setItem('loginRole', 'faculty');
-        window.location.href = 'admin/dashboard.html';
+        window.location.href = user && user.mustChangePassword
+          ? 'admin/account.html'
+          : 'admin/dashboard.html';
       } catch (err) {
         errorEl.textContent = err.message || 'Login failed';
       }

@@ -421,6 +421,7 @@ def build_registration_form_delivery_email(
     school_name: str,
 ) -> str:
     """Email body when Registration Certificate is sent after payment approval."""
+    brand = email_brand_name(school_name)
     first_name = _esc(result.get("firstName") or form_data.get("firstName") or "Student")
     student_id = _esc(result.get("studentId") or form_data.get("studentId"))
     app_number = _esc(result.get("applicationNumber") or form_data.get("applicationNumber"))
@@ -440,7 +441,7 @@ def build_registration_form_delivery_email(
       ])}
       <p style="margin:0;">Your official <strong>Registration Certificate (PDF)</strong> is attached. Open and save it as proof of enrollment for this term.</p>
     """
-    return _email_shell(school_name, "Registration Certificate", body, email_ref=email_ref)
+    return _email_shell(brand, "Registration Certificate", body, email_ref=email_ref)
 
 
 def build_admission_rejection_email(result: dict, reason: str | None, school_name: str) -> str:

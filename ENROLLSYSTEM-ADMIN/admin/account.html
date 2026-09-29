@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto-Schedule - Admin Portal</title>
+  <title>Account - Admin Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/admin.css?v=2">
 </head>
 <body class="admin-layout">
@@ -13,15 +14,14 @@
     <main class="admin-content" id="pageContent"></main>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/config.js"></script>
+  <script src="../js/password-field.js"></script>
   <script src="../js/icons.js"></script>
   <script src="js/admin.js?v=2"></script>
-  <script src="js/auto-schedule.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      AdminApp.initLayout('auto-schedule', 'Auto-Scheduling');
-      AutoScheduleApp.mount(document.getElementById('pageContent'));
+      if (!AdminApp.requireAuth()) return;
+      AdminApp.initLayout('account', 'Account');
+      AdminApp.mountAccountPage(document.getElementById('pageContent'));
     });
   </script>
 </body>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Approval - Admin Portal</title>
-  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/admin.css?v=2">
   <style>
     .payment-filter-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; align-items:flex-end; }
     .payment-card {
@@ -69,7 +69,7 @@
   </div>
 
   <script src="../js/config.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/admin.js?v=2"></script>
   <script>
     function peso(n) {
       return '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });

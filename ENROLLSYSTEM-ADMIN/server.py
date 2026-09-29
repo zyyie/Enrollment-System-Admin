@@ -608,6 +608,136 @@ DEFAULT_FACULTY = {
     "is_active": True,
 }
 
+DEFAULT_PORTAL_PASSWORDS = {"teacher123", "faculty123", "admin123"}
+ADMIN_ISSUED_PASSWORDS_FILE = ROOT / "data" / "issued-passwords.json"
+_faculty_portal = ROOT.parent / "ENROLLSYSTEM-FACULTY"
+if not _faculty_portal.is_dir():
+    _faculty_portal = Path.home() / "OneDrive" / "Desktop" / "Enrollment-System---Faculty" / "ENROLLSYSTEM-FACULTY"
+FACULTY_ISSUED_PASSWORDS_FILE = _faculty_portal / "data" / "issued-passwords.json"
+_LOGIN_LOCKOUTS = {}
+_LOGIN_MAX_FAILS = 3
+_LOGIN_LOCK_SEC = 30
+
+
+def _load_json_map(path):
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _save_json_map(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+
+def remember_faculty_issued_password(faculty_id, password):
+    key = (faculty_id or "").strip().upper()
+    if not key:
+        return
+    data = _load_json_map(FACULTY_ISSUED_PASSWORDS_FILE)
+    data[key] = (password or "").strip()
+    _save_json_map(FACULTY_ISSUED_PASSWORDS_FILE, data)
+
+
+def portal_password_must_change(user_id, password):
+    password = (password or "").strip()
+    if not password:
+        return False
+    if password in DEFAULT_PORTAL_PASSWORDS:
+        return True
+    issued = (_load_json_map(ADMIN_ISSUED_PASSWORDS_FILE).get((user_id or "").strip().upper()) or "").strip()
+    return bool(issued) and issued == password
+
+
+def clear_admin_issued_password(user_id):
+    key = (user_id or "").strip().upper()
+    data = _load_json_map(ADMIN_ISSUED_PASSWORDS_FILE)
+    if key in data:
+        data.pop(key, None)
+        _save_json_map(ADMIN_ISSUED_PASSWORDS_FILE, data)
+
+
+def _login_client_key(handler, user_id):
+    forwarded = (handler.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+    ip = forwarded or (handler.client_address[0] if handler.client_address else "unknown")
+    return f"{ip}|{(user_id or '').strip().upper()}"
+
+
+def _login_lock_status(key):
+    now = time.time()
+    entry = _LOGIN_LOCKOUTS.get(key) or {}
+    locked_until = float(entry.get("locked_until") or 0)
+    fails = int(entry.get("fails") or 0)
+    if locked_until > now:
+        return True, int(max(1, round(locked_until - now))), fails
+    if locked_until and locked_until <= now:
+        _LOGIN_LOCKOUTS[key] = {"fails": 0, "locked_until": 0}
+        return False, 0, 0
+    return False, 0, fails
+
+
+def _record_login_failure(key):
+    now = time.time()
+    entry = _LOGIN_LOCKOUTS.get(key) or {"fails": 0, "locked_until": 0}
+    if float(entry.get("locked_until") or 0) > now:
+        remaining = int(max(1, round(float(entry["locked_until"]) - now)))
+        return {
+            "locked": True,
+            "failedAttempts": int(entry.get("fails") or 0),
+            "retryAfterSec": remaining,
+            "lockUntil": int(float(entry["locked_until"]) * 1000),
+        }
+    fails = int(entry.get("fails") or 0) + 1
+    locked_until = 0.0
+    if fails >= _LOGIN_MAX_FAILS:
+        locked_until = now + _LOGIN_LOCK_SEC
+        fails = _LOGIN_MAX_FAILS
+    _LOGIN_LOCKOUTS[key] = {"fails": fails, "locked_until": locked_until}
+    return {
+        "locked": locked_until > 0,
+        "failedAttempts": fails,
+        "retryAfterSec": int(_LOGIN_LOCK_SEC) if locked_until else 0,
+        "lockUntil": int(locked_until * 1000) if locked_until else None,
+    }
+
+
+def _clear_login_lockout(key):
+    _LOGIN_LOCKOUTS.pop(key, None)
+
+
+def _reject_if_login_locked(handler, key):
+    locked, remaining, _fails = _login_lock_status(key)
+    if not locked:
+        return False
+    json_response(handler, 429, {
+        "success": False,
+        "error": f"Too many failed attempts. Try again in {remaining}s.",
+        "code": "LOGIN_LOCKED",
+        "retryAfterSec": remaining,
+        "lockUntil": int((time.time() + remaining) * 1000),
+        "failedAttempts": _LOGIN_MAX_FAILS,
+    })
+    return True
+
+
+def validate_new_portal_password(current_password, new_password, confirm_password):
+    current_password = (current_password or "").strip()
+    new_password = (new_password or "").strip()
+    confirm_password = (confirm_password or "").strip()
+    if len(new_password) < 8:
+        return "New password must be at least 8 characters."
+    if not re.search(r"[A-Za-z]", new_password) or not re.search(r"\d", new_password):
+        return "New password must include at least one letter and one number."
+    if new_password == current_password:
+        return "Choose a password different from your current password."
+    if new_password in DEFAULT_PORTAL_PASSWORDS:
+        return "Choose a password that is not a default portal password."
+    if new_password != confirm_password:
+        return "New password and confirmation do not match."
+    return None
+
 
 def supabase_rest_get(table, query_string, use_secret=True, timeout=6):
     if not SUPABASE_URL:
@@ -1374,6 +1504,16 @@ def handle_save_teacher(handler):
             return
         if body.get("password"):
             supabase_rest_patch("faculty", f"id=eq.{teacher_id}", {"password": password})
+            faculty_code = (body.get("facultyId") or "").strip().upper()
+            if not faculty_code:
+                id_rows, _id_err = supabase_rest_get(
+                    "faculty",
+                    f"id=eq.{teacher_id}&select=faculty_id&limit=1",
+                    use_secret=True,
+                )
+                if isinstance(id_rows, list) and id_rows:
+                    faculty_code = (id_rows[0].get("faculty_id") or "").strip().upper()
+            remember_faculty_issued_password(faculty_code, password)
         ok, sync_err = sync_teacher_strands(teacher_id, strand_codes)
         if not ok:
             json_response(handler, 502, {"success": False, "error": sync_err})
@@ -1408,6 +1548,7 @@ def handle_save_teacher(handler):
         "facultyId": faculty_code,
         "id": faculty_uuid,
     })
+    remember_faculty_issued_password(faculty_code, password)
 
 
 def handle_list_rooms(handler):
@@ -1424,10 +1565,137 @@ def handle_list_rooms(handler):
     json_response(handler, 200, {"success": True, "data": rows or []})
 
 
+def section_quota_overview_from_tables():
+    """Same shape as get_section_quota_overview when that database function is missing."""
+    sections, error = supabase_rest_get(
+        "sections",
+        "select=id,name,grade_level,max_students,is_active,strands(code,is_active)",
+        use_secret=True,
+        timeout=15,
+    )
+    if error:
+        return None, error
+
+    students, error = supabase_rest_get(
+        "students",
+        "select=section_id,is_active",
+        use_secret=True,
+        timeout=15,
+    )
+    if error:
+        return None, error
+
+    applications, error = supabase_rest_get(
+        "admission_applications",
+        "select=id,preferred_subject_schedules&status=eq.pending",
+        use_secret=True,
+        timeout=15,
+    )
+    if error:
+        return None, error
+
+    schedules, error = supabase_rest_get(
+        "class_schedules",
+        "select=id,section_id",
+        use_secret=True,
+        timeout=15,
+    )
+    if error:
+        return None, error
+
+    semesters, error = supabase_rest_get(
+        "semesters",
+        "select=id&is_current=eq.true&limit=1",
+        use_secret=True,
+        timeout=10,
+    )
+    if error:
+        return None, error
+    semester_id = semesters[0].get("id") if semesters else None
+
+    pending_enrollments = []
+    if semester_id:
+        pending_enrollments, error = supabase_rest_get(
+            "enrollments",
+            "select=student_id,enrollment_subjects(class_schedule_id)"
+            f"&status=eq.pending&semester_id=eq.{semester_id}",
+            use_secret=True,
+            timeout=15,
+        )
+        if error:
+            return None, error
+
+    schedule_section = {
+        str(row.get("id")): str(row.get("section_id"))
+        for row in schedules or []
+        if row.get("id") and row.get("section_id")
+    }
+    counts = {}
+    for row in students or []:
+        if row.get("is_active") is False or not row.get("section_id"):
+            continue
+        section_id = str(row["section_id"])
+        counts[section_id] = counts.get(section_id, 0) + 1
+
+    for application in applications or []:
+        prefs = application.get("preferred_subject_schedules") or {}
+        if isinstance(prefs, str):
+            try:
+                prefs = json.loads(prefs)
+            except json.JSONDecodeError:
+                prefs = {}
+        seen = set()
+        if not isinstance(prefs, dict):
+            continue
+        for value in prefs.values():
+            section_id = schedule_section.get(str(value or "").strip())
+            if section_id and section_id not in seen:
+                seen.add(section_id)
+                counts[section_id] = counts.get(section_id, 0) + 1
+
+    pending_students = {}
+    for enrollment in pending_enrollments or []:
+        student_id = str(enrollment.get("student_id") or "")
+        if not student_id:
+            continue
+        touched = set()
+        for subject in enrollment.get("enrollment_subjects") or []:
+            section_id = schedule_section.get(str(subject.get("class_schedule_id") or ""))
+            if section_id and section_id not in touched:
+                touched.add(section_id)
+                pending_students.setdefault(section_id, set()).add(student_id)
+    for section_id, student_ids in pending_students.items():
+        counts[section_id] = counts.get(section_id, 0) + len(student_ids)
+
+    rows = []
+    for section in sections or []:
+        if section.get("is_active") is False:
+            continue
+        strand = section.get("strands") or {}
+        if isinstance(strand, dict) and strand.get("is_active") is False:
+            continue
+        quota = int(section.get("max_students") or 40)
+        scheduled = counts.get(str(section.get("id")), 0)
+        rows.append({
+            "id": section.get("id"),
+            "section": section.get("name"),
+            "strand": strand.get("code") if isinstance(strand, dict) else "",
+            "gradeLevel": section.get("grade_level"),
+            "quota": quota,
+            "scheduledStudents": scheduled,
+            "remaining": max(quota - scheduled, 0),
+            "status": "Full" if scheduled >= quota else "Open",
+        })
+    rows.sort(key=lambda row: (row.get("strand") or "", row.get("gradeLevel") or "", row.get("section") or ""))
+    return rows, None
+
+
 def handle_list_section_quotas(handler):
     if not require_supabase_api(handler):
         return
     result, error = supabase_rpc("get_section_quota_overview", timeout=10)
+    if error and "get_section_quota_overview" in str(error):
+        result, error = section_quota_overview_from_tables()
     if error:
         json_response(handler, 502, {"success": False, "error": error})
         return
@@ -1702,13 +1970,165 @@ def handle_faculty_login(handler):
 
 def local_admin_login(admin_id, password):
     """Offline fallback when Supabase admins table / RPC is unavailable."""
-    faculty = local_faculty_login(admin_id, password)
-    if not faculty:
+    override = (_load_json_map(ADMIN_ISSUED_PASSWORDS_FILE).get("__local_password__") or "").strip()
+    stored = override or DEFAULT_FACULTY["password"]
+    if admin_id != DEFAULT_FACULTY["faculty_id"] or password != stored:
         return None
-    role = (faculty.get("role") or "").strip().lower()
-    if role == "teacher":
+    return {
+        "id": DEFAULT_FACULTY["faculty_id"],
+        "lastName": DEFAULT_FACULTY["last_name"],
+        "firstName": DEFAULT_FACULTY["first_name"],
+        "middleName": DEFAULT_FACULTY["middle_name"],
+        "role": DEFAULT_FACULTY["role"],
+        "department": DEFAULT_FACULTY["department"],
+        "lastLogin": datetime.now().strftime("%b %d, %Y %I:%M %p"),
+    }
+
+
+def _send_admin_login_failure(handler, key):
+    lock_info = _record_login_failure(key)
+    if lock_info.get("locked"):
+        json_response(handler, 429, {
+            "success": False,
+            "error": f"Too many failed attempts. Try again in {lock_info['retryAfterSec']}s.",
+            "code": "LOGIN_LOCKED",
+            "retryAfterSec": lock_info["retryAfterSec"],
+            "lockUntil": lock_info.get("lockUntil"),
+            "failedAttempts": lock_info.get("failedAttempts"),
+        })
+        return
+    json_response(handler, 401, {
+        "success": False,
+        "error": "Invalid Registrar ID or password.",
+        "failedAttempts": lock_info.get("failedAttempts"),
+    })
+
+
+def _is_registrar_role(role):
+    return (role or "").strip().lower() in ("registrar", "admin", "administrator")
+
+
+def _faculty_registrar_row(admin_id):
+    rows, err = supabase_rest_get(
+        "faculty",
+        f"faculty_id=eq.{quote(admin_id)}&select=id,faculty_id,first_name,last_name,middle_name,role,department,password,is_active&limit=1",
+        use_secret=True,
+        timeout=10,
+    )
+    if err or not isinstance(rows, list) or not rows:
         return None
-    return faculty
+    row = rows[0]
+    if not _is_registrar_role(row.get("role")):
+        return None
+    if row.get("is_active") is False:
+        return None
+    return row
+
+
+def _session_from_faculty_row(row):
+    return {
+        "id": row.get("faculty_id"),
+        "supabaseId": row.get("id"),
+        "lastName": row.get("last_name") or "",
+        "firstName": row.get("first_name") or "",
+        "middleName": row.get("middle_name") or "",
+        "role": row.get("role") or "Registrar",
+        "department": row.get("department") or "",
+        "lastLogin": datetime.now().strftime("%b %d, %Y %I:%M %p"),
+    }
+
+
+def _try_authenticate_admin_rpc(admin_id, password):
+    result, error = supabase_rpc("authenticate_admin", {
+        "p_admin_id": admin_id,
+        "p_password": password,
+    }, timeout=10)
+    if error or not isinstance(result, dict) or not result.get("id"):
+        return None
+    return result
+
+
+def _save_faculty_password(admin_id, new_password):
+    _, err = supabase_rest_patch(
+        "faculty",
+        f"faculty_id=eq.{quote(admin_id)}",
+        {"password": new_password, "updated_at": datetime.now().isoformat()},
+    )
+    return err
+
+
+def _save_admins_password(admin_id, new_password):
+    _, err = supabase_rest_patch(
+        "admins",
+        f"admin_id=eq.{quote(admin_id)}",
+        {"password": new_password, "updated_at": datetime.now().isoformat()},
+    )
+    return err
+
+
+def handle_admin_change_password(handler):
+    try:
+        body = read_json_body(handler)
+    except json.JSONDecodeError:
+        json_response(handler, 400, {"success": False, "error": "Invalid request body."})
+        return
+
+    admin_id = (body.get("adminId") or body.get("facultyId") or "").strip().upper()
+    current_password = (body.get("currentPassword") or "").strip()
+    new_password = (body.get("newPassword") or "").strip()
+    confirm_password = (body.get("confirmPassword") or "").strip()
+    if not admin_id or not current_password or not new_password:
+        json_response(handler, 400, {
+            "success": False,
+            "error": "Registrar ID, current password, and new password are required.",
+        })
+        return
+    error = validate_new_portal_password(current_password, new_password, confirm_password)
+    if error:
+        json_response(handler, 400, {"success": False, "error": error})
+        return
+
+    if SUPABASE_URL and (SUPABASE_SECRET_KEY or SUPABASE_PUBLISHABLE_KEY):
+        faculty_row = _faculty_registrar_row(admin_id)
+        admins_match = _try_authenticate_admin_rpc(admin_id, current_password)
+        faculty_password = (faculty_row.get("password") or "").strip() if faculty_row else ""
+        current_ok = False
+        if faculty_row and faculty_password == current_password:
+            current_ok = True
+        elif faculty_row and faculty_password in DEFAULT_PORTAL_PASSWORDS and admins_match:
+            current_ok = True
+        elif not faculty_row and admins_match:
+            current_ok = True
+        if not current_ok:
+            json_response(handler, 401, {"success": False, "error": "Current password is incorrect."})
+            return
+        if faculty_row:
+            patch_err = _save_faculty_password(admin_id, new_password)
+            if patch_err:
+                json_response(handler, 500, {"success": False, "error": "Could not update password. Please try again."})
+                return
+        admins_err = _save_admins_password(admin_id, new_password)
+        if not faculty_row and admins_err:
+            json_response(handler, 500, {"success": False, "error": "Could not update password. Please try again."})
+            return
+        clear_admin_issued_password(admin_id)
+        json_response(handler, 200, {"success": True})
+        return
+
+    if admin_id == DEFAULT_FACULTY["faculty_id"] and current_password == DEFAULT_FACULTY["password"]:
+        overrides = _load_json_map(ADMIN_ISSUED_PASSWORDS_FILE)
+        overrides["__local_password__"] = new_password
+        _save_json_map(ADMIN_ISSUED_PASSWORDS_FILE, overrides)
+        json_response(handler, 200, {"success": True})
+        return
+    local_override = (_load_json_map(ADMIN_ISSUED_PASSWORDS_FILE).get("__local_password__") or "").strip()
+    if admin_id == DEFAULT_FACULTY["faculty_id"] and local_override and local_override == current_password:
+        data = _load_json_map(ADMIN_ISSUED_PASSWORDS_FILE)
+        data["__local_password__"] = new_password
+        _save_json_map(ADMIN_ISSUED_PASSWORDS_FILE, data)
+        json_response(handler, 200, {"success": True})
+        return
+    json_response(handler, 401, {"success": False, "error": "Current password is incorrect."})
 
 
 def handle_admin_login(handler):
@@ -1725,34 +2145,38 @@ def handle_admin_login(handler):
         json_response(handler, 400, {"success": False, "error": "Registrar ID and password are required."})
         return
 
+    lock_key = _login_client_key(handler, admin_id)
+    if _reject_if_login_locked(handler, lock_key):
+        return
+
     admin = None
+    supabase_on = bool(SUPABASE_URL and (SUPABASE_SECRET_KEY or SUPABASE_PUBLISHABLE_KEY))
 
-    if SUPABASE_URL and (SUPABASE_SECRET_KEY or SUPABASE_PUBLISHABLE_KEY):
-        result, error = supabase_rpc("authenticate_admin", {
-            "p_admin_id": admin_id,
-            "p_password": password,
-        }, timeout=10)
-        if not error and isinstance(result, dict) and result.get("id"):
-            admin = result
-
-    if not admin and SUPABASE_URL and (SUPABASE_SECRET_KEY or SUPABASE_PUBLISHABLE_KEY):
-        result, error = supabase_rpc("authenticate_faculty", {
-            "p_faculty_id": admin_id,
-            "p_password": password,
-        }, timeout=10)
-        if not error and isinstance(result, dict) and result.get("id"):
-            role = (result.get("role") or "").strip().lower()
-            if role != "teacher":
-                admin = result
-
-    if not admin:
+    if supabase_on:
+        faculty_row = _faculty_registrar_row(admin_id)
+        if faculty_row:
+            stored = (faculty_row.get("password") or "").strip()
+            if stored == password:
+                admin = _session_from_faculty_row(faculty_row)
+            elif stored in DEFAULT_PORTAL_PASSWORDS:
+                rpc_admin = _try_authenticate_admin_rpc(admin_id, password)
+                if rpc_admin:
+                    sync_err = _save_faculty_password(admin_id, password)
+                    if not sync_err:
+                        faculty_row["password"] = password
+                    admin = _session_from_faculty_row(faculty_row)
+        if not admin and not faculty_row:
+            admin = _try_authenticate_admin_rpc(admin_id, password)
+    else:
         admin = local_admin_login(admin_id, password)
 
     if admin:
+        _clear_login_lockout(lock_key)
+        admin["mustChangePassword"] = portal_password_must_change(admin.get("id") or admin_id, password)
         json_response(handler, 200, {"success": True, "admin": admin, "faculty": admin})
         return
 
-    json_response(handler, 401, {"success": False, "error": "Invalid Registrar ID or password."})
+    _send_admin_login_failure(handler, lock_key)
 
 
 def build_student_session_from_admission(app):
@@ -6404,6 +6828,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if path == "/api/auth/admin":
             handle_admin_login(self)
+            return
+
+        if path == "/api/admin/change-password":
+            handle_admin_change_password(self)
             return
 
         if path == "/api/auth/faculty":

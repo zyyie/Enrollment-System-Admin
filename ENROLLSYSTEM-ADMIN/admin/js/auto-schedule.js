@@ -1292,12 +1292,17 @@ const AutoScheduleApp = (() => {
     const activeKey = selection.strand
       ? viewKey(selection.gradeLevel, selection.strand)
       : null;
+    const hasSaved = groups.some(group => isSavedStrandGrade(group.gradeLevel, group.strand));
     const semLabel = (wizardFormData.semesterCode || savedSchedulesFilter.semesterCode || '1st') === '2nd'
       ? '2nd sem'
       : '1st sem';
 
     return `
       <div class="auto-sched-summary auto-sched-summary-split">
+        <p class="auto-sched-summary-hint">
+          Each card is one strand and grade level (${esc(semLabel)}). Counts show schedule slots (subject × section), not unique subject codes.
+          ${hasSaved ? ' <strong>Saved</strong> = already in database (via Save &amp; Publish).' : ''}
+        </p>
         ${groups.map(group => {
           const saved = isSavedStrandGrade(group.gradeLevel, group.strand);
           const isActive = activeKey === group.key;

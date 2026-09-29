@@ -3565,3 +3565,70 @@ body.admin-modal-open {
   }
 }
 
+.idle-logout-warning {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 4000;
+  max-width: min(420px, calc(100vw - 32px));
+  background: #0f2744;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(15, 39, 68, 0.28);
+}
+
+.settings-password-banner {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.settings-password-form {
+  display: grid;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.settings-password-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #334155;
+}
+
+.settings-password-form input,
+.settings-password-form .form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.settings-help {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.settings-password-msg {
+  display: none;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.settings-password-msg.is-error { display: block; color: #b91c1c; }
+.settings-password-msg.is-ok { display: block; color: #166534; }
+

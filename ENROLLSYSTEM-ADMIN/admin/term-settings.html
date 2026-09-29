@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enrollment Period - Admin Portal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/admin.css?v=2">
 </head>
 <body class="admin-layout">
   <div id="adminSidebarWrap"></div>
@@ -22,7 +22,7 @@
   <script src="../js/config.js"></script>
   <script src="../js/supabase-client.js"></script>
   <script src="../js/supabase-service.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/admin.js?v=2"></script>
   <script>
     let period = {};
 
@@ -108,7 +108,7 @@
         <section class="term-period-hero">
           <div class="term-period-hero-copy">
             <h2>Enrollment Period Control</h2>
-            <p>Choose the semester, set who may enroll, then open or close the enrollment window for students.</p>
+            <p>Choose the semester and target grade, then open or close the window. Students still must be eligible for that stage (previous semester complete) before they can enroll.</p>
           </div>
           <div class="term-period-hero-meta">
             <span class="term-period-meta-item">
@@ -158,7 +158,10 @@
                   <option value="Grade 11" ${target === 'Grade 11' ? 'selected' : ''}>Grade 11 only</option>
                   <option value="Grade 12" ${target === 'Grade 12' ? 'selected' : ''}>Grade 12 only</option>
                 </select>
-                <small class="term-period-field-note">Use Grade 12 when opening enrollment for continuing students who passed Grade 11.</small>
+                <small class="term-period-field-note">
+                  Progression: G11 1st → G11 2nd → G12 1st → G12 2nd.
+                  Use <strong>Grade 11</strong> for G11 terms, <strong>Grade 12</strong> when opening G12 enrollment for students who completed G11 2nd.
+                </small>
               </div>
 
               <div class="term-period-actions">
@@ -177,6 +180,9 @@
           <div class="admin-card-body padded">
             <h3><i class="fas fa-circle-info"></i> Important Notes</h3>
             <ul>
+              <li><strong>Open/Close</strong> only controls the enrollment window for the active semester — it does not skip eligibility checks.</li>
+              <li>Students may enroll only if their next required stage matches this semester/grade (no skipping G11 1st → G12, etc.).</li>
+              <li>Eligibility uses enrollment records, payment approval, posted grades, and progression status (e.g. retained G11 cannot enter G12).</li>
               <li>Closing enrollment also blocks <strong>Semester Enrollment</strong> on the student portal for this term.</li>
               <li>Pending subject enrollments are auto-rejected when the period is closed.</li>
               <li>Students who did not enroll may have their accounts frozen automatically.</li>
@@ -215,7 +221,7 @@
         title: open ? 'Open Enrollment?' : 'Close Enrollment?',
         detail: active?.name || period.semester || '',
         message: open
-          ? 'Students will be able to submit Semester Enrollment for this term.'
+          ? 'Eligible students whose next stage matches this semester/grade will be able to submit Semester Enrollment. Others remain blocked until they complete the previous term.'
           : 'Semester Enrollment will close, pending requests will be rejected, and inactive students may be frozen.',
         confirmLabel: open ? 'Open' : 'Close',
         variant: open ? 'approve' : 'reject',

@@ -28,13 +28,26 @@ const AdminApp = (() => {
       window.location.href = 'http://localhost:8003/login.html';
       return false;
     }
+    if (user.mustChangePassword) {
+      const page = (window.location.pathname || '').split('/').pop();
+      if (page !== 'account.html') {
+        window.location.href = 'account.html';
+        return false;
+      }
+    }
     return true;
   }
 
-  function logout() {
+  function setUser(user) {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  }
+
+  function logout(reason) {
     sessionStorage.removeItem(SESSION_KEY);
     sessionStorage.removeItem('loginRole');
-    window.location.href = '../index.html';
+    sessionStorage.removeItem('shsAdminLastActivity');
+    const idle = reason === 'idle';
+    window.location.href = idle ? '../login.html?idle=1' : '../login.html';
   }
 
   function formatName(user) {
@@ -659,6 +672,7 @@ const AdminApp = (() => {
           ${navHtml}
           <div class="admin-nav-section">Manage</div>
           ${manageHtml}
+          <a href="account.html" class="admin-nav-link ${activePage === 'account' ? 'active' : ''}">${faIcon('faculty')} Account</a>
           <a href="#" class="admin-nav-link" onclick="AdminApp.logout(); return false;">${faIcon('logout')} Logout</a>
         </nav>
       </aside>`;
@@ -940,7 +954,158 @@ const AdminApp = (() => {
     }
 
     document.addEventListener('click', closeNotif);
+    startAdminIdleLogout();
     return user;
+  }
+
+  const ADMIN_IDLE_LIMIT_MS = 15 * 60 * 1000;
+  const ADMIN_IDLE_WARN_MS = 60 * 1000;
+  let _adminIdleWarnEl = null;
+
+  function ensureAdminIdleWarning() {
+    if (_adminIdleWarnEl) return _adminIdleWarnEl;
+    _adminIdleWarnEl = document.createElement('div');
+    _adminIdleWarnEl.className = 'idle-logout-warning';
+    _adminIdleWarnEl.hidden = true;
+    document.body.appendChild(_adminIdleWarnEl);
+    return _adminIdleWarnEl;
+  }
+
+  function startAdminIdleLogout() {
+    if (window.__adminIdleStarted) return;
+    window.__adminIdleStarted = true;
+    const key = 'shsAdminLastActivity';
+    const touch = () => {
+      sessionStorage.setItem(key, String(Date.now()));
+      const el = ensureAdminIdleWarning();
+      el.hidden = true;
+    };
+    touch();
+    let lastMove = 0;
+    document.addEventListener('mousemove', () => {
+      const now = Date.now();
+      if (now - lastMove < 15000) return;
+      lastMove = now;
+      touch();
+    }, { passive: true });
+    ['click', 'keydown', 'touchstart', 'scroll'].forEach((eventName) => {
+      document.addEventListener(eventName, touch, { passive: true });
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState !== 'visible' || !getUser()) return;
+      const last = Number(sessionStorage.getItem(key) || Date.now());
+      if (Date.now() - last >= ADMIN_IDLE_LIMIT_MS) logout('idle');
+    });
+    setInterval(() => {
+      if (!getUser()) return;
+      const last = Number(sessionStorage.getItem(key) || Date.now());
+      const idleFor = Date.now() - last;
+      if (idleFor >= ADMIN_IDLE_LIMIT_MS) {
+        logout('idle');
+        return;
+      }
+      const el = ensureAdminIdleWarning();
+      const left = ADMIN_IDLE_LIMIT_MS - idleFor;
+      if (left <= ADMIN_IDLE_WARN_MS) {
+        el.hidden = false;
+        el.textContent = `You will be signed out in ${Math.max(1, Math.ceil(left / 1000))}s because of inactivity.`;
+      } else {
+        el.hidden = true;
+      }
+    }, 1000);
+  }
+
+  function mountAccountPage(container) {
+    const user = getUser();
+    if (!container || !user) return;
+    container.innerHTML = `
+      <div class="admin-card">
+        <div class="admin-card-head">Change Password</div>
+        <div class="admin-card-body padded">
+          <div class="settings-password-banner" id="adminPasswordBanner" ${user.mustChangePassword ? '' : 'hidden'}>
+            Your default password must be changed before you can use the rest of the portal.
+          </div>
+          <p class="settings-help">Use at least 8 characters, with a letter and a number. Do not reuse admin123, faculty123, or teacher123.</p>
+          <form id="adminChangePasswordForm" class="settings-password-form" autocomplete="off">
+            <div class="form-group">
+              <label for="currentPassword">Current password</label>
+              <input type="password" id="currentPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+            <div class="form-group">
+              <label for="newPassword">New password</label>
+              <input type="password" id="newPassword" class="form-control" autocomplete="new-password" minlength="8" required>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm new password</label>
+              <input type="password" id="confirmPassword" class="form-control" autocomplete="new-password" minlength="8" required>
+            </div>
+            <p class="settings-password-msg" id="adminPasswordMsg" role="status"></p>
+            <button type="submit" class="admin-btn primary" id="adminChangePasswordBtn">Change Password</button>
+          </form>
+        </div>
+      </div>`;
+    if (typeof bindPasswordFields === 'function') bindPasswordFields(container);
+    const form = document.getElementById('adminChangePasswordForm');
+    const msg = document.getElementById('adminPasswordMsg');
+    const btn = document.getElementById('adminChangePasswordBtn');
+    const banner = document.getElementById('adminPasswordBanner');
+    const showMsg = (text, ok) => {
+      if (!msg) return;
+      msg.textContent = text;
+      msg.classList.toggle('is-ok', !!ok);
+      msg.classList.toggle('is-error', !ok);
+    };
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const currentPassword = document.getElementById('currentPassword').value.trim();
+      const newPassword = document.getElementById('newPassword').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+      if (newPassword.length < 8 || !/[A-Za-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+        showMsg('New password must be at least 8 characters and include a letter and a number.', false);
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        showMsg('New password and confirmation do not match.', false);
+        return;
+      }
+      if (newPassword === currentPassword || ['teacher123', 'faculty123', 'admin123'].includes(newPassword)) {
+        showMsg('Choose a new password that is not your current or a default portal password.', false);
+        return;
+      }
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+      }
+      try {
+        const res = await fetch('/api/admin/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            adminId: user.id,
+            currentPassword,
+            newPassword,
+            confirmPassword,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showMsg(data.error || 'Could not change password.', false);
+          return;
+        }
+        user.mustChangePassword = false;
+        setUser(user);
+        form.reset();
+        if (banner) banner.hidden = true;
+        showMsg('Password updated. You can now use the rest of the portal.', true);
+      } catch (err) {
+        showMsg('Could not change password. Please try again.', false);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Change Password';
+        }
+      }
+    });
   }
 
   async function refreshLayout(activePage, pageTitle) {
@@ -1085,6 +1250,7 @@ const AdminApp = (() => {
   return {
     getUser,
     requireAuth,
+    setUser,
     logout,
     initLayout,
     refreshLayout,
@@ -1096,6 +1262,7 @@ const AdminApp = (() => {
     loadAdmissionDetail,
     reviewAdmission,
     mountDashboard,
+    mountAccountPage,
     mountApplicationReview,
     statusBadge,
     formatName,
